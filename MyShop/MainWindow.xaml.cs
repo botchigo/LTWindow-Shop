@@ -1,235 +1,205 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using MyShop.Services;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using MyShop.ViewModels;
 
 namespace MyShop
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private readonly DatabaseService _databaseService;
+        private readonly LoginViewModel _viewModel;
+        private DatabaseManager? _dbManager;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            // Khởi tạo ViewModel
+            _viewModel = new LoginViewModel();
             
-            // Khởi tạo DatabaseService - thay đổi thông tin kết nối theo server của bạn
-            _databaseService = new DatabaseService(
-                host: "localhost",
-                port: 5432,
-                database: "MyShop",      
-                username: "postgres",     
-                password: "12345" 
-            );
-            
-            // Set window size - increased size
+            // Đăng ký events
+            _viewModel.LoginSuccess += OnLoginSuccess;
+            _viewModel.ErrorOccurred += OnErrorOccurred;
+
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
             var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
             appWindow.Resize(new Windows.Graphics.SizeInt32(1100, 650));
-            
-            // Test kết nối database khi khởi động
-            TestDatabaseConnection();
         }
 
-        private async void TestDatabaseConnection()
+        private bool InitDatabase()
         {
-            bool isConnected = await _databaseService.TestConnectionAsync();
-            if (!isConnected)
-            {
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Cảnh báo",
-                    Content = "Không thể kết nối tới database PostgreSQL. Vui lòng kiểm tra:\n" +
-                              "1. PostgreSQL server đang chạy\n" +
-                              "2. Thông tin kết nối (host, port, database, username, password)\n" +
-                              "3. Database 'MyShop' đã được tạo",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.Content.XamlRoot
-                };
-                await dialog.ShowAsync();
-            }
-        }
-
-        private async void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            string username = UsernameTextBox.Text;
-            string password = PasswordTextBox.Password;
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Error",
-                    Content = "Please enter your user and password.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.Content.XamlRoot
-                };
-                await dialog.ShowAsync();
-                return;
-            }
+            if (_dbManager != null) return true;
 
             try
             {
-                // Xác thực người dùng từ database bảng app_user
-                bool isAuthenticated = await _databaseService.AuthenticateUserAsync(username, password);
-                
-                if (isAuthenticated)
-                {
-                    ContentDialog successDialog = new ContentDialog
-                    {
-                        Title = "Login Success",
-                        Content = $"Welcome {username}!",
-                        CloseButtonText = "OK",
-                        XamlRoot = this.Content.XamlRoot
-                    };
-                    await successDialog.ShowAsync();
-                    
-                    // TODO: Chuyển đến trang chính sau khi đăng nhập thành công
-                }
-                else
-                {
-                    ContentDialog failDialog = new ContentDialog
-                    {
-                        Title = "Login Fail",
-                        Content = "User or PassWord Incorrect.",
-                        CloseButtonText = "OK",
-                        XamlRoot = this.Content.XamlRoot
-                    };
-                    await failDialog.ShowAsync();
-                }
+                _dbManager = new DatabaseManager("localhost", 5432, "MyShop", "postgres", "12345");
+                return true;
             }
-            catch (Exception ex)
+            catch
             {
-                ContentDialog errorDialog = new ContentDialog
-                {
-                    Title = "Error",
-                    Content = $"Can't connect to database: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.Content.XamlRoot
-                };
-                await errorDialog.ShowAsync();
+                return false;
+            }
+        }
+
+        #region Login Events
+
+        private void OnLoginSuccess(object? sender, LoginSuccessEventArgs e)
+        {
+            // Chạy trên UI thread
+            DispatcherQueue.TryEnqueue(async () =>
+            {
+                await ShowMessage("Thành công", $"Đăng nhập thành công! Chào mừng {e.FullName}");
+            });
+        }
+
+        private void OnErrorOccurred(object? sender, ErrorEventArgs e)
+        {
+            // Chạy trên UI thread
+            DispatcherQueue.TryEnqueue(async () =>
+            {
+                await ShowMessage(e.Title, e.Message);
+            });
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Update ViewModel properties từ UI
+            _viewModel.Username = UsernameTextBox.Text?.Trim() ?? "";
+            _viewModel.Password = PasswordTextBox.Password ?? "";
+
+            // Validate
+            if (string.IsNullOrEmpty(_viewModel.Username) || string.IsNullOrEmpty(_viewModel.Password))
+            {
+                await ShowMessage("Lỗi", "Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+
+            // Execute login command
+            if (_viewModel.LoginCommand.CanExecute(null))
+            {
+                _viewModel.LoginCommand.Execute(null);
             }
         }
 
         private async void SignupButton_Click(object sender, RoutedEventArgs e)
         {
-            // Tạo form đăng ký
-            StackPanel signupPanel = new StackPanel
+            if (!InitDatabase() || _dbManager == null)
             {
-                Spacing = 10,
-                MinWidth = 300
-            };
+                await ShowMessage("Lỗi", "Không thể kết nối database.\n\nKiểm tra:\n- PostgreSQL đang chạy?\n- Database 'MyShop' đã được tạo?");
+                return;
+            }
 
-            TextBox usernameBox = new TextBox
+            var panel = new StackPanel { Spacing = 10, MinWidth = 300 };
+            var userBox = new TextBox { Header = "Username", PlaceholderText = "Nhập tên đăng nhập" };
+            var passBox = new PasswordBox { Header = "Password", PlaceholderText = "Nhập mật khẩu" };
+            var nameBox = new TextBox { Header = "Họ tên", PlaceholderText = "Nhập họ tên" };
+
+            panel.Children.Add(userBox);
+            panel.Children.Add(passBox);
+            panel.Children.Add(nameBox);
+
+            var dialog = new ContentDialog
             {
-                Header = "Username",
-                PlaceholderText = "Nhập tên đăng nhập"
-            };
-
-            PasswordBox passwordBox = new PasswordBox
-            {
-                Header = "Password",
-                PlaceholderText = "Nhập mật khẩu"
-            };
-
-            TextBox nameBox = new TextBox
-            {
-                Header = "Name",
-                PlaceholderText = "Nhập họ tên"
-            };
-
-            signupPanel.Children.Add(usernameBox);
-            signupPanel.Children.Add(passwordBox);
-            signupPanel.Children.Add(nameBox);
-
-            ContentDialog signupDialog = new ContentDialog
-            {
-                Title = "Đăng ký tài khoản",
-                Content = signupPanel,
+                Title = "Đăng ký",
+                Content = panel,
                 PrimaryButtonText = "Đăng ký",
                 CloseButtonText = "Hủy",
                 XamlRoot = this.Content.XamlRoot
             };
 
-            var result = await signupDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
-                string username = usernameBox.Text;
-                string password = passwordBox.Password;
-                string name = nameBox.Text;
-
-                // Kiểm tra thông tin nhập
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(name))
+                // Tạo SignupViewModel
+                var signupViewModel = new SignupViewModel(_dbManager)
                 {
-                    ContentDialog errorDialog = new ContentDialog
+                    Username = userBox.Text?.Trim() ?? "",
+                    Password = passBox.Password ?? "",
+                    FullName = nameBox.Text?.Trim() ?? ""
+                };
+
+                // Đăng ký events
+                signupViewModel.SignupSuccess += async (s, args) =>
+                {
+                    await DispatcherQueue.EnqueueAsync(async () =>
                     {
-                        Title = "Lỗi",
-                        Content = "Vui lòng nhập đầy đủ thông tin.",
-                        CloseButtonText = "OK",
-                        XamlRoot = this.Content.XamlRoot
-                    };
-                    await errorDialog.ShowAsync();
+                        await ShowMessage("Thành công", $"Đăng ký thành công!\n\nUsername: {args.Username}\nHọ tên: {args.FullName}\n\nBạn có thể đăng nhập ngay bây giờ.");
+                    });
+                };
+
+                signupViewModel.ErrorOccurred += async (s, args) =>
+                {
+                    await DispatcherQueue.EnqueueAsync(async () =>
+                    {
+                        await ShowMessage(args.Title, args.Message);
+                    });
+                };
+
+                // Validate
+                if (string.IsNullOrEmpty(signupViewModel.Username) || 
+                    string.IsNullOrEmpty(signupViewModel.Password) || 
+                    string.IsNullOrEmpty(signupViewModel.FullName))
+                {
+                    await ShowMessage("Lỗi", "Vui lòng nhập đầy đủ thông tin.");
                     return;
                 }
 
-                try
+                // Execute signup command
+                if (signupViewModel.SignupCommand.CanExecute(null))
                 {
-                    bool isRegistered = await _databaseService.RegisterUserAsync(username, password, name);
-
-                    if (isRegistered)
-                    {
-                        ContentDialog successDialog = new ContentDialog
-                        {
-                            Title = "Thành công",
-                            Content = "Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay.",
-                            CloseButtonText = "OK",
-                            XamlRoot = this.Content.XamlRoot
-                        };
-                        await successDialog.ShowAsync();
-                    }
-                    else
-                    {
-                        ContentDialog failDialog = new ContentDialog
-                        {
-                            Title = "Thất bại",
-                            Content = "Username đã tồn tại. Vui lòng chọn username khác.",
-                            CloseButtonText = "OK",
-                            XamlRoot = this.Content.XamlRoot
-                        };
-                        await failDialog.ShowAsync();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ContentDialog errorDialog = new ContentDialog
-                    {
-                        Title = "Lỗi",
-                        Content = $"Không thể đăng ký: {ex.Message}",
-                        CloseButtonText = "OK",
-                        XamlRoot = this.Content.XamlRoot
-                    };
-                    await errorDialog.ShowAsync();
+                    signupViewModel.SignupCommand.Execute(null);
                 }
             }
         }
+
+        #endregion
+
+        #region Helper Methods
+
+        private async Task ShowMessage(string title, string content)
+        {
+            await new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "OK",
+                XamlRoot = this.Content.XamlRoot
+            }.ShowAsync();
+        }
+
+        #endregion
     }
+
+    #region DispatcherQueue Extensions
+
+    public static class DispatcherQueueExtensions
+    {
+        public static Task EnqueueAsync(this Microsoft.UI.Dispatching.DispatcherQueue dispatcher, Func<Task> function)
+        {
+            var tcs = new TaskCompletionSource();
+            
+            dispatcher.TryEnqueue(async () =>
+            {
+                try
+                {
+                    await function();
+                    tcs.SetResult();
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+            
+            return tcs.Task;
+        }
+    }
+
+    #endregion
 }
