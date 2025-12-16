@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.models
@@ -10,11 +12,17 @@ namespace Database.models
         [Column("product_id")]
         public int Id { get; set; }
         public string Sku { get; set; } = string.Empty;
+
+        [Required]
+        [Column("name")]
+        [StringLength(255)]
         public string Name { get; set; } = string.Empty;
 
+        [Required]
         [Column("import_price")]
         public decimal ImportPrice { get; set; }
 
+        [Required]
         [Column("sale_price")]
         public decimal SalePrice { get; set; }
 

@@ -36,7 +36,7 @@ namespace Database
                 
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
-                    .ValueGeneratedOnAdd(); // T? đ?ng tăng khi insert
+                    .ValueGeneratedOnAdd();
                 
                 entity.Property(e => e.Username)
                     .HasColumnName("username")
@@ -56,7 +56,7 @@ namespace Database
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("NOW()")
-                    .ValueGeneratedOnAdd(); // Dùng default value t? database
+                    .ValueGeneratedOnAdd();
                 
                 entity.HasIndex(e => e.Username).IsUnique();
             });

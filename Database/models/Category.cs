@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,6 +12,8 @@ namespace Database.models
         [Column("category_id")]
         public int Id { get; set; }
 
+        [Required]
+        [Column("name")]
         [StringLength(100)]
         public string Name { get; set; } = string.Empty;
 

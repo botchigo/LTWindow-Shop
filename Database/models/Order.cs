@@ -12,6 +12,13 @@ namespace Database.models
         [Column("order_id")]
         public int Id { get; set; }
 
+        [Column("user_id")]
+        public int? UserId { get; set; }
+
+        [Column("created_time")]
+        public DateTime CreatedTime { get; set; } = DateTime.Now;
+
+        [Required]
         [Column("final_price")]
         public decimal FinalPrice { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
