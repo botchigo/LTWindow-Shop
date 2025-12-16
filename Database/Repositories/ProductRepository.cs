@@ -10,16 +10,18 @@ namespace Database.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly AppDbContext _context;
+        private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
 
-        public ProductRepository(AppDbContext context)
+        public ProductRepository(IDbContextFactory<AppDbContext> dbContextFactory)
         {
-            _context = context;
+            _dbContextFactory = dbContextFactory;
         }
 
         public async Task<int> GetTotalProductAmountAsync(int categoryId, string? keyword, decimal? minPrice, decimal? maxPrice)
         {
-            var query = _context.Products.AsQueryable();
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var query = context.Products.AsQueryable();
 
             if (categoryId != 0) query = query.Where(p => p.CategoryId == categoryId);
 
@@ -40,7 +42,11 @@ namespace Database.Repositories
             int categoryId, string? keyword, decimal? minPrice, decimal? maxPrice,
             SortCriteria selectedSortCriteria, SortDirection selectedSortDirection)
         {
-            var products = _context.Products.AsQueryable();
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var products = context.Products
+                .Include(p => p.Category)
+                .AsQueryable();
 
             if (categoryId != 0)
                 products = products.Where(p => p.CategoryId == categoryId);
@@ -87,14 +93,16 @@ namespace Database.Repositories
 
         public async Task DeleteProductAsync(int productId)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
             if (product is null)
                 return;
 
             try
             {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
+                context.Products.Remove(product);
+                await context.SaveChangesAsync();
             }
             catch(Exception ex)
             {
@@ -104,10 +112,12 @@ namespace Database.Repositories
 
         public async Task AddProductAsync(Product product)
         {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
             try
             {
-                await _context.Products.AddAsync(product);
-                await _context.SaveChangesAsync();
+                await context.Products.AddAsync(product);
+                await context.SaveChangesAsync();
             }
             catch(Exception ex )
             {
@@ -117,14 +127,22 @@ namespace Database.Repositories
 
         public async Task UpdateProductAsync(Product product)
         {
-            var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var existingProduct = await context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
             if (existingProduct is null)
                 return;
 
             try
             {
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+                existingProduct.Name = product.Name;
+                existingProduct.CategoryId = product.CategoryId;
+                existingProduct.ImportPrice = product.ImportPrice;
+                existingProduct.SalePrice = product.SalePrice;
+                existingProduct.Description = product.Description;
+                existingProduct.UpdatedAt = DateTime.UtcNow;
+
+                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
