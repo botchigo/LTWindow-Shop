@@ -10,6 +10,8 @@ namespace Database.models
         [Key]
         [Column("order_item_id")]
         public int Id { get; set; }
+
+        [Column("quantity")]
         public int Quantity { get; set; }        
 
         [Required]

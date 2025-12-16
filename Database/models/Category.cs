@@ -14,9 +14,11 @@ namespace Database.models
 
         [Required]
         [StringLength(100)]
+        [Column("name")]
         public string Name { get; set; } = string.Empty;
 
         [StringLength(200)]
+        [Column("description")]
         public string Description { get; set; } = string.Empty;
 
         //Products

@@ -15,6 +15,8 @@ namespace Database.models
         [Required]
         [Column("final_price")]
         public decimal FinalPrice { get; set; }
+
+        [Column("status")]
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         [Column("payment_method")]
