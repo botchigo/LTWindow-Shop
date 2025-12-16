@@ -1,6 +1,5 @@
 ﻿using Database.models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,16 +7,17 @@ namespace Database.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly AppDbContext _context;
+        private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
 
-        public CategoryRepository(AppDbContext context)
+        public CategoryRepository(IDbContextFactory<AppDbContext> dbContextFactory)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbContextFactory = dbContextFactory;
         }
 
         public async Task<List<Category>> GetCategoriesAsync()
         {
-            return await _context.Categories.ToListAsync();
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+            return await context.Categories.ToListAsync();
         }
     }
 }
