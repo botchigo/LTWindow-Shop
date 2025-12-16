@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using MyShop.Pages;
 using MyShop.Services;
 using MyShop.ViewModels;
+using MyShop.Views;
 
 namespace MyShop
 {
@@ -12,6 +13,7 @@ namespace MyShop
     {
         private readonly LoginViewModel _viewModel;
         private DatabaseManager? _dbManager;
+        private Frame? _mainFrame;
 
         public MainWindow()
         {
@@ -50,12 +52,17 @@ namespace MyShop
         private void OnLoginSuccess(object? sender, LoginSuccessEventArgs e)
         {
             // Chạy trên UI thread
-            DispatcherQueue.TryEnqueue(async () =>
+            DispatcherQueue.TryEnqueue(() =>
             {
-                await ShowMessage("Thành công", $"Đăng nhập thành công! Chào mừng {e.FullName}");
+                // Khởi tạo database nếu chưa có
+                if (!InitDatabase() || _dbManager == null)
+                {
+                    _ = ShowMessage("Lỗi", "Không thể kết nối database.");
+                    return;
+                }
 
-                ShellPage shell = new ShellPage();
-                this.Content = shell;
+                // Navigate to Dashboard
+                NavigateToDashboard(e.FullName);
             });
         }
 
@@ -66,6 +73,41 @@ namespace MyShop
             {
                 await ShowMessage(e.Title, e.Message);
             });
+        }
+
+        #endregion
+
+        #region Navigation
+
+        private void NavigateToDashboard(string userName)
+        {
+            try
+            {
+                // Resize window for dashboard
+                var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+                var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+                var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+                appWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
+
+                // Create frame
+                _mainFrame = new Frame();
+
+                // Navigate to DashboardPage with parameters
+                _mainFrame.Navigate(typeof(DashboardPage), (_dbManager!, userName));
+
+                // Set frame as window content
+                this.Content = _mainFrame;
+
+                // Update window title
+                this.Title = "MyShop - Dashboard";
+            }
+            catch (Exception ex)
+            {
+                DispatcherQueue.TryEnqueue(async () =>
+                {
+                    await ShowMessage("Lỗi", $"Không thể mở Dashboard:\n{ex.Message}");
+                });
+            }
         }
 
         #endregion
