@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="MyShop.Views.DashboardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -19,94 +18,15 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- Sidebar Navigation -->
-        <Border Grid.Column="0" Background="#1A1A2E">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!-- Logo -->
-                <StackPanel Grid.Row="0" Padding="20" Margin="0,20,0,30">
-                    <TextBlock Text="🏪 MYSHOP" FontSize="24" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Management System" FontSize="12" Foreground="#888888" Margin="0,5,0,0"/>
-                </StackPanel>
-
-                <!-- Menu Items -->
-                <StackPanel Grid.Row="1" Spacing="5">
-                    <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#666666" Margin="20,0,0,10"/>
-                    
-                    <!-- Dashboard - Active -->
-                    <Border Background="#7B5CD6" CornerRadius="8" Margin="10,0" Padding="15,12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="📊" FontSize="18"/>
-                            <TextBlock Text="Dashboard" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Products -->
-                    <Border Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="📦" FontSize="18"/>
-                            <TextBlock Text="Products" Foreground="#AAAAAA" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Orders -->
-                    <Border Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="🛒" FontSize="18"/>
-                            <TextBlock Text="Orders" Foreground="#AAAAAA" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Statistics -->
-                    <Border Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="📈" FontSize="18"/>
-                            <TextBlock Text="Statistics" Foreground="#AAAAAA" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Settings -->
-                    <Border Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="⚙️" FontSize="18"/>
-                            <TextBlock Text="Settings" Foreground="#AAAAAA" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-
-                <!-- Logout -->
-                <Border Grid.Row="2" Background="Transparent" CornerRadius="8" Margin="10,0,10,30" Padding="15,12">
-                    <Button Background="Transparent" BorderThickness="0" HorizontalAlignment="Stretch" Click="LogoutButton_Click">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="🚪" FontSize="18"/>
-                            <TextBlock Text="Log Out" Foreground="#FF6B6B" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </Border>
-            </Grid>
-        </Border>
-
-        <!-- Main Content -->
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Padding="30">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="30">
             <StackPanel Spacing="25">
-                
-                <!-- Header -->
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <StackPanel Grid.Column="0">
                         <TextBlock x:Name="WelcomeText" Text="Welcome Back!" FontSize="28" FontWeight="Bold" Foreground="#1A1A2E"/>
                         <TextBlock x:Name="DateText" FontSize="14" Foreground="#888888" Margin="0,5,0,0"/>
@@ -117,7 +37,6 @@
                             FontWeight="SemiBold"/>
                 </Grid>
 
-                <!-- Statistics Cards -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -126,7 +45,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Total Products -->
                     <Border Grid.Column="0" Background="White" CornerRadius="16" Padding="20" Margin="0,0,10,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -144,7 +62,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Today Orders -->
                     <Border Grid.Column="1" Background="White" CornerRadius="16" Padding="20" Margin="5,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -162,7 +79,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Today Revenue -->
                     <Border Grid.Column="2" Background="White" CornerRadius="16" Padding="20" Margin="5,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -180,7 +96,6 @@
                         </Grid>
                     </Border>
 
-                    <!-- Low Stock Alert -->
                     <Border Grid.Column="3" Background="White" CornerRadius="16" Padding="20" Margin="10,0,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -199,14 +114,12 @@
                     </Border>
                 </Grid>
 
-                <!-- Charts and Lists Row -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Monthly Revenue Chart -->
                     <Border Grid.Column="0" Background="White" CornerRadius="16" Padding="25" Margin="0,0,10,0">
                         <StackPanel>
                             <Grid Margin="0,0,0,20">
@@ -219,7 +132,6 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- Top Selling Products -->
                     <Border Grid.Column="1" Background="White" CornerRadius="16" Padding="25" Margin="10,0,0,0">
                         <StackPanel>
                             <TextBlock Text="🏆 Top 5 bán chạy" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>
@@ -247,14 +159,12 @@
                     </Border>
                 </Grid>
 
-                <!-- Bottom Row -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Low Stock Products -->
                     <Border Grid.Column="0" Background="White" CornerRadius="16" Padding="25" Margin="0,0,10,0">
                         <StackPanel>
                             <TextBlock Text="⚠️ Sắp hết hàng" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>
@@ -283,7 +193,6 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- Recent Orders -->
                     <Border Grid.Column="1" Background="White" CornerRadius="16" Padding="25" Margin="10,0,0,0">
                         <StackPanel>
                             <TextBlock Text="🕐 Đơn hàng gần đây" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>

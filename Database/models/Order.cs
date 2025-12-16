@@ -10,13 +10,7 @@ namespace Database.models
     {
         [Key]
         [Column("order_id")]
-        public int Id { get; set; }
-
-        [Column("user_id")]
-        public int? UserId { get; set; }
-
-        [Column("created_time")]
-        public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public int Id { get; set; }        
 
         [Required]
         [Column("final_price")]

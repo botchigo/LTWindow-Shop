@@ -1,15 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Database.Repositories;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using MyShop.Pages;
 using MyShop.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyShop.Views
 {
@@ -53,27 +55,7 @@ namespace MyShop.Views
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             await LoadDashboardDataAsync();
-        }
-
-        private async void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ContentDialog
-            {
-                Title = "Ðãng xu?t",
-                Content = "B?n có ch?c ch?n mu?n ðãng xu?t?",
-                PrimaryButtonText = "Có",
-                CloseButtonText = "Không",
-                XamlRoot = this.XamlRoot
-            };
-
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                if (Frame.CanGoBack)
-                {
-                    Frame.GoBack();
-                }
-            }
-        }
+        }       
 
         private async Task LoadDashboardDataAsync()
         {

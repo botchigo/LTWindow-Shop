@@ -14,7 +14,6 @@ namespace Database.models
         public string Sku { get; set; } = string.Empty;
 
         [Required]
-        [Column("name")]
         [StringLength(255)]
         public string Name { get; set; } = string.Empty;
 

@@ -93,7 +93,8 @@ namespace MyShop
                 _mainFrame = new Frame();
 
                 // Navigate to DashboardPage with parameters
-                _mainFrame.Navigate(typeof(DashboardPage), (_dbManager!, userName));
+                //_mainFrame.Navigate(typeof(DashboardPage), (_dbManager!, userName));
+                _mainFrame.Navigate(typeof(ShellPage));
 
                 // Set frame as window content
                 this.Content = _mainFrame;

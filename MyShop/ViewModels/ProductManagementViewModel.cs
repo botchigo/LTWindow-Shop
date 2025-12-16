@@ -39,7 +39,6 @@ namespace MyShop.ViewModels
         private bool _isLoading = false;
 
         //filter
-
         [ObservableProperty]
         private Category? _selectedCategory;
 
