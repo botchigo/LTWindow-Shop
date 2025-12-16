@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.models
@@ -9,14 +10,19 @@ namespace Database.models
         [Key]
         [Column("order_item_id")]
         public int Id { get; set; }
-        public int Quantity { get; set; }
 
+        [Column("quantity")]
+        public int Quantity { get; set; }        
+
+        [Required]
         [Column("unit_sale_price")]
         public decimal UnitSalePrice { get; set; }
 
+        [Required]
         [Column("unit_cost")]
         public decimal UnitCost { get; set; }
 
+        [Required]
         [Column("total_price")]
         public decimal TotalPrice { get; set; }
 

@@ -10,10 +10,13 @@ namespace Database.models
     {
         [Key]
         [Column("order_id")]
-        public int Id { get; set; }
+        public int Id { get; set; }        
 
+        [Required]
         [Column("final_price")]
         public decimal FinalPrice { get; set; }
+
+        [Column("status")]
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         [Column("payment_method")]
