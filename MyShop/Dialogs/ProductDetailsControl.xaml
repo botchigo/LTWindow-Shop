@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="MyShop.Dialogs.ProductDetailsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyShop.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Database.models"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="15" Width="350">
+        <TextBox Header="Product Name" 
+             Text="{Binding Product.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <ComboBox Header="Category"
+              ItemsSource="{Binding Categories}"
+              DisplayMemberPath="Name"
+              SelectedValuePath="Id"
+              SelectedValue="{Binding Product.CategoryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              HorizontalAlignment="Stretch"
+              PlaceholderText="Select category"/>
+
+        <StackPanel Spacing="15" Width="350">
+            <NumberBox Header="Import Price" 
+                   Value="{Binding Product.ImportPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                   SpinButtonPlacementMode="Inline"/>
+
+            <NumberBox Header="Sale Price" 
+                   Value="{Binding Product.SalePrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}, UpdateSourceTrigger=PropertyChanged}" 
+                   SpinButtonPlacementMode="Inline"/>
+        </StackPanel>
+
+        <TextBox Header="Desciption" 
+             Text="{Binding Product.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             AcceptsReturn="True" 
+             Height="80"
+             TextWrapping="Wrap"/>
+    </StackPanel>
+</UserControl>

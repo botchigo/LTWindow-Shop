@@ -1,6 +1,6 @@
-using System;
 using Database;
 using Database.Repositories;
+using System;
 
 namespace MyShop.Services
 {
@@ -11,6 +11,8 @@ namespace MyShop.Services
     {
         private readonly AppDbContext _context;
         private IUserRepository? _userRepository;
+        private ICategoryRepository? _categoryRepository;
+        private IProductRepository? _productRepository;
 
         public DatabaseManager()
         {
@@ -18,9 +20,9 @@ namespace MyShop.Services
             var connectionString = BuildConnectionString(
                 host: "localhost",
                 port: 5432,
-                database: "MyShop",
+                database: "WindowApp_MyShop",
                 username: "postgres",
-                password: "12345"
+                password: "23120138"
             );
 
             _context = AppDbContextFactory.CreateDbContext(connectionString);
@@ -46,6 +48,24 @@ namespace MyShop.Services
             {
                 _userRepository ??= new UserRepository(_context);
                 return _userRepository;
+            }
+        }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get
+            {
+                _categoryRepository ??= new CategoryRepository(_context);
+                return _categoryRepository;
+            }
+        }
+
+        public IProductRepository ProductRepository
+        {
+            get
+            {
+                _productRepository ??= new ProductRepository(_context);
+                return _productRepository;
             }
         }
 

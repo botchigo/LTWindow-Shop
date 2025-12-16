@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MyShop.Pages;
 using MyShop.Services;
 using MyShop.ViewModels;
 
@@ -35,7 +36,7 @@ namespace MyShop
 
             try
             {
-                _dbManager = new DatabaseManager("localhost", 5432, "MyShop", "postgres", "12345");
+                _dbManager = new DatabaseManager("localhost", 5432, "WindowApp_MyShop", "postgres", "23120138");
                 return true;
             }
             catch
@@ -52,6 +53,9 @@ namespace MyShop
             DispatcherQueue.TryEnqueue(async () =>
             {
                 await ShowMessage("Thành công", $"Đăng nhập thành công! Chào mừng {e.FullName}");
+
+                ShellPage shell = new ShellPage();
+                this.Content = shell;
             });
         }
 

@@ -1,0 +1,298 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Database.Enums;
+using Database.models;
+using MyShop.Services;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MyShop.ViewModels
+{
+    public partial class ProductManagementViewModel : ObservableObject
+    {
+        private readonly DatabaseManager _databaseManager;
+        private readonly IDialogService _dialogService;
+        private const int _pageSize = 10;
+
+        //data
+        [ObservableProperty]
+        private ObservableCollection<Product> _filteredProducts;
+
+        [ObservableProperty]
+        private ObservableCollection<Category> _categories;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(DeleteProductCommand))]
+        private Product? _selectedProduct;
+
+        //Paging
+        [ObservableProperty]
+        private int _currentPage = 1;
+
+        [ObservableProperty]
+        private int _totalPage = 1;
+
+        [ObservableProperty]
+        private bool _isLoading = false;
+
+        //filter
+
+        [ObservableProperty]
+        private Category? _selectedCategory;
+
+        [ObservableProperty]
+        private string? _keyword;
+
+        [ObservableProperty]
+        private decimal? _minPrice;
+
+        [ObservableProperty]
+        private decimal? _maxPrice;
+
+        //Sorting
+        [ObservableProperty]
+        private ObservableCollection<SortCriteria> _sortCriterias;
+
+        [ObservableProperty]
+        private ObservableCollection<SortDirection> _sortDirections;
+
+        [ObservableProperty]
+        private SortCriteria _selectedSortCriteria = SortCriteria.Default;
+
+        [ObservableProperty]
+        private SortDirection _selectedSortDirection = SortDirection.Ascending;
+
+        [ObservableProperty]
+        private string _selectedSortOption;
+
+        public ProductManagementViewModel(DatabaseManager databaseManager, IDialogService dialogService)
+        {
+            _databaseManager = databaseManager;
+            _dialogService = dialogService;
+
+            _filteredProducts = new ObservableCollection<Product>();
+            _categories = new ObservableCollection<Category>();
+            _sortCriterias = new ObservableCollection<SortCriteria>();
+            _sortDirections = new ObservableCollection<SortDirection>();
+
+            NextPageCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadNextPageAsync, CanLoadNextPage);
+            PreviousPageCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadPreviousPageAsync, CanLoadPreviousPage);
+            SearchCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadInitalDataAndFilterAsync);
+            DeleteProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(DeleteProductAsync, CanDeleteProduct);
+            CreateProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(CreateProductAsync);
+            UpdateProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand<Product>(UpdateProductAsync);
+
+            LoadSortOptions();
+        }
+
+        //command
+        public IAsyncRelayCommand NextPageCommand { get; set; }
+        public IAsyncRelayCommand PreviousPageCommand { get; set; }
+        public IAsyncRelayCommand SearchCommand { get; set; }
+        public IAsyncRelayCommand DeleteProductCommand { get; }
+        public  IAsyncRelayCommand CreateProductCommand { get; }
+        public IAsyncRelayCommand<Product> UpdateProductCommand { get; }
+
+        //page command 
+        private async Task LoadCurrentPageAsync()
+        {
+            IsLoading = true;
+            try
+            {
+                var pagedProducts = await _databaseManager.ProductRepository.GetPagedProductsAsync(
+                    CurrentPage, _pageSize,
+                    SelectedCategory?.Id ?? 0, Keyword, MinPrice, MaxPrice,
+                    SelectedSortCriteria, SelectedSortDirection);
+
+                FilteredProducts.Clear();
+                foreach (var pageProduct in pagedProducts)
+                {
+                    FilteredProducts.Add(pageProduct);
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+                NextPageCommand.NotifyCanExecuteChanged();
+                PreviousPageCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        private async Task CalculateTotalPageAndLoadPageAsync()
+        {
+            IsLoading = true;
+            try
+            {
+                var categoryId = SelectedCategory?.Id ?? 0;
+                var totalAmount = await _databaseManager.ProductRepository
+                    .GetTotalProductAmountAsync(categoryId, Keyword, MinPrice, MaxPrice);
+                TotalPage = (int)Math.Ceiling((double)totalAmount / _pageSize);
+
+                if (CurrentPage > TotalPage && TotalPage > 0)
+                    CurrentPage = TotalPage;
+                else if (TotalPage == 0)
+                    CurrentPage = 1;
+
+                await LoadCurrentPageAsync();
+            }
+            finally
+            {
+                IsLoading = false;
+                NextPageCommand.NotifyCanExecuteChanged();
+                PreviousPageCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        //pagination implementations
+        private bool CanLoadNextPage() => CurrentPage < TotalPage && IsLoading == false;
+        private async Task LoadNextPageAsync()
+        {
+            CurrentPage++;
+            await LoadCurrentPageAsync();
+        }
+
+        private bool CanLoadPreviousPage() => CurrentPage > 1 && IsLoading == false;
+        private async Task LoadPreviousPageAsync()
+        {
+            CurrentPage--;
+            await LoadCurrentPageAsync();
+        }
+
+        //search command
+        public async Task LoadInitalDataAndFilterAsync()
+        {
+            await LoadCagoriesAsync();
+            await ReloadDataAsync();
+        }
+
+        private async Task ReloadDataAsync()
+        {
+            CurrentPage = 1;
+            await CalculateTotalPageAndLoadPageAsync();
+        }
+
+        //delete command
+        private bool CanDeleteProduct() => SelectedProduct != null;
+        private async Task DeleteProductAsync()
+        {
+            if (SelectedProduct is null)
+                return;
+
+            //confirm dialog
+            var isDeleted = await _dialogService.ShowConfirmAsync(
+                $"Xác nhận xóa sản phẩm {SelectedProduct.Name}",
+                "Bạn có chắc chắn muốn xóa sản phẩm này không?");
+
+            if (isDeleted is false)
+                return;
+
+            await _databaseManager.ProductRepository.DeleteProductAsync(SelectedProduct.Id);
+
+            //notify dialog
+            await _dialogService.ShowMessageAsync("Xóa sản phẩm", "Sản phẩm đã được xóa thành công!");
+
+            await ReloadDataAsync();
+        }
+
+        //create command
+        private async Task CreateProductAsync()
+        {
+            var newProduct = new Product
+            {
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(newProduct);
+
+            if (isSaved)
+            {
+                await _databaseManager.ProductRepository.AddProductAsync(newProduct);
+
+                //notify dialog
+                await _dialogService.ShowMessageAsync(
+                    "Thêm sản phẩm",
+                    $"Sản phẩm {newProduct.Name} đã được thêm thành công!");
+
+                await ReloadDataAsync();
+            }
+        }
+
+        //update command
+        private async Task UpdateProductAsync(Product? product)
+        {
+            if (product is null)
+                return;
+
+            var cloneProduct = new Product
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ImportPrice = product.ImportPrice,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+            };
+
+            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(cloneProduct);
+
+            if (isSaved)
+            {
+                await _databaseManager.ProductRepository.UpdateProductAsync(cloneProduct);
+
+                await _dialogService.ShowMessageAsync(
+                    "Cập nhật sản phẩm",
+                    $"Sản phẩm {cloneProduct.Name} đã được cập nhật thành công!");
+
+                await ReloadDataAsync();
+            }
+        }
+
+        //Change handlers
+        partial void OnSelectedCategoryChanged(Category? oldValue, Category? newValue)
+        {
+            if (oldValue != newValue)
+                _ = ReloadDataAsync();
+        }
+
+        partial void OnSelectedSortCriteriaChanged(SortCriteria value)
+        {
+            _ = ReloadDataAsync();
+        }
+
+        partial void OnSelectedSortDirectionChanged(SortDirection value)
+        {
+            _ = ReloadDataAsync();
+        }
+
+        //Setup data
+        private async Task LoadCagoriesAsync()
+        {
+            Categories.Clear();
+            Categories.Add(new Category() { Id = 0, Name = "All" });
+            var categories = await _databaseManager.CategoryRepository.GetCategoriesAsync();
+            foreach (var category in categories)
+            {
+                Categories.Add(category);
+            }
+            SelectedCategory = Categories.FirstOrDefault()!;
+        }
+
+        private void LoadSortOptions()
+        {
+            //Sorting criteria
+            SortCriterias.Add(SortCriteria.Default);
+            SortCriterias.Add(SortCriteria.Name);
+            SortCriterias.Add(SortCriteria.Price);
+            SortCriterias.Add(SortCriteria.CreateDate);
+            SortCriterias.Add(SortCriteria.UpdateDate);
+            SelectedSortCriteria = SortCriteria.Default;
+
+            //sorting direction
+            SortDirections.Add(SortDirection.Ascending);
+            SortDirections.Add(SortDirection.Descending);
+            SelectedSortDirection = SortDirection.Ascending;
+        }
+    }
+}

@@ -20,7 +20,7 @@ namespace MyShop.ViewModels
         public LoginViewModel()
         {
             // Kh?i t?o DatabaseManager
-            _dbManager = new DatabaseManager("localhost", 5432, "MyShop", "postgres", "12345");
+            _dbManager = new DatabaseManager("localhost", 5432, "WindowApp_MyShop", "postgres", "23120138");
 
             // Kh?i t?o Commands
             LoginCommand = new AsyncRelayCommand(LoginAsync, CanLogin);

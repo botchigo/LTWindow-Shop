@@ -14,7 +14,7 @@ namespace Database
             
             // Connection string m?c ð?nh cho development
             // Thay ð?i theo c?u h?nh c?a b?n
-            var connectionString = "Host=localhost;Port=5432;Database=MyShop;Username=postgres;Password=12345";
+            var connectionString = "Host=localhost;Port=5432;Database=WindowApp_MyShop;Username=postgres;Password=23120138";
             
             optionsBuilder.UseNpgsql(connectionString);
 

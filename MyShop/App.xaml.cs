@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using Database;
+using Database.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using MyShop.Services;
+using MyShop.ViewModels;
+using System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,7 +18,8 @@ namespace MyShop
     /// </summary>
     public partial class App : Application
     {
-        private Window? _window;
+        public IHost AppHost { get; private set; }
+        public static Window? MainWindow { get; private set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,16 +28,56 @@ namespace MyShop
         public App()
         {
             InitializeComponent();
+            AppHost = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddDbContextFactory<AppDbContext>(options =>
+                    {
+                        options.UseNpgsql("Host=localhost;Port=5432;Database=WindowApp_MyShop;Username=postgres;Password=23120138");
+                    });
+
+                    services.AddTransient<MainWindow>();
+
+                    services.AddTransient<ICategoryRepository, CategoryRepository>();
+                    services.AddTransient<DatabaseManager>();
+                    services.AddTransient<IProductRepository, ProductRepository>();
+                    services.AddTransient<IDialogService, DialogService>();
+
+                    services.AddTransient<ProductManagementViewModel>();
+                })
+                .Build();
         }
 
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow();
-            _window.Activate();
+            try
+            {
+                using var context = await AppHost.Services
+                    .GetRequiredService<IDbContextFactory<AppDbContext>>()
+                    .CreateDbContextAsync();
+
+                await context.Database.MigrateAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"DB Initialization Error: {ex.Message}");
+            }
+
+            MainWindow = AppHost.Services.GetRequiredService<MainWindow>();
+            MainWindow.Activate();
+        }
+
+        public static T GetService<T>() where T : class
+        {
+            if ((Current as App)!.AppHost.Services.GetRequiredService(typeof(T)) is not T service)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+            return service;
         }
     }
 }
