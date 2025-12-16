@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -31,9 +32,13 @@ namespace MyShop
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
+                    var connectionString = context
+                        .Configuration
+                        .GetConnectionString("DefaultConnection");
+
                     services.AddDbContextFactory<AppDbContext>(options =>
                     {
-                        options.UseNpgsql("Host=localhost;Port=5432;Database=WindowApp_MyShop;Username=postgres;Password=23120138");
+                        options.UseNpgsql(connectionString);
                     });
 
                     services.AddTransient<MainWindow>();

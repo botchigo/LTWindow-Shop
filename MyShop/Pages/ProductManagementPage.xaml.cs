@@ -1,3 +1,5 @@
+using Database.models;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyShop.ViewModels;
 
@@ -17,6 +19,22 @@ namespace MyShop.Pages
             ViewModel = App.GetService<ProductManagementViewModel>();
             InitializeComponent();
             this.Loaded += async (s, e) => await ViewModel.LoadInitalDataAndFilterAsync();
+        }
+
+        private void OnDeleteClick(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button btn && btn.DataContext is Product product)
+            {
+                ViewModel.DeleteProductCommand.Execute(product);
+            }
+        }
+
+        private void OnEditClick(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button btn && btn.DataContext is Product product)
+            {
+                ViewModel.UpdateProductCommand.Execute(product);
+            }
         }
     }
 }

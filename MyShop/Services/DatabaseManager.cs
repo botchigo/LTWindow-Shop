@@ -1,5 +1,6 @@
 using Database;
 using Database.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace MyShop.Services
@@ -11,8 +12,6 @@ namespace MyShop.Services
     {
         private readonly AppDbContext _context;
         private IUserRepository? _userRepository;
-        private ICategoryRepository? _categoryRepository;
-        private IProductRepository? _productRepository;
 
         public DatabaseManager()
         {
@@ -49,25 +48,7 @@ namespace MyShop.Services
                 _userRepository ??= new UserRepository(_context);
                 return _userRepository;
             }
-        }
-
-        public ICategoryRepository CategoryRepository
-        {
-            get
-            {
-                _categoryRepository ??= new CategoryRepository(_context);
-                return _categoryRepository;
-            }
-        }
-
-        public IProductRepository ProductRepository
-        {
-            get
-            {
-                _productRepository ??= new ProductRepository(_context);
-                return _productRepository;
-            }
-        }
+        }        
 
         /// <summary>
         /// L?y DbContext (n?u c?n truy c?p tr?c ti?p)

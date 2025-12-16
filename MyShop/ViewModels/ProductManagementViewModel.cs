@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Database.Enums;
 using Database.models;
+using Database.Repositories;
 using MyShop.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -12,7 +13,8 @@ namespace MyShop.ViewModels
 {
     public partial class ProductManagementViewModel : ObservableObject
     {
-        private readonly DatabaseManager _databaseManager;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IDialogService _dialogService;
         private const int _pageSize = 10;
 
@@ -24,7 +26,6 @@ namespace MyShop.ViewModels
         private ObservableCollection<Category> _categories;
 
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(DeleteProductCommand))]
         private Product? _selectedProduct;
 
         //Paging
@@ -67,9 +68,11 @@ namespace MyShop.ViewModels
         [ObservableProperty]
         private string _selectedSortOption;
 
-        public ProductManagementViewModel(DatabaseManager databaseManager, IDialogService dialogService)
+        public ProductManagementViewModel(ICategoryRepository categoryRepository, IProductRepository productRepository
+            , IDialogService dialogService)
         {
-            _databaseManager = databaseManager;
+            _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
             _dialogService = dialogService;
 
             _filteredProducts = new ObservableCollection<Product>();
@@ -77,23 +80,8 @@ namespace MyShop.ViewModels
             _sortCriterias = new ObservableCollection<SortCriteria>();
             _sortDirections = new ObservableCollection<SortDirection>();
 
-            NextPageCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadNextPageAsync, CanLoadNextPage);
-            PreviousPageCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadPreviousPageAsync, CanLoadPreviousPage);
-            SearchCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(LoadInitalDataAndFilterAsync);
-            DeleteProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(DeleteProductAsync, CanDeleteProduct);
-            CreateProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand(CreateProductAsync);
-            UpdateProductCommand = new CommunityToolkit.Mvvm.Input.AsyncRelayCommand<Product>(UpdateProductAsync);
-
             LoadSortOptions();
         }
-
-        //command
-        public IAsyncRelayCommand NextPageCommand { get; set; }
-        public IAsyncRelayCommand PreviousPageCommand { get; set; }
-        public IAsyncRelayCommand SearchCommand { get; set; }
-        public IAsyncRelayCommand DeleteProductCommand { get; }
-        public  IAsyncRelayCommand CreateProductCommand { get; }
-        public IAsyncRelayCommand<Product> UpdateProductCommand { get; }
 
         //page command 
         private async Task LoadCurrentPageAsync()
@@ -101,7 +89,7 @@ namespace MyShop.ViewModels
             IsLoading = true;
             try
             {
-                var pagedProducts = await _databaseManager.ProductRepository.GetPagedProductsAsync(
+                var pagedProducts = await _productRepository.GetPagedProductsAsync(
                     CurrentPage, _pageSize,
                     SelectedCategory?.Id ?? 0, Keyword, MinPrice, MaxPrice,
                     SelectedSortCriteria, SelectedSortDirection);
@@ -115,8 +103,8 @@ namespace MyShop.ViewModels
             finally
             {
                 IsLoading = false;
-                NextPageCommand.NotifyCanExecuteChanged();
-                PreviousPageCommand.NotifyCanExecuteChanged();
+                LoadNextPageCommand.NotifyCanExecuteChanged();
+                LoadPreviousPageCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -126,7 +114,7 @@ namespace MyShop.ViewModels
             try
             {
                 var categoryId = SelectedCategory?.Id ?? 0;
-                var totalAmount = await _databaseManager.ProductRepository
+                var totalAmount = await _productRepository
                     .GetTotalProductAmountAsync(categoryId, Keyword, MinPrice, MaxPrice);
                 TotalPage = (int)Math.Ceiling((double)totalAmount / _pageSize);
 
@@ -140,13 +128,15 @@ namespace MyShop.ViewModels
             finally
             {
                 IsLoading = false;
-                NextPageCommand.NotifyCanExecuteChanged();
-                PreviousPageCommand.NotifyCanExecuteChanged();
+                LoadNextPageCommand.NotifyCanExecuteChanged();
+                LoadPreviousPageCommand.NotifyCanExecuteChanged();
             }
         }
 
         //pagination implementations
         private bool CanLoadNextPage() => CurrentPage < TotalPage && IsLoading == false;
+
+        [RelayCommand(CanExecute = nameof(CanLoadNextPage))]
         private async Task LoadNextPageAsync()
         {
             CurrentPage++;
@@ -154,6 +144,8 @@ namespace MyShop.ViewModels
         }
 
         private bool CanLoadPreviousPage() => CurrentPage > 1 && IsLoading == false;
+
+        [RelayCommand(CanExecute = nameof(CanLoadPreviousPage))]
         private async Task LoadPreviousPageAsync()
         {
             CurrentPage--;
@@ -167,6 +159,7 @@ namespace MyShop.ViewModels
             await ReloadDataAsync();
         }
 
+        [RelayCommand]
         private async Task ReloadDataAsync()
         {
             CurrentPage = 1;
@@ -174,21 +167,23 @@ namespace MyShop.ViewModels
         }
 
         //delete command
-        private bool CanDeleteProduct() => SelectedProduct != null;
-        private async Task DeleteProductAsync()
+        [RelayCommand]
+        private async Task DeleteProductAsync(Product? product)
         {
-            if (SelectedProduct is null)
+            var targetProduct = product ?? SelectedProduct;
+
+            if (targetProduct is null)
                 return;
 
             //confirm dialog
             var isDeleted = await _dialogService.ShowConfirmAsync(
-                $"Xác nhận xóa sản phẩm {SelectedProduct.Name}",
+                $"Xác nhận xóa sản phẩm {targetProduct.Name}",
                 "Bạn có chắc chắn muốn xóa sản phẩm này không?");
 
             if (isDeleted is false)
                 return;
 
-            await _databaseManager.ProductRepository.DeleteProductAsync(SelectedProduct.Id);
+            await _productRepository.DeleteProductAsync(targetProduct.Id);
 
             //notify dialog
             await _dialogService.ShowMessageAsync("Xóa sản phẩm", "Sản phẩm đã được xóa thành công!");
@@ -197,6 +192,7 @@ namespace MyShop.ViewModels
         }
 
         //create command
+        [RelayCommand]
         private async Task CreateProductAsync()
         {
             var newProduct = new Product
@@ -209,7 +205,7 @@ namespace MyShop.ViewModels
 
             if (isSaved)
             {
-                await _databaseManager.ProductRepository.AddProductAsync(newProduct);
+                await _productRepository.AddProductAsync(newProduct);
 
                 //notify dialog
                 await _dialogService.ShowMessageAsync(
@@ -221,6 +217,7 @@ namespace MyShop.ViewModels
         }
 
         //update command
+        [RelayCommand]
         private async Task UpdateProductAsync(Product? product)
         {
             if (product is null)
@@ -231,6 +228,7 @@ namespace MyShop.ViewModels
                 Id = product.Id,
                 Name = product.Name,
                 ImportPrice = product.ImportPrice,
+                SalePrice = product.SalePrice,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
             };
@@ -239,7 +237,7 @@ namespace MyShop.ViewModels
 
             if (isSaved)
             {
-                await _databaseManager.ProductRepository.UpdateProductAsync(cloneProduct);
+                await _productRepository.UpdateProductAsync(cloneProduct);
 
                 await _dialogService.ShowMessageAsync(
                     "Cập nhật sản phẩm",
@@ -271,7 +269,7 @@ namespace MyShop.ViewModels
         {
             Categories.Clear();
             Categories.Add(new Category() { Id = 0, Name = "All" });
-            var categories = await _databaseManager.CategoryRepository.GetCategoriesAsync();
+            var categories = await _categoryRepository.GetCategoriesAsync();
             foreach (var category in categories)
             {
                 Categories.Add(category);

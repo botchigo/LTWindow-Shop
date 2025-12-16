@@ -1,4 +1,5 @@
 ﻿using Database.models;
+using Database.Repositories;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyShop.Dialogs;
@@ -10,11 +11,10 @@ namespace MyShop.Services
 {
     public class DialogService : IDialogService
     {
-        private readonly DatabaseManager _databaseManager;
-
-        public DialogService(DatabaseManager databaseManager)
+        private readonly ICategoryRepository _categoryRepository;
+        public DialogService(ICategoryRepository categoryRepository)
         {
-            _databaseManager = databaseManager;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<bool> ShowProductDetailsDialogAsync(Product product)
@@ -30,7 +30,7 @@ namespace MyShop.Services
             dialog.DefaultButton = ContentDialogButton.Primary;
 
             //create content
-            var categories = await _databaseManager.CategoryRepository.GetCategoriesAsync();
+            var categories = await _categoryRepository.GetCategoriesAsync();
             var viewModel = new ProductCategoriesViewModel()
             {
                 Product = product,
