@@ -77,6 +77,15 @@
                             <TextBlock x:Name="LblSettings" Text="Settings" Foreground="#AAAAAA" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
+
+                    <Border x:Name="NavReports" Tag="Reports" 
+                            PointerPressed="Nav_PointerPressed"
+                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">        
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="📊" FontSize="18"/>
+                            <TextBlock Text="Reports" Foreground="#AAAAAA" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
 
                 <Border Grid.Row="2" Background="Transparent" CornerRadius="8" Margin="10,0,10,30" Padding="12">

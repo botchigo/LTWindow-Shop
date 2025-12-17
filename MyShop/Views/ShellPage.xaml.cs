@@ -42,8 +42,8 @@ namespace MyShop.Pages
                 case "Orders":
                     // ContentFrame.Navigate(typeof(OrdersPage));
                     break;
-                case "Statistics":
-                    // ContentFrame.Navigate(typeof(StatisticsPage));
+                case "Reports":
+                    ContentFrame.Navigate(typeof(ReportPage));
                     break;
                 case "Settings":
                     // ContentFrame.Navigate(typeof(SettingsPage));
@@ -57,6 +57,7 @@ namespace MyShop.Pages
             ResetButtonStyle(NavDashboard);
             ResetButtonStyle(NavProducts);
             ResetButtonStyle(NavOrders);
+            ResetButtonStyle(NavReports);
             // ...
 
             activeBorder.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 123, 92, 214));

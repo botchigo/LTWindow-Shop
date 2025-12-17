@@ -19,6 +19,7 @@
     <None Remove="Dialogs\ProductDetailsControl.xaml" />
     <None Remove="Pages\ProductManagementPage.xaml" />
     <None Remove="Pages\ShellPage.xaml" />
+    <None Remove="Views\ReportPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Page Remove="Views\LoginView.xaml" />
@@ -78,6 +79,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ReportPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dialogs\CategoryManagementControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
