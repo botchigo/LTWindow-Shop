@@ -5,6 +5,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Dialogs\CategoryManagementControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dialogs\ImportPreviewControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dialogs\ProductCreateUpdateControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\ProductDetailsControl.xaml">
       <SubType>Designer</SubType>
     </Page>

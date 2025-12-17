@@ -47,8 +47,11 @@ namespace MyShop
                     services.AddTransient<DatabaseManager>();
                     services.AddTransient<IProductRepository, ProductRepository>();
                     services.AddTransient<IDialogService, DialogService>();
+                    services.AddTransient<IImportService, ImportService>();
+                    services.AddTransient<IFilePickerService, FilePickerService>();
 
                     services.AddTransient<ProductManagementViewModel>();
+                    services.AddTransient<CategoryManagementViewModel>();
                 })
                 .Build();
         }

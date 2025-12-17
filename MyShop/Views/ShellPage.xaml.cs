@@ -16,6 +16,7 @@ namespace MyShop.Pages
     /// </summary>
     public sealed partial class ShellPage : Page
     {
+        private bool _isPaneOpen = true;
         public ShellPage()
         {
             InitializeComponent();
@@ -66,17 +67,35 @@ namespace MyShop.Pages
             border.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
         }
 
-        //private void SetButtonStyle(Border border, SolidColorBrush bg, SolidColorBrush fg)
-        //{
-        //    if (border == null) return;
-        //    border.Background = bg;
+        private void ToggleSidebar_Click(object sender, RoutedEventArgs e)
+        {
+            _isPaneOpen = !_isPaneOpen;
 
-        //    if (border.Child is StackPanel sp && sp.Children.Count > 1 && sp.Children[1] is TextBlock tb)
-        //    {
-        //        tb.Foreground = fg;
-        //        tb.FontWeight = Microsoft.UI.Text.FontWeights.SemiBold;
-        //    }
-        //}
+            if (_isPaneOpen)
+            {
+                SidebarColumn.Width = new GridLength(250);
+
+                AppTitlePanel.Visibility = Visibility.Visible;
+                MenuLabel.Visibility = Visibility.Visible;
+                LblDashboard.Visibility = Visibility.Visible;
+                LblProducts.Visibility = Visibility.Visible;
+                LblOrders.Visibility = Visibility.Visible;
+                LblSettings.Visibility = Visibility.Visible;
+                LblLogout.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SidebarColumn.Width = new GridLength(70); 
+
+                AppTitlePanel.Visibility = Visibility.Collapsed;
+                MenuLabel.Visibility = Visibility.Collapsed;
+                LblDashboard.Visibility = Visibility.Collapsed;
+                LblProducts.Visibility = Visibility.Collapsed;
+                LblOrders.Visibility = Visibility.Collapsed;
+                LblSettings.Visibility = Visibility.Collapsed;
+                LblLogout.Visibility = Visibility.Collapsed;
+            }
+        }
 
         private async void LogoutButton_Click(object sender, RoutedEventArgs e)
         {

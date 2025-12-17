@@ -9,7 +9,7 @@
 
     <Grid Background="#F5F5F5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition x:Name="SidebarColumn" Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -21,56 +21,69 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Padding="20" Margin="0,20,0,30">
-                    <TextBlock Text="🏪 MYSHOP" FontSize="24" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Management System" FontSize="12" Foreground="#888888" Margin="0,5,0,0"/>
+                <StackPanel Grid.Row="0" Margin="0,20,0,30">
+                    <Grid Padding="15,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Click="ToggleSidebar_Click" Background="Transparent" BorderThickness="0" Padding="5" Foreground="White">
+                            <FontIcon Glyph="&#xE700;" FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="18"/>
+                        </Button>
+
+                        <StackPanel x:Name="AppTitlePanel" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="🏪 MYSHOP" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="Management" FontSize="11" Foreground="#888888"/>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Spacing="5">
-                    <TextBlock Text="MAIN MENU" FontSize="11" Foreground="#666666" Margin="20,0,0,10"/>
+                    <TextBlock x:Name="MenuLabel" Text="MAIN MENU" FontSize="11" Foreground="#666666" Margin="20,0,0,10"/>
 
                     <Border x:Name="NavDashboard" Tag="Dashboard" 
                             PointerPressed="Nav_PointerPressed" 
-                            Background="#7B5CD6" CornerRadius="8" Margin="10,0" Padding="15,12">
+                            Background="#7B5CD6" CornerRadius="8" Margin="10,0" Padding="12">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="📊" FontSize="18"/>
-                            <TextBlock Text="Dashboard" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <TextBlock Text="📊" FontSize="18" Width="24" TextAlignment="Center"/>
+                            <TextBlock x:Name="LblDashboard" Text="Dashboard" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
                     <Border x:Name="NavProducts" Tag="Products" 
                             PointerPressed="Nav_PointerPressed"
-                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
+                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="12">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="📦" FontSize="18"/>
-                            <TextBlock Text="Products" Foreground="#AAAAAA" VerticalAlignment="Center"/>
+                            <TextBlock Text="📦" FontSize="18" Width="24" TextAlignment="Center"/>
+                            <TextBlock x:Name="LblProducts" Text="Products" Foreground="#AAAAAA" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
                     <Border x:Name="NavOrders" Tag="Orders" 
                             PointerPressed="Nav_PointerPressed"
-                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
+                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="12">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="🛒" FontSize="18"/>
-                            <TextBlock Text="Orders" Foreground="#AAAAAA" VerticalAlignment="Center"/>
+                            <TextBlock Text="🛒" FontSize="18" Width="24" TextAlignment="Center"/>
+                            <TextBlock x:Name="LblOrders" Text="Orders" Foreground="#AAAAAA" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
                     <Border x:Name="NavSettings" Tag="Settings" 
                             PointerPressed="Nav_PointerPressed"
-                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="15,12">
+                            Background="Transparent" CornerRadius="8" Margin="10,0" Padding="12">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="⚙️" FontSize="18"/>
-                            <TextBlock Text="Settings" Foreground="#AAAAAA" VerticalAlignment="Center"/>
+                            <TextBlock Text="⚙️" FontSize="18" Width="24" TextAlignment="Center"/>
+                            <TextBlock x:Name="LblSettings" Text="Settings" Foreground="#AAAAAA" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
 
-                <Border Grid.Row="2" Background="Transparent" CornerRadius="8" Margin="10,0,10,30" Padding="15,12">
+                <Border Grid.Row="2" Background="Transparent" CornerRadius="8" Margin="10,0,10,30" Padding="12">
                     <HyperlinkButton HorizontalAlignment="Stretch" Click="LogoutButton_Click" Padding="0">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="🚪" FontSize="18"/>
-                            <TextBlock Text="Log Out" Foreground="#FF6B6B" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBlock Text="🚪" FontSize="18" Width="24" TextAlignment="Center"/>
+                            <TextBlock x:Name="LblLogout" Text="Log Out" Foreground="#FF6B6B" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         </StackPanel>
                     </HyperlinkButton>
                 </Border>

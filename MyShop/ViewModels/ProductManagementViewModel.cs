@@ -5,8 +5,10 @@ using Database.models;
 using Database.Repositories;
 using MyShop.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MyShop.ViewModels
@@ -16,7 +18,9 @@ namespace MyShop.ViewModels
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
         private readonly IDialogService _dialogService;
-        private const int _pageSize = 10;
+        private readonly IImportService _importService;
+        private readonly IFilePickerService _filePickerService;
+        private const int _pageSize = 14;
 
         //data
         [ObservableProperty]
@@ -68,11 +72,13 @@ namespace MyShop.ViewModels
         private string _selectedSortOption;
 
         public ProductManagementViewModel(ICategoryRepository categoryRepository, IProductRepository productRepository
-            , IDialogService dialogService)
+            , IDialogService dialogService, IImportService importService, IFilePickerService filePickerService)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
             _dialogService = dialogService;
+            _importService = importService;
+            _filePickerService = filePickerService;
 
             _filteredProducts = new ObservableCollection<Product>();
             _categories = new ObservableCollection<Category>();
@@ -200,7 +206,7 @@ namespace MyShop.ViewModels
                 UpdatedAt = DateTime.UtcNow
             };
 
-            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(newProduct);
+            bool isSaved = await _dialogService.ShowProductCreateUpdateDialogAsync(newProduct);
 
             if (isSaved)
             {
@@ -230,9 +236,11 @@ namespace MyShop.ViewModels
                 SalePrice = product.SalePrice,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
+                Category = product.Category,
+                ProductImages = new List<ProductImage>(product.ProductImages)
             };
 
-            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(cloneProduct);
+            bool isSaved = await _dialogService.ShowProductCreateUpdateDialogAsync(cloneProduct);
 
             if (isSaved)
             {
@@ -244,6 +252,67 @@ namespace MyShop.ViewModels
 
                 await ReloadDataAsync();
             }
+        }
+
+        [RelayCommand]
+        private async Task ViewProductAsync(Product? product)
+        {
+            if (product is null)
+                return;
+
+            await _dialogService.ShowProductDetailsDialogAsync(product);
+        }
+
+        [RelayCommand]
+        private async Task ImportProductsAsync()
+        {
+            try
+            {
+                var file = await _filePickerService.PickImportFileAsync();
+                if (file == null)
+                    return;
+
+                List<Product> products = new List<Product>();
+                string extension = file.FileType.ToLower();
+
+                if (extension == ".xlsx" || extension == ".xls")
+                {
+                    products = await _importService.ImportFromExcelAsync(file.Path);
+                }
+                else if (extension == ".accdb" || extension == ".mdb")
+                {
+                    products = await _importService.ImportFromAccessAsync(file.Path);
+                }
+
+                if (products.Count == 0)
+                {
+                    await _dialogService.ShowErrorDialogAsync(
+                        "Dữ liệu trống",
+                        "Không tìm thấy sản phẩm nào trong file.\nVui lòng kiểm tra lại cấu trúc file Excel/Access.");
+                    return;
+                }
+
+                bool confirm = await _dialogService.ShowImportPreviewDialogAsync(products);
+                if(confirm)
+                {
+                    await _productRepository.AddRangeAsync(products);
+                    await ReloadDataAsync();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                await _dialogService.ShowErrorDialogAsync(
+                    "Lỗi Import",
+                    $"Đã xảy ra lỗi khi đọc file:\n{ex.Message}\n\nVui lòng đảm bảo file không bị hỏng và đúng định dạng mẫu.");
+            }
+        }
+
+        [RelayCommand]
+        private async Task ManageCategoriesAsync()
+        {
+            await _dialogService.ShowCategoryManagementAsync();
+            await LoadCagoriesAsync();
         }
 
         //Change handlers
