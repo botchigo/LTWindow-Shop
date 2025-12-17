@@ -34,6 +34,14 @@
                   Width="180"
                   VerticalAlignment="Bottom"/>
 
+            <Button Command="{x:Bind ViewModel.ManageCategoriesCommand}"
+                    ToolTipService.ToolTip="Quản lý danh mục"
+                    VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Glyph="&#xE713;" FontFamily="{StaticResource SymbolThemeFontFamily}" FontSize="16"/>
+                </StackPanel>
+            </Button>
+
             <NumberBox Header="Giá từ" 
                Value="{x:Bind ViewModel.MinPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" 
                SpinButtonPlacementMode="Compact"
@@ -72,23 +80,97 @@
                 <ComboBox ItemsSource="{x:Bind ViewModel.SortDirections}"
                       SelectedItem="{x:Bind ViewModel.SelectedSortDirection, Mode=TwoWay}"
                       PlaceholderText="Thứ tự"
-                      Width="120"/>
+                      Width="140"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12">
-                <!--<Button Command="{x:Bind ViewModel.ImportCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Glyph="&#xE8B6;" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
-                    <TextBlock Text="Import Excel"/>
-                </StackPanel>
-            </Button>-->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
 
-                <Button Command="{x:Bind ViewModel.CreateProductCommand}" Style="{StaticResource AccentButtonStyle}">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+
+                    <Button Background="Transparent" BorderThickness="0" Padding="8"
+                            ToolTipService.ToolTip="Xem cấu trúc file mẫu">
+                        <FontIcon Glyph="&#xE946;" FontSize="16" Foreground="{ThemeResource AccentFillColorDefaultBrush}" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+
+                        <Button.Flyout>
+                            <Flyout Placement="BottomEdgeAlignedRight">
+                                <StackPanel Spacing="12" MaxWidth="350">
+                                    <TextBlock Text="Hướng dẫn Import dữ liệu" Style="{StaticResource SubtitleTextBlockStyle}"/>
+
+                                    <RichTextBlock TextWrapping="Wrap">
+                                        <Paragraph>
+                                            Hỗ trợ file
+                                            <Bold>Excel (.xlsx)</Bold> và
+                                            <Bold>Access (.accdb)</Bold> .
+                                        </Paragraph>
+                                    </RichTextBlock>
+
+                                    <InfoBar Severity="Informational" IsOpen="True" IsClosable="False" 
+                                            Title="Lưu ý Access" 
+                                            Message="Tên bảng trong Access bắt buộc phải là 'Products'." />
+
+                                    <TextBlock Text="Cấu trúc cột bắt buộc:" FontWeight="SemiBold"/>
+
+                                    <Grid ColumnSpacing="12" RowSpacing="4" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" Padding="8" CornerRadius="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text=": Tên sản phẩm"/>
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="ImportPrice" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text=": Giá nhập (Số)"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="SalePrice" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text=": Giá bán (Số)"/>
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Stock" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text=": Số lượng tồn kho"/>
+
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Description" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="4" Grid.Column="1" Text=": Mô tả chi tiết"/>
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Category" FontWeight="Bold"/>
+                                        <TextBlock Grid.Row="5" Grid.Column="1" Text=": Tên loại sản phẩm"/>
+                                    </Grid>
+
+                                    <TextBlock Text="* Tên cột phải viết chính xác (không dấu, viết liền)." FontSize="12" FontStyle="Italic" Foreground="{ThemeResource SystemFillColorCautionBrush}"/>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <Button Command="{x:Bind ViewModel.ImportProductsCommand}"
+                            Background="{ThemeResource SystemFillColorSuccessBrush}" 
+                            BorderThickness="0">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8B6;" Foreground="White" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                            <TextBlock Text="Import" Foreground="White"/>
+                        </StackPanel>
+                        <Button.Resources>
+                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#107C10" />
+                        </Button.Resources>
+                    </Button>
+
+                </StackPanel>
+                <Button Command="{x:Bind ViewModel.CreateProductCommand}" 
+                        Style="{StaticResource AccentButtonStyle}"
+                        ToolTipService.ToolTip="Tạo sản phẩm mới">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <SymbolIcon Symbol="Add"/>
                         <TextBlock Text="Thêm mới"/>
                     </StackPanel>
                 </Button>
+
             </StackPanel>
         </Grid>
 
@@ -113,7 +195,7 @@
 
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Product">
-                        <Grid Width="145" Height="220" 
+                        <Grid Width="145" Height="200" 
                       Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                       Translation="0,0,8"       
                       CornerRadius="8"

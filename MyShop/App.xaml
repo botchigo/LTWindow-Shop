@@ -18,6 +18,13 @@
                 <Setter Property="Margin" Value="0"/>
             </Style>
 
+            <Style x:Key="LargeContentDialogStyle" TargetType="ContentDialog">
+                <Setter Property="MaxWidth" Value="Infinity" />
+                <Setter Property="MaxHeight" Value="Infinity" />
+
+                <Setter Property="MinWidth" Value="800" />
+            </Style>
+
             <!-- Other app resources here -->
 
             <converters:StringFormatConverter x:Key="StringFormatConverter"/>
@@ -27,6 +34,8 @@
             <converters:PathToImageConverter x:Key="PathToImageConverter"/>
             <converters:ProductThumbnailConverter x:Key="ProductThumbnailConverter"/>
             <converters:CategoryToIconConverter x:Key="CategoryToIconConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <converters:BoolToIconConverter x:Key="BoolToIconConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>

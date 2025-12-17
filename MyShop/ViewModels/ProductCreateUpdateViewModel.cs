@@ -17,6 +17,9 @@ namespace MyShop.ViewModels
 
         public ObservableCollection<Category> Categories { get; }
 
+        public bool IsEditMode => Product.Id != 0;
+        public string DialogTitle => IsEditMode ? "Cập nhật sản phẩm" : "Thêm sản phẩm mới";
+
         public ProductCreateUpdateViewModel(Product product, List<Category> categories)
         {
             Product = product;
