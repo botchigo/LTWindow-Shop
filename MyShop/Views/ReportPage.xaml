@@ -6,9 +6,44 @@
     xmlns:local="using:MyShop.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:MyShop.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Padding="24" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="0" Text="Báo cáo thống kê" Style="{StaticResource TitleTextBlockStyle}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="12" 
+                    Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" 
+                    Padding="16" CornerRadius="8">
+            <ComboBox Header="Loại báo cáo" x:Name="ReportTypeCombo" Width="200"/>
+            <ComboBox Header="Khoảng thời gian" x:Name="IntervalCombo" Width="150"/>
+            <CalendarDatePicker Header="Từ ngày" x:Name="FromDatePicker" />
+            <CalendarDatePicker Header="Đến ngày" x:Name="ToDatePicker" />
+            <Button Content="Cập nhật" Click="RefreshReport_Click" 
+                    Style="{StaticResource AccentButtonStyle}" VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" Background="White" CornerRadius="12" Padding="20" BorderThickness="1" BorderBrush="#E0E0E0">
+            <Grid>
+                <Canvas x:Name="ChartCanvas" SizeChanged="ChartCanvas_SizeChanged"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Spacing="20">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Rectangle Width="12" Height="12" Fill="CornflowerBlue"/>
+                        <TextBlock Text="Doanh thu / Số lượng" FontSize="12"/>
+                    </StackPanel>
+                    <StackPanel x:Name="ProfitLegend" Orientation="Horizontal" Spacing="5">
+                        <Rectangle Width="12" Height="12" Fill="LightGreen"/>
+                        <TextBlock Text="Lợi nhuận" FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

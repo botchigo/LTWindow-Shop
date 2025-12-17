@@ -52,6 +52,9 @@ namespace MyShop
 
                     services.AddTransient<ProductManagementViewModel>();
                     services.AddTransient<CategoryManagementViewModel>();
+
+                    services.AddTransient<ReportViewModel>();
+                    services.AddTransient<IReportRepository, ReportRepository>();
                 })
                 .Build();
         }
