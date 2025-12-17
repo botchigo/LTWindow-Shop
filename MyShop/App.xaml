@@ -22,6 +22,11 @@
 
             <converters:StringFormatConverter x:Key="StringFormatConverter"/>
             <converters:DecimalToDoubleConverter x:Key="DecimalToDoubleConverter"/>
+            <converters:CurrencyConverter x:Key="CurrencyConverter"/>
+            <converters:DateTimeConverter x:Key="DateTimeConverter"/>
+            <converters:PathToImageConverter x:Key="PathToImageConverter"/>
+            <converters:ProductThumbnailConverter x:Key="ProductThumbnailConverter"/>
+            <converters:CategoryToIconConverter x:Key="CategoryToIconConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>

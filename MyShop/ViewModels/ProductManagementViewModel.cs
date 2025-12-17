@@ -5,8 +5,10 @@ using Database.models;
 using Database.Repositories;
 using MyShop.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MyShop.ViewModels
@@ -200,7 +202,7 @@ namespace MyShop.ViewModels
                 UpdatedAt = DateTime.UtcNow
             };
 
-            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(newProduct);
+            bool isSaved = await _dialogService.ShowProductCreateUpdateDialogAsync(newProduct);
 
             if (isSaved)
             {
@@ -230,9 +232,11 @@ namespace MyShop.ViewModels
                 SalePrice = product.SalePrice,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
+                Category = product.Category,
+                ProductImages = new List<ProductImage>(product.ProductImages)
             };
 
-            bool isSaved = await _dialogService.ShowProductDetailsDialogAsync(cloneProduct);
+            bool isSaved = await _dialogService.ShowProductCreateUpdateDialogAsync(cloneProduct);
 
             if (isSaved)
             {
@@ -244,6 +248,15 @@ namespace MyShop.ViewModels
 
                 await ReloadDataAsync();
             }
+        }
+
+        [RelayCommand]
+        private async Task ViewProductAsync(Product? product)
+        {
+            if (product is null)
+                return;
+
+            await _dialogService.ShowProductDetailsDialogAsync(product);
         }
 
         //Change handlers

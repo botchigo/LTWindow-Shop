@@ -3,7 +3,6 @@ using Database.Repositories;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyShop.Dialogs;
-using MyShop.ViewModels;
 using System;
 using System.Threading.Tasks;
 
@@ -17,34 +16,65 @@ namespace MyShop.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> ShowProductDetailsDialogAsync(Product product)
+        public async Task<bool> ShowProductCreateUpdateDialogAsync(Product product)
         {
-            var dialog = new ContentDialog();
+            string title = product.Id == 0 ? "✨ Add new product" : $"✏️ Update: {product.Name}";
 
-            //dialog config
+            var categories = await _categoryRepository.GetCategoriesAsync();
+            var contentControl = new ProductCreateUpdateControl(product, categories);
+
+            var dialog = new ContentDialog();
             ConfigureDialog(dialog);
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.Title = product.Id == 0 ? "Add new product" : "Update product";
+            dialog.Title = "Product Details";
             dialog.PrimaryButtonText = "Save";
             dialog.CloseButtonText = "Cancel";
             dialog.DefaultButton = ContentDialogButton.Primary;
+            dialog.Content = contentControl;
 
-            //create content
-            var categories = await _categoryRepository.GetCategoriesAsync();
-            var viewModel = new ProductCategoriesViewModel()
+
+            dialog.PrimaryButtonClick += (s, args) =>
             {
-                Product = product,
-                Categories = categories
+                if (string.IsNullOrWhiteSpace(product.Name) || product.SalePrice < 0)
+                {
+                    args.Cancel = true;
+                    return;
+                }
+                contentControl.ViewModel.ApplyChanges();
             };
-
-            var contentUsersControl = new ProductDetailsControl();
-            contentUsersControl.DataContext = viewModel;
-
-            dialog.Content = contentUsersControl;
 
             var result = await dialog.ShowAsync();
 
             return result == ContentDialogResult.Primary;
+        }
+
+        public async Task ShowProductDetailsDialogAsync(Product product)
+        {
+            var mainRoot = (App.MainWindow?.Content as UIElement)?.XamlRoot;
+            if (mainRoot == null)
+                return;
+
+            var dialog = new ContentDialog();
+
+            ConfigureDialog(dialog);
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            //dialog.CloseButtonText = "Close";
+            //dialog.DefaultButton = ContentDialogButton.Close;
+            //dialog.XamlRoot = mainRoot;
+
+            dialog.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            dialog.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+            //var windowSize = mainRoot.Size;
+            //dialog.MaxWidth = Math.Min(850, windowSize.Width * 0.95);
+            //dialog.MaxHeight = windowSize.Height * 0.9;
+
+            var viewControl = new ProductDetailsControl(product);
+
+            dialog.Content = viewControl;
+            viewControl.HorizontalAlignment = HorizontalAlignment.Stretch;
+            viewControl.VerticalAlignment = VerticalAlignment.Stretch;
+
+            await dialog.ShowAsync();
         }
 
         public async Task<bool> ShowConfirmAsync(string title, string message)

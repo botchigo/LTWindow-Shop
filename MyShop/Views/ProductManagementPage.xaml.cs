@@ -36,5 +36,24 @@ namespace MyShop.Pages
                 ViewModel.UpdateProductCommand.Execute(product);
             }
         }
+
+        private void OnViewClick(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button btn && btn.DataContext is Product product)
+            {
+                ViewModel.ViewProductCommand.Execute(product);
+            }
+        }
+
+        private void OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is Product product)
+            {
+                if (ViewModel.ViewProductCommand.CanExecute(product))
+                {
+                    ViewModel.ViewProductCommand.Execute(product);
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Dialogs\ProductCreateUpdateControl.xaml" />
     <None Remove="Dialogs\ProductDetailsControl.xaml" />
     <None Remove="Pages\ProductManagementPage.xaml" />
     <None Remove="Pages\ShellPage.xaml" />
@@ -71,6 +72,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dialogs\ProductCreateUpdateControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
@@ -78,6 +82,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Assets\ProductImages\" />
   </ItemGroup>
 
   <!--
