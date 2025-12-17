@@ -3,6 +3,7 @@ using Database.models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,35 @@ namespace Database.Repositories
         public ProductRepository(IDbContextFactory<AppDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
+        }
+
+        public async Task<List<string>> GetAllSkuAsync()
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+            return await context.Products.Select(p => p.Sku).ToListAsync();
+        }
+
+        public async Task AddRangeAsync(List<Product> products)
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+            await context.AddRangeAsync(products);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsDuplicatedSku(string sku)
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+            return await context.Products.AnyAsync(p => p.Sku == sku);
+        }
+
+        public async Task<Product?> GetProductDetailsAsync(int productId)
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            return await context.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .FirstOrDefaultAsync(p => p.Id == productId);
         }
 
         public async Task<int> GetTotalProductAmountAsync(int categoryId, string? keyword, decimal? minPrice, decimal? maxPrice)
@@ -46,6 +76,7 @@ namespace Database.Repositories
 
             var products = context.Products
                 .Include(p => p.Category)
+                .Include(p => p.ProductImages)
                 .AsQueryable();
 
             if (categoryId != 0)
@@ -95,12 +126,19 @@ namespace Database.Repositories
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
 
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await context.Products
+                .Include(p => p.ProductImages)
+                .FirstOrDefaultAsync(p => p.Id == productId);
             if (product is null)
                 return;
 
             try
             {
+                foreach(var img in product.ProductImages)
+                {
+                    TryToDeletePhysicalImage(img.Path);
+                }
+
                 context.Products.Remove(product);
                 await context.SaveChangesAsync();
             }
@@ -116,6 +154,9 @@ namespace Database.Repositories
 
             try
             {
+                if (product.Category != null)
+                    context.Categories.Attach(product.Category);
+
                 await context.Products.AddAsync(product);
                 await context.SaveChangesAsync();
             }
@@ -129,7 +170,10 @@ namespace Database.Repositories
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
 
-            var existingProduct = await context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            var existingProduct = await context.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == product.Id);
             if (existingProduct is null)
                 return;
 
@@ -142,11 +186,55 @@ namespace Database.Repositories
                 existingProduct.Description = product.Description;
                 existingProduct.UpdatedAt = DateTime.UtcNow;
 
+                //delete old img
+                var newImagePaths = product.ProductImages.Select(i => i.Path).ToList();
+                var imageToDelete = existingProduct.ProductImages
+                    .Where(i => !newImagePaths.Contains(i.Path))
+                    .ToList();
+                foreach (var image in imageToDelete)
+                {
+                    TryToDeletePhysicalImage(image.Path);
+                }
+                context.ProductImages.RemoveRange(imageToDelete);
+
+                //add new image
+                var existingImagePaths = existingProduct.ProductImages.Select(i => i.Path).ToList();
+                var imageToAdd = product.ProductImages
+                    .Where(i => !existingImagePaths.Contains(i.Path))
+                    .ToList();
+                foreach(var img in imageToAdd)
+                {
+                    existingProduct.ProductImages.Add(new ProductImage { 
+                        Path = img.Path,
+                        ProductId = existingProduct.Id,
+                    });
+                }
+
                 await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[Product Repository] {ex.Message}");
+            }
+        }
+
+        private void TryToDeletePhysicalImage(string imagePath)
+        {
+            if (string.IsNullOrEmpty(imagePath)) return;
+
+            if (Path.IsPathRooted(imagePath))
+            {
+                try
+                {
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Lỗi xóa file ảnh: {ex.Message}");
+                }
             }
         }
     }

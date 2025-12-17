@@ -20,6 +20,7 @@ namespace Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -83,6 +84,11 @@ namespace Database
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasIndex(p => p.Name);
+
+                entity.HasMany(p => p.ProductImages)
+                    .WithOne(i => i.Product)
+                    .HasForeignKey(i => i.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<Product>().HasData(
                 new Product
@@ -92,7 +98,8 @@ namespace Database
                     Name = "MacBook Pro M3",
                     ImportPrice = 25000000,
                     SalePrice = 30000000,
-                    Count = 10,
+                    Stock = 10,
+                    SaleAmount = 0,
                     Description = "MacBook Pro chip M3",
                     CategoryId = 1,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
@@ -104,7 +111,8 @@ namespace Database
                     Name = "Chuột Logitech",
                     ImportPrice = 300000,
                     SalePrice = 450000,
-                    Count = 50,
+                    Stock = 50,
+                    SaleAmount = 30,
                     Description = "Chuột không dây Logitech",
                     CategoryId = 2,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)

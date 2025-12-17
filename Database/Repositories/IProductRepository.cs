@@ -15,5 +15,9 @@ namespace Database.Repositories
         Task DeleteProductAsync(int productId);
         Task AddProductAsync(Product product);
         Task UpdateProductAsync(Product product);
+        Task<Product?> GetProductDetailsAsync(int productId);
+        Task<bool> IsDuplicatedSku(string sku);
+        Task AddRangeAsync(List<Product> products);
+        Task<List<string>> GetAllSkuAsync();
     }
 }
