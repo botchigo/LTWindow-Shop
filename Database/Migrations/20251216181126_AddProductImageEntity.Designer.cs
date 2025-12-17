@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251216181126_AddProductImageEntity")]
+    partial class AddProductImageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,7 +102,7 @@ namespace Database.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 17, 13, 36, 47, 568, DateTimeKind.Utc).AddTicks(3858),
+                            CreatedAt = new DateTime(2025, 12, 16, 18, 11, 24, 231, DateTimeKind.Utc).AddTicks(2704),
                             Description = "Laptop các loại",
                             Name = "Laptop",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -213,6 +216,10 @@ namespace Database.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("category_id");
 
+                    b.Property<int>("Count")
+                        .HasColumnType("integer")
+                        .HasColumnName("count");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -233,10 +240,6 @@ namespace Database.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
-                    b.Property<int>("SaleAmount")
-                        .HasColumnType("integer")
-                        .HasColumnName("sale_amount");
-
                     b.Property<decimal>("SalePrice")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)")
@@ -246,10 +249,6 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("sku");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer")
-                        .HasColumnName("stock");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -268,28 +267,26 @@ namespace Database.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
+                            Count = 10,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "MacBook Pro chip M3",
                             ImportPrice = 25000000m,
                             Name = "MacBook Pro M3",
-                            SaleAmount = 0,
                             SalePrice = 30000000m,
                             Sku = "LAP001",
-                            Stock = 10,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
+                            Count = 50,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Chuột không dây Logitech",
                             ImportPrice = 300000m,
                             Name = "Chuột Logitech",
-                            SaleAmount = 30,
                             SalePrice = 450000m,
                             Sku = "ACC001",
-                            Stock = 50,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
