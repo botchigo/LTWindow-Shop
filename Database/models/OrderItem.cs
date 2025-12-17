@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.models
@@ -12,7 +11,7 @@ namespace Database.models
         public int Id { get; set; }
 
         [Column("quantity")]
-        public int Quantity { get; set; }        
+        public int Quantity { get; set; }
 
         [Required]
         [Column("unit_sale_price")]

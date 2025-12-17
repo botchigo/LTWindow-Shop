@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,8 +28,11 @@ namespace Database.models
         [Column("sale_price")]
         public decimal SalePrice { get; set; }
 
-        [Column("count")]
-        public int Count { get; set; }
+        [Column("sale_amount")]
+        public int SaleAmount { get; set; }
+
+        [Column("stock")]
+        public int Stock { get; set; }
 
         [StringLength(500)]
         public string Description { get; set; } = string.Empty;
@@ -40,5 +43,8 @@ namespace Database.models
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; }
+
+        //Images
+        public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     }
 }

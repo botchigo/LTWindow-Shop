@@ -13,6 +13,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Dialogs\CategoryManagementControl.xaml" />
+    <None Remove="Dialogs\ImportPreviewControl.xaml" />
+    <None Remove="Dialogs\ProductCreateUpdateControl.xaml" />
     <None Remove="Dialogs\ProductDetailsControl.xaml" />
     <None Remove="Pages\ProductManagementPage.xaml" />
     <None Remove="Pages\ShellPage.xaml" />
@@ -47,6 +50,8 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.DataGrid" Version="7.1.2" />
+    <PackageReference Include="ExcelDataReader" Version="3.8.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.8.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -56,6 +61,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageReference Include="System.Data.OleDb" Version="8.0.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
   
   <ItemGroup>
@@ -71,6 +78,15 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dialogs\CategoryManagementControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dialogs\ImportPreviewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dialogs\ProductCreateUpdateControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
@@ -78,6 +94,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Database\Database.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Assets\ProductImages\" />
   </ItemGroup>
 
   <!--
