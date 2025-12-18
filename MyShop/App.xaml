@@ -36,6 +36,7 @@
             <converters:CategoryToIconConverter x:Key="CategoryToIconConverter"/>
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
             <converters:BoolToIconConverter x:Key="BoolToIconConverter"/>
+            <converters:EnumToDisplayNameConverter x:Key="EnumConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>
