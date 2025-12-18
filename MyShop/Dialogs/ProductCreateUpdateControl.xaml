@@ -113,7 +113,9 @@
                             <DataTemplate x:DataType="models:ProductImage">
                                 <Grid Width="80" Height="80" CornerRadius="8" Margin="0,0,8,8"
                                       BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
-                                    <Image Source="{x:Bind Path, Converter={StaticResource PathToImageConverter}}" Stretch="UniformToFill"/>
+                                    <Image Source="{x:Bind Path, Converter={StaticResource PathToImageConverter}}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Stretch="UniformToFill"/>
                                     <Button VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"
                                             Click="OnRemoveImageClick" Style="{StaticResource SubtleButtonStyle}"
                                             Padding="0" Width="24" Height="24" CornerRadius="12" Background="#80000000">

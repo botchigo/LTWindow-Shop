@@ -1,13 +1,21 @@
-﻿using Database.models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Database.models;
 
 namespace MyShop.ViewModels
 {
-    public class ProductDetailsViewModel
+    public partial class ProductDetailsViewModel : ObservableObject
     {
-        public Product Product { get;}
+        [ObservableProperty]
+        private Product _product;
+
         public ProductDetailsViewModel(Product product)
         {
             Product = product;
+        }
+
+        public ProductDetailsViewModel()
+        {
+
         }
     }
 }

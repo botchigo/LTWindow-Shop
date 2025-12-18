@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using MyShop.Dialogs;
+using MyShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,6 +19,18 @@ namespace MyShop.Services
         public DialogService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
+        }
+
+        public async Task<bool> ShowOrderDetailsAsync(OrderDetailsViewModel viewModel)
+        {
+            var dialog = new OrderDetailsDialog(viewModel);
+            ConfigureDialog(dialog);
+            dialog.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+            dialog.VerticalContentAlignment = VerticalAlignment.Stretch;
+            
+            var result = await dialog.ShowAsync();
+
+            return result == ContentDialogResult.Primary;
         }
 
         public async Task ShowCategoryManagementAsync()
@@ -61,6 +74,7 @@ namespace MyShop.Services
             ConfigureDialog(dialog);
             dialog.Title = title;
             dialog.Content = contentPanel;
+            dialog.CloseButtonText = "Đóng";
             dialog.DefaultButton = ContentDialogButton.Close;
 
             await dialog.ShowAsync();
@@ -129,23 +143,28 @@ namespace MyShop.Services
             return result == ContentDialogResult.Primary;
         }
 
-        public async Task ShowProductDetailsDialogAsync(Product product)
+        public async Task ShowProductDetailsDialogAsync(Product product, Action onCofirmDelete, Action onCofirmEdit)
         {
-            var mainRoot = (App.MainWindow?.Content as UIElement)?.XamlRoot;
-            if (mainRoot == null)
-                return;
-
-            var dialog = new ContentDialog();
-
+            var dialog = new ProductDetailsDialog(product);
             ConfigureDialog(dialog);
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;            
             dialog.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            dialog.VerticalContentAlignment = VerticalAlignment.Stretch; 
-            var viewControl = new ProductDetailsControl(product);
+            dialog.VerticalContentAlignment = VerticalAlignment.Stretch;
 
-            dialog.Content = viewControl;
-            viewControl.HorizontalAlignment = HorizontalAlignment.Stretch;
-            viewControl.VerticalAlignment = VerticalAlignment.Stretch;
+            //var viewControl = new ProductDetailsControl(product);
+            //dialog.Content = viewControl;
+            //viewControl.HorizontalAlignment = HorizontalAlignment.Stretch;
+            //viewControl.VerticalAlignment = VerticalAlignment.Stretch;
+
+            dialog.RequestDelete += (sender, args) =>
+            {
+                onCofirmDelete?.Invoke();
+            };
+
+            dialog.RequestEdit += (sender, args) =>
+            {
+                onCofirmEdit?.Invoke();
+            };
 
             await dialog.ShowAsync();
         }
