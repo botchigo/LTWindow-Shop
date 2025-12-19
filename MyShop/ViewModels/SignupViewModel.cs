@@ -1,133 +1,34 @@
-using System;
+Ôªøusing System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MyShop.Services;
 
 namespace MyShop.ViewModels
 {
-    /// <summary>
-    /// ViewModel cho form „ng k?
-    /// </summary>
-    public class SignupViewModel : ViewModelBase
+    public partial class SignupViewModel : ObservableObject
     {
         private readonly DatabaseManager _dbManager;
+
+        [ObservableProperty]
         private string _username = string.Empty;
+
+        [ObservableProperty]
         private string _password = string.Empty;
+
+        [ObservableProperty]
         private string _fullName = string.Empty;
+
+        [ObservableProperty]
         private bool _isLoading;
 
         public SignupViewModel(DatabaseManager dbManager)
         {
             _dbManager = dbManager ?? throw new ArgumentNullException(nameof(dbManager));
-
-            // Kh?i t?o Commands
-            SignupCommand = new AsyncRelayCommand(SignupAsync, CanSignup);
         }
 
-        #region Properties
-
-        /// <summary>
-        /// Username ng˝?i d˘ng nh?p
-        /// </summary>
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (SetProperty(ref _username, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Password ng˝?i d˘ng nh?p
-        /// </summary>
-        public string Password
-        {
-            get => _password;
-            set
-            {
-                if (SetProperty(ref _password, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// H? tÍn ng˝?i d˘ng
-        /// </summary>
-        public string FullName
-        {
-            get => _fullName;
-            set
-            {
-                if (SetProperty(ref _fullName, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Tr?ng th·i ang loading
-        /// </summary>
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Commands
-
-        /// <summary>
-        /// Command ? „ng k?
-        /// </summary>
-        public ICommand SignupCommand { get; }
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Event khi „ng k? th‡nh cÙng
-        /// </summary>
-        public event EventHandler<SignupSuccessEventArgs>? SignupSuccess;
-
-        /// <summary>
-        /// Event khi cÛ l?i x?y ra
-        /// </summary>
-        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Ki?m tra cÛ th? „ng k? khÙng
-        /// </summary>
-        private bool CanSignup()
-        {
-            return !IsLoading &&
-                   !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !string.IsNullOrWhiteSpace(FullName);
-        }
-
-        /// <summary>
-        /// Th?c hi?n „ng k?
-        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanSignup))]
         private async Task SignupAsync()
         {
             try
@@ -135,45 +36,38 @@ namespace MyShop.ViewModels
                 IsLoading = true;
                 Debug.WriteLine($"[SignupViewModel] Starting registration for username: '{Username}'");
 
-                // Ki?m tra k?t n?i database
                 bool canConnect = await _dbManager.UserRepository.TestConnectionAsync();
                 if (!canConnect)
                 {
-                    RaiseError("L?i k?t n?i", "KhÙng th? k?t n?i t?i database.\n\nKi?m tra:\n- PostgreSQL ang ch?y?\n- ThÙng tin k?t n?i ˙ng ch˝a?");
+                    OnErrorOccurred("L·ªói k·∫øt n·ªëi", "Kh√¥ng th·ªÉ k·∫øt n·ªëi t·ªõi database.\n\nKi·ªÉm tra:\n- PostgreSQL ƒëang ch·∫°y?\n- Th√¥ng tin k·∫øt n·ªëi ƒë√∫ng ch∆∞a?");
                     return;
                 }
 
                 Debug.WriteLine($"[SignupViewModel] Database connection OK");
 
-                // Ki?m tra username ? t?n t?i ch˝a
                 bool exists = await _dbManager.UserRepository.IsUsernameExistsAsync(Username);
 
                 Debug.WriteLine($"[SignupViewModel] Username '{Username}' exists: {exists}");
 
                 if (exists)
                 {
-                    RaiseError("Th?t b?i", $"Username '{Username}' ? t?n t?i trong h? th?ng.\nVui l?ng ch?n username kh·c.");
+                    OnErrorOccurred("Th·∫•t b·∫°i", $"Username '{Username}' ƒë√£ t·ªìn t·∫°i trong h·ªá th·ªëng.\nVui l√≤ng ch·ªçn username kh√°c.");
                     return;
                 }
 
                 Debug.WriteLine($"[SignupViewModel] Calling RegisterUserAsync...");
 
-                // –„ng k? user m?i
                 bool success = await _dbManager.UserRepository.RegisterUserAsync(Username, Password, FullName);
 
                 Debug.WriteLine($"[SignupViewModel] RegisterUserAsync returned: {success}");
 
                 if (success)
                 {
-                    SignupSuccess?.Invoke(this, new SignupSuccessEventArgs
-                    {
-                        Username = Username,
-                        FullName = FullName
-                    });
+                    OnSignupSuccess(Username, FullName);
                 }
                 else
                 {
-                    RaiseError("Th?t b?i", "KhÙng th? „ng k? t‡i kho?n.\n\nNguyÍn nh‚n cÛ th?:\n- Username ? t?n t?i\n- L?i database\n- KhÙng ? quy?n\n\nVui l?ng ki?m tra Output window (View ? Output) ? xem chi ti?t l?i.");
+                    OnErrorOccurred("Th·∫•t b·∫°i", "Kh√¥ng th·ªÉ ƒëƒÉng k√Ω t√†i kho·∫£n.");
                 }
             }
             catch (Npgsql.PostgresException pgEx)
@@ -182,11 +76,11 @@ namespace MyShop.ViewModels
 
                 if (pgEx.SqlState == "23505") // Unique violation
                 {
-                    RaiseError("L?i", $"Username '{Username}' ? t?n t?i trong database.");
+                    OnErrorOccurred("L·ªói", $"Username '{Username}' ƒë√£ t·ªìn t·∫°i trong database.");
                 }
                 else
                 {
-                    RaiseError("L?i Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
+                    OnErrorOccurred("L·ªói Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
                 }
             }
             catch (Exception ex)
@@ -195,7 +89,7 @@ namespace MyShop.ViewModels
                 Debug.WriteLine($"[SignupViewModel] Message: {ex.Message}");
                 Debug.WriteLine($"[SignupViewModel] StackTrace: {ex.StackTrace}");
 
-                RaiseError("L?i", $"–? x?y ra l?i khi „ng k?:\n\n{ex.Message}\n\nXem Output window (View ? Output) ? bi?t chi ti?t.");
+                OnErrorOccurred("L·ªói", $"ƒê√£ x·∫£y ra l·ªói khi ƒëƒÉng k√Ω:\n\n{ex.Message}\n\nXem Output window (View ‚Üí Output) ƒë·ªÉ bi·∫øt chi ti·∫øt.");
             }
             finally
             {
@@ -203,10 +97,29 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// Raise error event
-        /// </summary>
-        private void RaiseError(string title, string message)
+        private bool CanSignup()
+        {
+            return !IsLoading &&
+                   !string.IsNullOrWhiteSpace(Username) &&
+                   !string.IsNullOrWhiteSpace(Password) &&
+                   !string.IsNullOrWhiteSpace(FullName);
+        }
+
+        #region Events
+
+        public event EventHandler<SignupSuccessEventArgs>? SignupSuccess;
+        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
+
+        private void OnSignupSuccess(string username, string fullName)
+        {
+            SignupSuccess?.Invoke(this, new SignupSuccessEventArgs
+            {
+                Username = username,
+                FullName = fullName
+            });
+        }
+
+        private void OnErrorOccurred(string title, string message)
         {
             ErrorOccurred?.Invoke(this, new ErrorEventArgs
             {
@@ -220,9 +133,6 @@ namespace MyShop.ViewModels
 
     #region Event Args
 
-    /// <summary>
-    /// Event args cho „ng k? th‡nh cÙng
-    /// </summary>
     public class SignupSuccessEventArgs : EventArgs
     {
         public string Username { get; set; } = string.Empty;

@@ -1,13 +1,11 @@
-using System;
+ï»¿using System;
 using System.Threading.Tasks;
 using Database.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repositories
 {
-    /// <summary>
-    /// Repository ð? thao tác v?i User trong database
-    /// </summary>
+
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _context;
@@ -17,24 +15,28 @@ namespace Database.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// Ki?m tra k?t n?i t?i database
-        /// </summary>
+        
         public async Task<bool> TestConnectionAsync()
         {
             try
             {
+                await EnsureDatabaseCreatedAsync();
                 return await _context.Database.CanConnectAsync();
             }
-            catch
+            catch(Exception ex) 
             {
+                System.Diagnostics.Debug.WriteLine($"[DB Connection Error]: {ex.Message}");
+
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DB Inner Error]: {ex.InnerException.Message}");
+                }
+
                 return false;
             }
         }
 
-        /// <summary>
-        /// Xác th?c ngý?i dùng ðãng nh?p
-        /// </summary>
+    
         public async Task<bool> AuthenticateUserAsync(string username, string password)
         {
             try
@@ -51,14 +53,12 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// Ki?m tra username ð? t?n t?i chýa
-        /// </summary>
+       
         public async Task<bool> IsUsernameExistsAsync(string username)
         {
             try
             {
-                // Ki?m tra không phân bi?t hoa thý?ng
+                
                 var exists = await _context.AppUsers
                     .AnyAsync(u => u.Username.ToLower() == username.ToLower());
                 
@@ -68,20 +68,18 @@ namespace Database.Repositories
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[IsUsernameExistsAsync] Error: {ex.Message}");
-                throw; // Throw exception thay v? return false
+                throw; // Throw exception thay vÃ¬ return false
             }
         }
 
-        /// <summary>
-        /// Ðãng k? ngý?i dùng m?i
-        /// </summary>
+ 
         public async Task<bool> RegisterUserAsync(string username, string password, string fullName)
         {
             try
             {
                 System.Diagnostics.Debug.WriteLine($"[RegisterUserAsync] Attempting to register username: '{username}'");
                 
-                // Ki?m tra username ð? t?n t?i (không phân bi?t hoa thý?ng)
+              
                 var existingUser = await _context.AppUsers
                     .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
                 
@@ -98,7 +96,7 @@ namespace Database.Repositories
                     Username = username,
                     Password = password,
                     FullName = fullName
-                    // Không set UserId và CreatedAt - ð? database t? ð?ng t?o
+                    
                 };
 
                 _context.AppUsers.Add(newUser);
@@ -129,9 +127,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// L?y thông tin ngý?i dùng theo username
-        /// </summary>
+     
         public async Task<AppUser?> GetUserByUsernameAsync(string username)
         {
             try
@@ -145,9 +141,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// L?y thông tin ngý?i dùng theo ID
-        /// </summary>
+      
         public async Task<AppUser?> GetUserByIdAsync(int id)
         {
             try
@@ -160,9 +154,6 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// C?p nh?t thông tin ngý?i dùng
-        /// </summary>
         public async Task<bool> UpdateUserAsync(AppUser user)
         {
             try
@@ -176,9 +167,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// Xóa ngý?i dùng
-        /// </summary>
+        
         public async Task<bool> DeleteUserAsync(int id)
         {
             try
@@ -195,14 +184,13 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// Ð?m b?o database ðý?c t?o
-        /// </summary>
         public async Task<bool> EnsureDatabaseCreatedAsync()
         {
             try
             {
-                return await _context.Database.CanConnectAsync();
+                await _context.Database.EnsureCreatedAsync();
+                return true;
+                //return await _context.Database.CanConnectAsync();
             }
             catch
             {

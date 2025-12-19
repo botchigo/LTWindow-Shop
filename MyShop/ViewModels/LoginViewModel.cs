@@ -1,127 +1,34 @@
-using System;
+Ôªøusing System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MyShop.Services;
 
 namespace MyShop.ViewModels
 {
-    /// <summary>
-    /// ViewModel cho m‡n h?nh „ng nh?p
-    /// </summary>
-    public class LoginViewModel : ViewModelBase
+    public partial class LoginViewModel : ObservableObject
     {
         private readonly DatabaseManager _dbManager;
+
+        [ObservableProperty]
         private string _username = string.Empty;
+
+        [ObservableProperty]
         private string _password = string.Empty;
+
+        [ObservableProperty]
         private bool _rememberMe;
+
+        [ObservableProperty]
         private bool _isLoading;
 
-        public LoginViewModel()
+        public LoginViewModel(DatabaseManager dbManager)
         {
-            // Kh?i t?o DatabaseManager
-            _dbManager = new DatabaseManager("localhost", 5432, "MyShop", "postgres", "123456");
-
-            // Kh?i t?o Commands
-            LoginCommand = new AsyncRelayCommand(LoginAsync, CanLogin);
+            _dbManager = dbManager ?? throw new ArgumentNullException(nameof(dbManager));
         }
 
-        #region Properties
-
-        /// <summary>
-        /// Username ng˝?i d˘ng nh?p
-        /// </summary>
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (SetProperty(ref _username, value))
-                {
-                    ((AsyncRelayCommand)LoginCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Password ng˝?i d˘ng nh?p
-        /// </summary>
-        public string Password
-        {
-            get => _password;
-            set
-            {
-                if (SetProperty(ref _password, value))
-                {
-                    ((AsyncRelayCommand)LoginCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Tr?ng th·i Remember Me
-        /// </summary>
-        public bool RememberMe
-        {
-            get => _rememberMe;
-            set => SetProperty(ref _rememberMe, value);
-        }
-
-        /// <summary>
-        /// Tr?ng th·i ang loading
-        /// </summary>
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                {
-                    ((AsyncRelayCommand)LoginCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Commands
-
-        /// <summary>
-        /// Command ? „ng nh?p
-        /// </summary>
-        public ICommand LoginCommand { get; }
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Event khi „ng nh?p th‡nh cÙng
-        /// </summary>
-        public event EventHandler<LoginSuccessEventArgs>? LoginSuccess;
-
-        /// <summary>
-        /// Event khi cÛ l?i x?y ra
-        /// </summary>
-        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Ki?m tra cÛ th? „ng nh?p khÙng
-        /// </summary>
-        private bool CanLogin()
-        {
-            return !IsLoading && 
-                   !string.IsNullOrWhiteSpace(Username) && 
-                   !string.IsNullOrWhiteSpace(Password);
-        }
-
-        /// <summary>
-        /// Th?c hi?n „ng nh?p
-        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanLogin))]
         private async Task LoginAsync()
         {
             try
@@ -129,46 +36,33 @@ namespace MyShop.ViewModels
                 IsLoading = true;
                 Debug.WriteLine($"[LoginViewModel] Attempting login for username: '{Username}'");
 
-                // Ki?m tra k?t n?i database
                 bool canConnect = await _dbManager.UserRepository.TestConnectionAsync();
                 if (!canConnect)
                 {
-                    RaiseError("L?i k?t n?i", "KhÙng th? k?t n?i t?i database.\n\nKi?m tra:\n- PostgreSQL ang ch?y?\n- Database 'MyShop' ? ˝?c t?o?");
+                    OnErrorOccurred("L·ªói k·∫øt n·ªëi", "Kh√¥ng th·ªÉ k·∫øt n·ªëi t·∫°i database.\n\nKi·ªÉm tra:\n- PostgreSQL ƒëang ch·∫°y?\n- Database 'MyShop' ƒë√£ ƒë∆∞·ª£c t·∫°o?");
                     return;
                 }
 
                 Debug.WriteLine($"[LoginViewModel] Database connection OK");
 
-                // X·c th?c ng˝?i d˘ng
                 bool success = await _dbManager.UserRepository.AuthenticateUserAsync(Username, Password);
 
                 Debug.WriteLine($"[LoginViewModel] Authentication result: {success}");
 
                 if (success)
                 {
-                    // L?y thÙng tin user
                     var user = await _dbManager.UserRepository.GetUserByUsernameAsync(Username);
-                    
-                    if(user is not null)
-                    {
-                        UserSession.StartSession(user);
-                    }
-                    
-                    LoginSuccess?.Invoke(this, new LoginSuccessEventArgs 
-                    { 
-                        Username = Username,
-                        FullName = user?.FullName ?? Username
-                    });
+                    OnLoginSuccess(Username, user?.FullName ?? Username);
                 }
                 else
                 {
-                    RaiseError("–„ng nh?p th?t b?i", "Sai tÍn „ng nh?p ho?c m?t kh?u.");
+                    OnErrorOccurred("ƒêƒÉng nh·∫≠p th·∫•t b·∫°i", "Sai t√™n ƒëƒÉng nh·∫≠p ho·∫∑c m·∫≠t kh·∫©u.");
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[LoginViewModel] Exception: {ex.Message}");
-                RaiseError("L?i", $"–? x?y ra l?i khi „ng nh?p:\n{ex.Message}");
+                OnErrorOccurred("L·ªói", $"ƒê√£ x·∫£y ra l·ªói khi ƒëƒÉng nh·∫≠p:\n{ex.Message}");
             }
             finally
             {
@@ -176,10 +70,28 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// Raise error event
-        /// </summary>
-        private void RaiseError(string title, string message)
+        private bool CanLogin()
+        {
+            return !IsLoading && 
+                   !string.IsNullOrWhiteSpace(Username) && 
+                   !string.IsNullOrWhiteSpace(Password);
+        }
+
+        #region Events
+
+        public event EventHandler<LoginSuccessEventArgs>? LoginSuccess;
+        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
+
+        private void OnLoginSuccess(string username, string fullName)
+        {
+            LoginSuccess?.Invoke(this, new LoginSuccessEventArgs 
+            { 
+                Username = username,
+                FullName = fullName
+            });
+        }
+
+        private void OnErrorOccurred(string title, string message)
         {
             ErrorOccurred?.Invoke(this, new ErrorEventArgs 
             { 
@@ -193,18 +105,12 @@ namespace MyShop.ViewModels
 
     #region Event Args
 
-    /// <summary>
-    /// Event args cho „ng nh?p th‡nh cÙng
-    /// </summary>
     public class LoginSuccessEventArgs : EventArgs
     {
         public string Username { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
     }
 
-    /// <summary>
-    /// Event args cho l?i
-    /// </summary>
     public class ErrorEventArgs : EventArgs
     {
         public string Title { get; set; } = string.Empty;

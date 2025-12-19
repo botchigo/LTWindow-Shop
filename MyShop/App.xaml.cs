@@ -5,12 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using MyShop.Models;
 using MyShop.Services;
 using MyShop.ViewModels;
 using System;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace MyShop
 {
@@ -32,8 +30,18 @@ namespace MyShop
 
             InitializeComponent();
             AppHost = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    // Add appsettings.json
+                    var appPath = AppContext.BaseDirectory;
+                    config.SetBasePath(appPath);
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                })
                 .ConfigureServices((context, services) =>
                 {
+                    // Configuration
+                    services.Configure<DatabaseSettings>(context.Configuration.GetSection("Database"));
+
                     var connectionString = context
                         .Configuration
                         .GetConnectionString("DefaultConnection");
@@ -46,7 +54,7 @@ namespace MyShop
                     services.AddTransient<MainWindow>();
 
                     services.AddTransient<ICategoryRepository, CategoryRepository>();
-                    services.AddTransient<DatabaseManager>();
+                    services.AddSingleton<DatabaseManager>();
                     services.AddTransient<IProductRepository, ProductRepository>();
                     services.AddTransient<IDialogService, DialogService>();
                     services.AddTransient<IImportService, ImportService>();
@@ -65,6 +73,7 @@ namespace MyShop
                     services.AddTransient<CreateOrderViewModel>();
                     services.AddTransient<LoginViewModel>();
                     services.AddTransient<OrderDetailsViewModel>();
+                    services.AddTransient<DashboardViewModel>();
                 })
                 .Build();
         }
