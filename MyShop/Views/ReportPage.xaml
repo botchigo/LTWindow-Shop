@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:MyShop.ViewModels"
+    xmlns:db="using:Database.Repositories"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -17,39 +18,64 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Báo cáo thống kê" Style="{StaticResource TitleTextBlockStyle}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Phân tích Doanh số" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,4"/>
+                <TextBlock Text="Theo dõi hiệu suất bán hàng theo sản phẩm và thời gian" 
+                       Style="{StaticResource CaptionTextBlockStyle}" Foreground="Gray"/>
+            </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="12" 
-                    Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" 
-                    Padding="16" CornerRadius="8">
-            <ComboBox Header="Loại báo cáo" x:Name="ReportTypeCombo" Width="200"/>
-            <ComboBox Header="Khoảng thời gian" x:Name="IntervalCombo" Width="150"/>
-            <CalendarDatePicker Header="Từ ngày" x:Name="FromDatePicker" />
-            <CalendarDatePicker Header="Đến ngày" x:Name="ToDatePicker" />
-            <Button Content="Cập nhật" Click="RefreshReport_Click" 
-                    Style="{StaticResource AccentButtonStyle}" VerticalAlignment="Bottom"/>
+            <StackPanel Spacing="5" HorizontalAlignment="Right" Margin="300,0,0,0">
+                <TextBlock Text="Loại báo cáo" FontSize="12" FontWeight="SemiBold"/>
+                <ComboBox x:Name="ReportTypeCombo" Width="150" PlaceholderText="Chọn loại..."
+              SelectionChanged="OnFilterChanged"/>
+            </StackPanel>
         </StackPanel>
 
-        <Border Grid.Row="2"
-                Background="White"
-                CornerRadius="12"
-                Padding="30"
-                Margin="0,10,0,0"
-                BorderThickness="1"
-                BorderBrush="#E0E0E0">
-            <Grid>
-                <Canvas x:Name="ChartCanvas" SizeChanged="ChartCanvas_SizeChanged"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Spacing="20">
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <Rectangle Width="12" Height="12" Fill="CornflowerBlue"/>
-                        <TextBlock Text="Doanh thu" FontSize="12" Foreground="Black"/>
-                    </StackPanel>
-                    <StackPanel x:Name="ProfitLegend" Orientation="Horizontal" Spacing="5">
-                        <Rectangle Width="12" Height="12" Fill="LightGreen"/>
-                        <TextBlock Text="Lợi nhuận" FontSize="12" Foreground="Black"/>
+        <Border Grid.Row="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" 
+            CornerRadius="8" Padding="16">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Chế độ xem" FontSize="12" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="IntervalCombo" Width="80" SelectionChanged="OnFilterChanged"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Khoảng thời gian" FontSize="12" FontWeight="SemiBold"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <CalendarDatePicker x:Name="FromDatePicker" PlaceholderText="Từ ngày" Width="150"
+                                            DateChanged="OnFilterChanged"/>
+                        <TextBlock Text="-" VerticalAlignment="Center"/>
+                        <CalendarDatePicker x:Name="ToDatePicker" PlaceholderText="Đến ngày" Width="150"
+                                            DateChanged="OnFilterChanged"/>
                     </StackPanel>
                 </StackPanel>
-            </Grid>
+                
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Thêm sản phẩm vào biểu đồ" FontSize="12" FontWeight="SemiBold"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ComboBox x:Name="ProductSelector" 
+                  ItemsSource="{x:Bind ViewModel.FilteredProductNames, Mode=OneWay}"
+                  Width="200" 
+                  PlaceholderText="Chọn sản phẩm..."
+                  SelectionChanged="OnProductSelected"/>
+                        <Button Content="Xóa hết" Click="ClearChart_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </Border>
+
+        <Grid Grid.Row="2" ColumnSpacing="20">
+
+            <Border Background="White" CornerRadius="12" Padding="20" 
+                BorderBrush="#E0E0E0" BorderThickness="1">
+                <Grid>
+                    <Canvas x:Name="ChartCanvas" SizeChanged="ChartCanvas_SizeChanged" Background="Transparent"/>
+                    <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" 
+                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+        </Grid>
     </Grid>
 </Page>
