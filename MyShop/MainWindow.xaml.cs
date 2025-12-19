@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using MyShop.Pages;
 using MyShop.Views;
 
@@ -30,8 +29,8 @@ namespace MyShop
             var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
             appWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
 
-            // Navigate to Dashboard
-            RootFrame.Navigate(typeof(DashboardPage), userName);
+            // Navigate to ShellPage
+            RootFrame.Navigate(typeof(ShellPage));
 
             // Update window title
             this.Title = "MyShop - Dashboard";
@@ -47,7 +46,7 @@ namespace MyShop
 
             // Navigate back to Login
             RootFrame.Navigate(typeof(LoginPage));
-            
+
 
             // Update window title
             this.Title = "MyShop - Login";
