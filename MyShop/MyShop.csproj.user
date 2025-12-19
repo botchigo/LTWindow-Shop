@@ -6,6 +6,16 @@
       <SubType>Designer</SubType>
     </None>
     <Page Update="Views\ReportPage.xaml">
+    <Page Update="Dialogs\ProductDetailsDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dialogs\OrderDetailsDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CreateOrderPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OrderManagementPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Dialogs\CategoryManagementControl.xaml">

@@ -207,24 +207,24 @@
                             </Grid.Shadow>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="95"/>
+                                <RowDefinition Height="110"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0" Background="#F8F8F8" CornerRadius="8,8,0,0" Padding="4">
-                                <Image Source="{x:Bind Converter={StaticResource ProductThumbnailConverter}}" 
+                                <Image Source="{x:Bind ProductImages, Converter={StaticResource ProductThumbnailConverter}}" 
                                Stretch="Uniform"
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
                             </Grid>
 
-                            <StackPanel Grid.Row="1" Padding="12,8,12,0" VerticalAlignment="Center">
+                            <StackPanel Grid.Row="1" Padding="12,4,12,12" VerticalAlignment="Center">
+
                                 <TextBlock Text="{x:Bind Name}" 
                                    Style="{StaticResource SubtitleTextBlockStyle}" 
                                    FontSize="12" MaxLines="2" TextTrimming="CharacterEllipsis"
                                    ToolTipService.ToolTip="{x:Bind Name}"
                                    HorizontalAlignment="Center" TextAlignment="Center"/>
+
                                 <TextBlock Text="{x:Bind SalePrice, Converter={StaticResource StringFormatConverter}, ConverterParameter='N0'}" 
                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
                                    FontWeight="Bold" FontSize="13" Margin="0,4,0,0"
@@ -233,27 +233,6 @@
                                 </TextBlock>
                             </StackPanel>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" 
-                                HorizontalAlignment="Center" Spacing="16" Padding="0,0,0,12">
-
-                                <Button Click="OnEditClick"
-                                        Style="{StaticResource AccentButtonStyle}"
-                                        Width="28" Height="28" Padding="0"
-                                        CornerRadius="14"
-                                        ToolTipService.ToolTip="Sửa sản phẩm">
-                                    <FontIcon Glyph="&#xE70F;" FontSize="12" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
-                                </Button>
-
-                                <Button Click="OnDeleteClick"
-                                        Background="Transparent" BorderThickness="1"
-                                        Width="28" Height="28" Padding="0"
-                                        CornerRadius="14"
-                                        BorderBrush="{ThemeResource SystemFillColorCriticalBrush}"
-                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                        ToolTipService.ToolTip="Xóa sản phẩm">
-                                    <FontIcon Glyph="&#xE74D;" FontSize="12" FontFamily="{StaticResource SymbolThemeFontFamily}"/>
-                                </Button>
-                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

@@ -14,7 +14,13 @@ namespace MyShop.Dialogs
     /// </summary>
     public sealed partial class ProductDetailsControl : UserControl
     {
-        public ProductDetailsViewModel ViewModel { get; set; }
+        public ProductDetailsViewModel ViewModel { get; } = new ProductDetailsViewModel();
+
+        public ProductDetailsControl()
+        {
+            InitializeComponent();
+        }
+
         public ProductDetailsControl(Product product)
         {
             ViewModel = new ProductDetailsViewModel(product);

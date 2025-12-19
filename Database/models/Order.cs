@@ -17,7 +17,7 @@ namespace Database.models
         public decimal FinalPrice { get; set; }
 
         [Column("status")]
-        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        public OrderStatus Status { get; set; } = OrderStatus.Created;
 
         [Column("payment_method")]
         public PaymentMethod PaymentMethod { get; set; }

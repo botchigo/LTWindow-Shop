@@ -21,7 +21,7 @@ namespace MyShop
 
             // Khởi tạo ViewModel
             _viewModel = new LoginViewModel();
-            
+
             // Đăng ký events
             _viewModel.LoginSuccess += OnLoginSuccess;
             _viewModel.ErrorOccurred += OnErrorOccurred;
@@ -90,14 +90,25 @@ namespace MyShop
                 //appWindow.Resize(new Windows.Graphics.SizeInt32(1500, 900));
 
                 // Create frame
-                _mainFrame = new Frame();
+                //_mainFrame = new Frame();
+                Frame rootFrame = new Frame();
 
                 // Navigate to DashboardPage with parameters
                 //_mainFrame.Navigate(typeof(DashboardPage), (_dbManager!, userName));
-                _mainFrame.Navigate(typeof(ShellPage));
+                //_mainFrame.Navigate(typeof(ShellPage));
+                
+                var navService = App.GetService<INavigationService>() as NavigationService;
+                if (navService is not null)
+                {
+                    navService.SetFrame(rootFrame);
+                }
 
                 // Set frame as window content
-                this.Content = _mainFrame;
+                //this.Content = _mainFrame;
+                this.Content = rootFrame;
+
+                rootFrame.Navigate(typeof(ShellPage));
+
 
                 // Update window title
                 this.Title = "MyShop - Dashboard";
@@ -189,8 +200,8 @@ namespace MyShop
                 };
 
                 // Validate
-                if (string.IsNullOrEmpty(signupViewModel.Username) || 
-                    string.IsNullOrEmpty(signupViewModel.Password) || 
+                if (string.IsNullOrEmpty(signupViewModel.Username) ||
+                    string.IsNullOrEmpty(signupViewModel.Password) ||
                     string.IsNullOrEmpty(signupViewModel.FullName))
                 {
                     await ShowMessage("Lỗi", "Vui lòng nhập đầy đủ thông tin.");
@@ -230,7 +241,7 @@ namespace MyShop
         public static Task EnqueueAsync(this Microsoft.UI.Dispatching.DispatcherQueue dispatcher, Func<Task> function)
         {
             var tcs = new TaskCompletionSource();
-            
+
             dispatcher.TryEnqueue(async () =>
             {
                 try
@@ -243,7 +254,7 @@ namespace MyShop
                     tcs.SetException(ex);
                 }
             });
-            
+
             return tcs.Task;
         }
     }

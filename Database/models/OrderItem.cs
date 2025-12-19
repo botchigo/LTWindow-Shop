@@ -23,7 +23,7 @@ namespace Database.models
 
         [Required]
         [Column("total_price")]
-        public decimal TotalPrice { get; set; }
+        public decimal TotalPrice { set; get; }
 
         //Order
         [Column("order_id")]
