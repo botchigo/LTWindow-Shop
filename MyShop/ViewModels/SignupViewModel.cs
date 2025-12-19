@@ -1,111 +1,34 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MyShop.Services;
 
 namespace MyShop.ViewModels
 {
-   
-    public class SignupViewModel : ViewModelBase
+    public partial class SignupViewModel : ObservableObject
     {
         private readonly DatabaseManager _dbManager;
+
+        [ObservableProperty]
         private string _username = string.Empty;
+
+        [ObservableProperty]
         private string _password = string.Empty;
+
+        [ObservableProperty]
         private string _fullName = string.Empty;
+
+        [ObservableProperty]
         private bool _isLoading;
 
         public SignupViewModel(DatabaseManager dbManager)
         {
             _dbManager = dbManager ?? throw new ArgumentNullException(nameof(dbManager));
-
-            
-            SignupCommand = new AsyncRelayCommand(SignupAsync, CanSignup);
         }
 
-        #region Properties
-
-      
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (SetProperty(ref _username, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-     
-        public string Password
-        {
-            get => _password;
-            set
-            {
-                if (SetProperty(ref _password, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-      
-        public string FullName
-        {
-            get => _fullName;
-            set
-            {
-                if (SetProperty(ref _fullName, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-      
-        public bool IsLoading
-        {
-            get => _isLoading;
-            set
-            {
-                if (SetProperty(ref _isLoading, value))
-                {
-                    ((AsyncRelayCommand)SignupCommand).RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Commands
-
-      
-        public ICommand SignupCommand { get; }
-
-        #endregion
-
-        #region Events
-
-       
-        public event EventHandler<SignupSuccessEventArgs>? SignupSuccess;
-
-        
-        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
-
-        #endregion
-
-        #region Methods
-
-        private bool CanSignup()
-        {
-            return !IsLoading &&
-                   !string.IsNullOrWhiteSpace(Username) &&
-                   !string.IsNullOrWhiteSpace(Password) &&
-                   !string.IsNullOrWhiteSpace(FullName);
-        }
-
+        [RelayCommand(CanExecute = nameof(CanSignup))]
         private async Task SignupAsync()
         {
             try
@@ -113,24 +36,22 @@ namespace MyShop.ViewModels
                 IsLoading = true;
                 Debug.WriteLine($"[SignupViewModel] Starting registration for username: '{Username}'");
 
-                
                 bool canConnect = await _dbManager.UserRepository.TestConnectionAsync();
                 if (!canConnect)
                 {
-                    RaiseError("Lỗi kết nối", "Không thế kết nối tới database.\n\nKiểm tra:\n- PostgreSQL đang chạy?\n- Thông tin kết nối đúng chưa?");
+                    OnErrorOccurred("Lỗi kết nối", "Không thể kết nối tới database.\n\nKiểm tra:\n- PostgreSQL đang chạy?\n- Thông tin kết nối đúng chưa?");
                     return;
                 }
 
                 Debug.WriteLine($"[SignupViewModel] Database connection OK");
 
-               
                 bool exists = await _dbManager.UserRepository.IsUsernameExistsAsync(Username);
 
                 Debug.WriteLine($"[SignupViewModel] Username '{Username}' exists: {exists}");
 
                 if (exists)
                 {
-                    RaiseError("Thất bại", $"Username '{Username}' đã tồn tại trong hệ thống.\nVui lòng chọn username khác.");
+                    OnErrorOccurred("Thất bại", $"Username '{Username}' đã tồn tại trong hệ thống.\nVui lòng chọn username khác.");
                     return;
                 }
 
@@ -142,15 +63,11 @@ namespace MyShop.ViewModels
 
                 if (success)
                 {
-                    SignupSuccess?.Invoke(this, new SignupSuccessEventArgs
-                    {
-                        Username = Username,
-                        FullName = FullName
-                    });
+                    OnSignupSuccess(Username, FullName);
                 }
                 else
                 {
-                    RaiseError("Thất bại", "Không thể đăng kí tài khoản..");
+                    OnErrorOccurred("Thất bại", "Không thể đăng ký tài khoản.");
                 }
             }
             catch (Npgsql.PostgresException pgEx)
@@ -159,11 +76,11 @@ namespace MyShop.ViewModels
 
                 if (pgEx.SqlState == "23505") // Unique violation
                 {
-                    RaiseError("Lỗi", $"Username '{Username}' đã tồn tại trong database.");
+                    OnErrorOccurred("Lỗi", $"Username '{Username}' đã tồn tại trong database.");
                 }
                 else
                 {
-                    RaiseError("Lỗi Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
+                    OnErrorOccurred("Lỗi Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
                 }
             }
             catch (Exception ex)
@@ -172,7 +89,7 @@ namespace MyShop.ViewModels
                 Debug.WriteLine($"[SignupViewModel] Message: {ex.Message}");
                 Debug.WriteLine($"[SignupViewModel] StackTrace: {ex.StackTrace}");
 
-                RaiseError("Lỗi", $"Đã xảy ra lỗi khi đăng ký:\n\n{ex.Message}\n\nXem Output window (View ? Output) để biết chi tiết.");
+                OnErrorOccurred("Lỗi", $"Đã xảy ra lỗi khi đăng ký:\n\n{ex.Message}\n\nXem Output window (View → Output) để biết chi tiết.");
             }
             finally
             {
@@ -180,8 +97,29 @@ namespace MyShop.ViewModels
             }
         }
 
-     
-        private void RaiseError(string title, string message)
+        private bool CanSignup()
+        {
+            return !IsLoading &&
+                   !string.IsNullOrWhiteSpace(Username) &&
+                   !string.IsNullOrWhiteSpace(Password) &&
+                   !string.IsNullOrWhiteSpace(FullName);
+        }
+
+        #region Events
+
+        public event EventHandler<SignupSuccessEventArgs>? SignupSuccess;
+        public event EventHandler<ErrorEventArgs>? ErrorOccurred;
+
+        private void OnSignupSuccess(string username, string fullName)
+        {
+            SignupSuccess?.Invoke(this, new SignupSuccessEventArgs
+            {
+                Username = username,
+                FullName = fullName
+            });
+        }
+
+        private void OnErrorOccurred(string title, string message)
         {
             ErrorOccurred?.Invoke(this, new ErrorEventArgs
             {
@@ -195,7 +133,6 @@ namespace MyShop.ViewModels
 
     #region Event Args
 
-   
     public class SignupSuccessEventArgs : EventArgs
     {
         public string Username { get; set; } = string.Empty;

@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using MyShop.Models;
+using MyShop.Services;
+using MyShop.ViewModels;
 
 namespace MyShop
 {
@@ -26,7 +14,8 @@ namespace MyShop
     /// </summary>
     public partial class App : Application
     {
-        private Window? _window;
+        private static IHost? _host;
+        internal Window? m_window;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,6 +24,34 @@ namespace MyShop
         public App()
         {
             InitializeComponent();
+            
+            // Setup Dependency Injection
+            _host = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    // Add appsettings.json
+                    var appPath = AppContext.BaseDirectory;
+                    config.SetBasePath(appPath);
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    // Configuration
+                    services.Configure<DatabaseSettings>(context.Configuration.GetSection("Database"));
+
+                    // Services
+                    services.AddSingleton<DatabaseManager>();
+                    services.AddTransient<DatabaseDebugger>();
+
+                    // ViewModels
+                    services.AddTransient<LoginViewModel>();
+                    services.AddTransient<SignupViewModel>();
+                    services.AddTransient<DashboardViewModel>();
+
+                    // MainWindow
+                    services.AddSingleton<MainWindow>();
+                })
+                .Build();
         }
 
         /// <summary>
@@ -43,8 +60,16 @@ namespace MyShop
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            _window = new MainWindow();
-            _window.Activate();
+            m_window = GetService<MainWindow>();
+            m_window.Activate();
+        }
+
+        public static T GetService<T>() where T : class
+        {
+            if (_host == null)
+                throw new InvalidOperationException("Host is not initialized");
+
+            return _host.Services.GetRequiredService<T>();
         }
     }
 }

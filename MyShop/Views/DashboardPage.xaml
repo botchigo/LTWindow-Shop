@@ -11,11 +11,6 @@
 
     <Page.Resources>
         <local:StatusColorConverter x:Key="StatusColorConverter"/>
-        <local:QuantitySoldConverter x:Key="QuantitySoldConverter"/>
-        <local:StockConverter x:Key="StockConverter"/>
-        <local:OrderIdConverter x:Key="OrderIdConverter"/>
-        <local:DateTimeConverter x:Key="DateTimeConverter"/>
-        <local:CurrencyConverter x:Key="CurrencyConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -108,8 +103,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0">
-                        <TextBlock x:Name="WelcomeText" Text="Welcome Back!" FontSize="28" FontWeight="Bold" Foreground="#1A1A2E"/>
-                        <TextBlock x:Name="DateText" FontSize="14" Foreground="#888888" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding WelcomeText}" FontSize="28" FontWeight="Bold" Foreground="#1A1A2E"/>
+                        <TextBlock Text="{Binding DateText}" FontSize="14" Foreground="#888888" Margin="0,5,0,0"/>
                     </StackPanel>
 
                     <Button Grid.Column="1" Content="🔄 Refresh" Click="RefreshButton_Click" 
@@ -135,7 +130,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Tổng sản phẩm" FontSize="13" Foreground="#888888"/>
-                                <TextBlock x:Name="TotalProductsText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,8,0,0"/>
+                                <TextBlock Text="{Binding TotalProducts}" FontSize="32" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,8,0,0"/>
                                 <TextBlock Text="sản phẩm" FontSize="11" Foreground="#AAAAAA"/>
                             </StackPanel>
                             <Border Grid.Column="1" Background="#E3F2FD" Width="55" Height="55" CornerRadius="27" VerticalAlignment="Center">
@@ -153,7 +148,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Đơn hàng hôm nay" FontSize="13" Foreground="#888888"/>
-                                <TextBlock x:Name="TodayOrdersText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,8,0,0"/>
+                                <TextBlock Text="{Binding TodayOrders}" FontSize="32" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,8,0,0"/>
                                 <TextBlock Text="đơn hàng" FontSize="11" Foreground="#AAAAAA"/>
                             </StackPanel>
                             <Border Grid.Column="1" Background="#FFF3E0" Width="55" Height="55" CornerRadius="27" VerticalAlignment="Center">
@@ -171,7 +166,10 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Doanh thu hôm nay" FontSize="13" Foreground="#888888"/>
-                                <TextBlock x:Name="TodayRevenueText" Text="0 đ" FontSize="32" FontWeight="Bold" Foreground="#4CAF50" Margin="0,8,0,0"/>
+                                <TextBlock FontSize="32" FontWeight="Bold" Foreground="#4CAF50" Margin="0,8,0,0">
+                                    <Run Text="{Binding TodayRevenue}"/>
+                                    <Run Text=" đ" FontSize="20"/>
+                                </TextBlock>
                                 <TextBlock Text="VNĐ" FontSize="11" Foreground="#AAAAAA"/>
                             </StackPanel>
                             <Border Grid.Column="1" Background="#E8F5E9" Width="55" Height="55" CornerRadius="27" VerticalAlignment="Center">
@@ -189,7 +187,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
                                 <TextBlock Text="Sắp hết hàng" FontSize="13" Foreground="#888888"/>
-                                <TextBlock x:Name="LowStockCountText" Text="0" FontSize="32" FontWeight="Bold" Foreground="#E53935" Margin="0,8,0,0"/>
+                                <TextBlock Text="{Binding LowStockCount}" FontSize="32" FontWeight="Bold" Foreground="#E53935" Margin="0,8,0,0"/>
                                 <TextBlock Text="sản phẩm" FontSize="11" Foreground="#AAAAAA"/>
                             </StackPanel>
                             <Border Grid.Column="1" Background="#FFEBEE" Width="55" Height="55" CornerRadius="27" VerticalAlignment="Center">
@@ -211,7 +209,7 @@
                         <StackPanel>
                             <Grid Margin="0,0,0,20">
                                 <TextBlock Text="📈 Doanh thu trong tháng" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E"/>
-                                <TextBlock x:Name="MonthYearText" HorizontalAlignment="Right" FontSize="13" Foreground="#888888" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding MonthYearText}" HorizontalAlignment="Right" FontSize="13" Foreground="#888888" VerticalAlignment="Center"/>
                             </Grid>
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="220">
                                 <Canvas x:Name="RevenueChart" Width="700" Height="200"/>
@@ -223,21 +221,23 @@
                     <Border Grid.Column="1" Background="White" CornerRadius="16" Padding="25" Margin="10,0,0,0">
                         <StackPanel>
                             <TextBlock Text="🏆 Top 5 bán chạy" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>
-                            <ListView x:Name="TopProductsList" SelectionMode="None" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                            <ListView ItemsSource="{Binding TopProducts}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="0,8" Padding="10">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
                                             <Border Grid.Column="0" Background="#F0E6FF" Width="40" Height="40" CornerRadius="8" Margin="0,0,12,0">
                                                 <TextBlock Text="📦" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding ProductName}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock Text="{Binding TotalQuantity, Converter={StaticResource QuantitySoldConverter}}" FontSize="11" Foreground="#888888"/>
+                                                <TextBlock FontSize="11" Foreground="#888888">
+                                                    <Run Text="Đã bán: "/>
+                                                    <Run Text="{Binding TotalQuantity}"/>
+                                                </TextBlock>
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>
@@ -258,9 +258,9 @@
                     <Border Grid.Column="0" Background="White" CornerRadius="16" Padding="25" Margin="0,0,10,0">
                         <StackPanel>
                             <TextBlock Text="⚠️ Sắp hết hàng" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>
-                            <ListView x:Name="LowStockList" SelectionMode="None" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                            <ListView ItemsSource="{Binding LowStockProducts}" SelectionMode="None">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="local:LowStockItem">
+                                    <DataTemplate>
                                         <Grid Margin="0,8" Padding="10">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -271,10 +271,13 @@
                                                 <TextBlock Text="📦" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="#1A1A2E"/>
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="#1A1A2E"/>
                                             </StackPanel>
                                             <Border Grid.Column="2" Background="#FFEBEE" Padding="12,6" CornerRadius="6" VerticalAlignment="Center">
-                                                <TextBlock Text="{x:Bind Stock, Converter={StaticResource StockConverter}}" FontWeight="Bold" Foreground="#E53935" FontSize="12"/>
+                                                <TextBlock FontWeight="Bold" Foreground="#E53935" FontSize="12">
+                                                    <Run Text="Còn: "/>
+                                                    <Run Text="{Binding Stock}"/>
+                                                </TextBlock>
                                             </Border>
                                         </Grid>
                                     </DataTemplate>
@@ -287,7 +290,7 @@
                     <Border Grid.Column="1" Background="White" CornerRadius="16" Padding="25" Margin="10,0,0,0">
                         <StackPanel>
                             <TextBlock Text="🕐 Đơn hàng gần đây" FontSize="18" FontWeight="Bold" Foreground="#1A1A2E" Margin="0,0,0,15"/>
-                            <ListView x:Name="RecentOrdersList" SelectionMode="None" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                            <ListView ItemsSource="{Binding RecentOrders}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="0,8" Padding="10">
@@ -300,11 +303,17 @@
                                                 <TextBlock Text="🧾" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding OrderId, Converter={StaticResource OrderIdConverter}}" FontWeight="SemiBold" FontSize="13"/>
-                                                <TextBlock Text="{Binding CreatedTime, Converter={StaticResource DateTimeConverter}}" FontSize="11" Foreground="#888888"/>
+                                                <TextBlock FontWeight="SemiBold" FontSize="13">
+                                                    <Run Text="#"/>
+                                                    <Run Text="{Binding OrderId}"/>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding CreatedTime}" FontSize="11" Foreground="#888888"/>
                                             </StackPanel>
                                             <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                <TextBlock Text="{Binding FinalPrice, Converter={StaticResource CurrencyConverter}}" FontWeight="Bold" Foreground="#1A1A2E" FontSize="14" HorizontalAlignment="Right"/>
+                                                <TextBlock FontWeight="Bold" Foreground="#1A1A2E" FontSize="14" HorizontalAlignment="Right">
+                                                    <Run Text="{Binding FinalPrice}"/>
+                                                    <Run Text=" đ" FontSize="11"/>
+                                                </TextBlock>
                                                 <Border Background="{Binding Status, Converter={StaticResource StatusColorConverter}}" 
                                                         Padding="10,4" CornerRadius="4" Margin="0,5,0,0">
                                                     <TextBlock Text="{Binding Status}" FontSize="10" FontWeight="SemiBold" Foreground="White"/>

@@ -1,29 +1,24 @@
 using System;
 using Database;
 using Database.Repositories;
+using Microsoft.Extensions.Options;
+using MyShop.Models;
 
 namespace MyShop.Services
 {
-   
     public class DatabaseManager : IDisposable
     {
         private readonly AppDbContext _context;
         private IUserRepository? _userRepository;
 
-        public DatabaseManager()
+        // Constructor cho DI
+        public DatabaseManager(IOptions<DatabaseSettings> settings)
         {
-      
-            var connectionString = BuildConnectionString(
-                host: "localhost",
-                port: 5432,
-                database: "MyShop",
-                username: "postgres",
-                password: "12345"
-            );
-
+            var connectionString = settings.Value.GetConnectionString();
             _context = AppDbContextFactory.CreateDbContext(connectionString);
         }
 
+        // Constructor c? ð? backward compatibility (s? deprecated sau)
         public DatabaseManager(string host, int port, string database, string username, string password)
         {
             var connectionString = BuildConnectionString(host, port, database, username, password);
@@ -35,7 +30,6 @@ namespace MyShop.Services
             return $"Host={host};Port={port};Database={database};Username={username};Password={password}";
         }
 
-       
         public IUserRepository UserRepository
         {
             get

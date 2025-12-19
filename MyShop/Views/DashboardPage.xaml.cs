@@ -9,128 +9,118 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
-using MyShop.Services;
+using MyShop.ViewModels;
+using MyShop.Extensions;
 
 namespace MyShop.Views
 {
-    // DTO class cho Low Stock Product - ð?m b?o binding ho?t ð?ng
-    public class LowStockItem
-    {
-        public int ProductId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public int Stock { get; set; }
-    }
-
     public sealed partial class DashboardPage : Page
     {
-        private DatabaseManager? _dbManager;
-        private DashboardRepository? _dashboardRepo;
-        private string _currentUserName = "User";
+        private DashboardViewModel? _viewModel;
 
         public DashboardPage()
         {
             this.InitializeComponent();
-            DateText.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-            MonthYearText.Text = DateTime.Now.ToString("MMMM yyyy");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            if (e.Parameter is ValueTuple<DatabaseManager, string> parameters)
+            if (e.Parameter is string userName)
             {
-                _dbManager = parameters.Item1;
-                _currentUserName = parameters.Item2;
-                _dashboardRepo = new DashboardRepository(_dbManager.Context);
-
-                WelcomeText.Text = $"Xin chào, {_currentUserName}!";
-
-                _ = LoadDashboardDataAsync();
+                // Get ViewModel from DI
+                _viewModel = App.GetService<DashboardViewModel>();
+                
+                // Set DataContext
+                this.DataContext = _viewModel;
+                
+                // Subscribe to events
+                _viewModel.ErrorOccurred += OnErrorOccurred;
+                _viewModel.LogoutRequested += OnLogoutRequested;
+                _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+                
+                // Initialize with username
+                _viewModel.Initialize(userName);
             }
+        }
+
+        private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            // Redraw chart when MonthlyRevenue changes or when loading completes
+            if (e.PropertyName == nameof(DashboardViewModel.MonthlyRevenue) ||
+                e.PropertyName == nameof(DashboardViewModel.IsLoading))
+            {
+                // Only draw when not loading and we have a viewmodel
+                if (_viewModel?.IsLoading == false && _viewModel.MonthlyRevenue != null)
+                {
+                    DispatcherQueue.TryEnqueue(() =>
+                    {
+                        DrawRevenueChart(_viewModel.MonthlyRevenue.ToList());
+                    });
+                }
+            }
+        }
+
+        private async void OnErrorOccurred(object? sender, ErrorEventArgs e)
+        {
+            await DispatcherQueue.EnqueueAsync(async () =>
+            {
+                await ShowErrorAsync(e.Title, e.Message);
+            });
+        }
+
+        private async void OnLogoutRequested(object? sender, EventArgs e)
+        {
+            await DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "Ðãng xu?t",
+                    Content = "B?n có ch?c ch?n mu?n ðãng xu?t?",
+                    PrimaryButtonText = "Có",
+                    CloseButtonText = "Không",
+                    XamlRoot = this.XamlRoot
+                };
+
+                if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                {
+                    // Navigate back to login using MainWindow method
+                    var mainWindow = (Application.Current as App)?.m_window as MainWindow;
+                    if (mainWindow != null)
+                    {
+                        mainWindow.NavigateToLogin();
+                    }
+                    else if (Frame.CanGoBack)
+                    {
+                        Frame.GoBack();
+                    }
+                }
+            });
         }
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            await LoadDashboardDataAsync();
-        }
-
-        private async void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ContentDialog
+            if (_viewModel?.LoadDashboardDataCommand.CanExecute(null) == true)
             {
-                Title = "Ðãng xu?t",
-                Content = "B?n có ch?c ch?n mu?n ðãng xu?t?",
-                PrimaryButtonText = "Có",
-                CloseButtonText = "Không",
-                XamlRoot = this.XamlRoot
-            };
-
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                if (Frame.CanGoBack)
-                {
-                    Frame.GoBack();
-                }
+                await _viewModel.LoadDashboardDataCommand.ExecuteAsync(null);
             }
         }
 
-        private async Task LoadDashboardDataAsync()
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_dashboardRepo == null) return;
-
-            try
-            {
-                var data = await _dashboardRepo.GetDashboardDataAsync();
-
-                // Update statistics cards
-                TotalProductsText.Text = data.TotalProducts.ToString("N0");
-                TodayOrdersText.Text = data.TodayOrders.ToString("N0");
-                TodayRevenueText.Text = $"{data.TodayRevenue:N0} ð";
-                LowStockCountText.Text = data.LowStockProducts.Count.ToString();
-
-                // Debug: Log low stock products
-                System.Diagnostics.Debug.WriteLine($"=== LOW STOCK PRODUCTS ({data.LowStockProducts.Count}) ===");
-                foreach (var item in data.LowStockProducts)
-                {
-                    System.Diagnostics.Debug.WriteLine($"  - ProductId: {item.ProductId}, Name: '{item.Name}', Stock: {item.Stock}");
-                }
-
-                // Convert to local DTO ð? ð?m b?o binding ho?t ð?ng
-                var lowStockItems = data.LowStockProducts.Select(p => new LowStockItem
-                {
-                    ProductId = p.ProductId,
-                    Name = p.Name,
-                    Stock = p.Stock
-                }).ToList();
-
-                System.Diagnostics.Debug.WriteLine($"=== CONVERTED LOW STOCK ITEMS ({lowStockItems.Count}) ===");
-                foreach (var item in lowStockItems)
-                {
-                    System.Diagnostics.Debug.WriteLine($"  - ProductId: {item.ProductId}, Name: '{item.Name}', Stock: {item.Stock}");
-                }
-
-                // Update lists
-                TopProductsList.ItemsSource = data.BestSellerProducts;
-                LowStockList.ItemsSource = lowStockItems;  // S? d?ng local DTO
-                RecentOrdersList.ItemsSource = data.RecentOrders;
-
-                // Draw chart
-                DrawRevenueChart(data.MonthlyRevenue);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[LoadDashboardDataAsync] Error: {ex.Message}");
-                await ShowErrorAsync("L?i t?i d? li?u", $"Không th? t?i d? li?u dashboard:\n{ex.Message}");
-            }
+            _viewModel?.RequestLogout();
         }
 
         private void DrawRevenueChart(List<DailyRevenue> data)
         {
+            System.Diagnostics.Debug.WriteLine($"[DrawRevenueChart] Called with {data?.Count ?? 0} data points");
+            
             RevenueChart.Children.Clear();
 
             if (data == null || data.Count == 0)
             {
+                System.Diagnostics.Debug.WriteLine("[DrawRevenueChart] No data, showing 'no data' message");
                 var noDataText = new TextBlock
                 {
                     Text = "Không có d? li?u doanh thu trong tháng này",
@@ -143,6 +133,8 @@ namespace MyShop.Views
                 return;
             }
 
+            System.Diagnostics.Debug.WriteLine($"[DrawRevenueChart] Drawing chart with {data.Count} points");
+            
             const double chartWidth = 660;
             const double chartHeight = 180;
             const double bottomMargin = 25;
@@ -150,6 +142,8 @@ namespace MyShop.Views
 
             var maxRevenue = data.Max(d => d.TotalRevenue);
             if (maxRevenue == 0) maxRevenue = 1;
+
+            System.Diagnostics.Debug.WriteLine($"[DrawRevenueChart] Max revenue: {maxRevenue}");
 
             var pointSpacing = chartWidth / Math.Max(data.Count - 1, 1);
 
@@ -265,6 +259,8 @@ namespace MyShop.Views
 
                 RevenueChart.Children.Insert(0, path);
             }
+            
+            System.Diagnostics.Debug.WriteLine($"[DrawRevenueChart] Chart drawn successfully with {RevenueChart.Children.Count} elements");
         }
 
         private async Task ShowErrorAsync(string title, string message)
@@ -277,32 +273,6 @@ namespace MyShop.Views
                 XamlRoot = this.XamlRoot
             };
             await dialog.ShowAsync();
-        }
-
-        private async Task TestLowStockData()
-        {
-            if (_dashboardRepo == null) return;
-
-            try
-            {
-                System.Diagnostics.Debug.WriteLine("=== TESTING LOW STOCK DATA ===");
-                var lowStockProducts = await _dashboardRepo.GetTop5LowStockAsync();
-                System.Diagnostics.Debug.WriteLine($"Returned {lowStockProducts.Count} low stock products");
-                
-                if (lowStockProducts.Count == 0)
-                {
-                    System.Diagnostics.Debug.WriteLine("WARNING: No low stock products found!");
-                    System.Diagnostics.Debug.WriteLine("Possible reasons:");
-                    System.Diagnostics.Debug.WriteLine("1. fn_top5_low_stock() function not created in PostgreSQL");
-                    System.Diagnostics.Debug.WriteLine("2. No products in database");
-                    System.Diagnostics.Debug.WriteLine("3. All products have stock > 10");
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"ERROR testing low stock: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-            }
         }
     }
 
