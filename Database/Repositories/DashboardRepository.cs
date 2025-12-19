@@ -6,9 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repositories
 {
-    /// <summary>
-    /// Repository g?i các PostgreSQL functions cho Dashboard
-    /// </summary>
+   
     public class DashboardRepository
     {
         private readonly AppDbContext _context;
@@ -18,9 +16,7 @@ namespace Database.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        /// <summary>
-        /// L?y t?ng s? s?n ph?m - g?i fn_total_products()
-        /// </summary>
+   
         public async Task<int> GetTotalProductsAsync()
         {
             try
@@ -42,11 +38,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// L?y top 5 s?n ph?m s?p h?t hàng - g?i fn_top5_low_stock()
-        /// Fallback: Query tr?c ti?p n?u function không ho?t ð?ng
-        /// Returns: product_id, name, stock
-        /// </summary>
+    
         public async Task<List<LowStockProduct>> GetTop5LowStockAsync()
         {
             var result = new List<LowStockProduct>();
@@ -58,7 +50,7 @@ namespace Database.Repositories
 
                 using var command = connection.CreateCommand();
                 
-                // Th? g?i function trý?c
+             
                 command.CommandText = "SELECT * FROM fn_top5_low_stock()";
                 
                 try
@@ -86,7 +78,6 @@ namespace Database.Repositories
                     System.Diagnostics.Debug.WriteLine($"[GetTop5LowStockAsync] Function failed: {funcEx.Message}");
                     System.Diagnostics.Debug.WriteLine("[GetTop5LowStockAsync] Using direct query fallback...");
                     
-                    // Fallback: Query tr?c ti?p t? b?ng product
                     using var fallbackCommand = connection.CreateCommand();
                     fallbackCommand.CommandText = @"
                         SELECT product_id, name, count as stock 
@@ -120,10 +111,7 @@ namespace Database.Repositories
             return result;
         }
 
-        /// <summary>
-        /// L?y top 5 s?n ph?m bán ch?y - g?i fn_top5_best_seller()
-        /// Returns: product_id, product_name, total_quantity
-        /// </summary>
+  
         public async Task<List<BestSellerProduct>> GetTop5BestSellersAsync()
         {
             var result = new List<BestSellerProduct>();
@@ -154,9 +142,7 @@ namespace Database.Repositories
             return result;
         }
 
-        /// <summary>
-        /// L?y t?ng s? ðõn hàng trong ngày - g?i fn_total_orders_today()
-        /// </summary>
+ 
         public async Task<int> GetTotalOrdersTodayAsync()
         {
             try
@@ -178,10 +164,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// L?y t?ng doanh thu trong ngày - g?i fn_total_revenue_today()
-        /// Returns: BIGINT
-        /// </summary>
+  
         public async Task<long> GetTotalRevenueTodayAsync()
         {
             try
@@ -203,10 +186,7 @@ namespace Database.Repositories
             }
         }
 
-        /// <summary>
-        /// L?y 3 ðõn hàng g?n nh?t - g?i fn_latest_3_orders()
-        /// Returns: order_id, created_time, final_price, status, payment_method
-        /// </summary>
+
         public async Task<List<RecentOrder>> GetLatest3OrdersAsync()
         {
             var result = new List<RecentOrder>();
@@ -239,10 +219,7 @@ namespace Database.Repositories
             return result;
         }
 
-        /// <summary>
-        /// L?y doanh thu theo ngày trong tháng - g?i fn_revenue_by_day_current_month()
-        /// Returns: day, total_revenue
-        /// </summary>
+ 
         public async Task<List<DailyRevenue>> GetRevenueByDayCurrentMonthAsync()
         {
             var result = new List<DailyRevenue>();
@@ -272,9 +249,7 @@ namespace Database.Repositories
             return result;
         }
 
-        /// <summary>
-        /// L?y t?t c? d? li?u dashboard
-        /// </summary>
+        
         public async Task<DashboardData> GetDashboardDataAsync()
         {
             return new DashboardData

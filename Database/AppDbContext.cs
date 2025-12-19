@@ -20,7 +20,7 @@ namespace Database
         {
             base.OnModelCreating(modelBuilder);
 
-            // C?u h?nh cho AppUser
+           
             modelBuilder.Entity<AppUser>(entity =>
             {
                 entity.ToTable("app_user");
@@ -53,7 +53,7 @@ namespace Database
                 entity.HasIndex(e => e.Username).IsUnique();
             });
 
-            // C?u h?nh cho Category
+         
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("category");
@@ -72,7 +72,7 @@ namespace Database
                     .HasColumnName("description");
             });
 
-            // C?u h?nh cho Product
+   
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("product");
@@ -130,7 +130,7 @@ namespace Database
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // C?u h?nh cho Order (b?ng orders)
+          
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
@@ -172,7 +172,7 @@ namespace Database
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // C?u h?nh cho OrderItem
+           
             modelBuilder.Entity<OrderItem>(entity =>
             {
                 entity.ToTable("order_item");
