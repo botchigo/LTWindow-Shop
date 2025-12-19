@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -6,9 +6,7 @@ using MyShop.Services;
 
 namespace MyShop.ViewModels
 {
-    /// <summary>
-    /// ViewModel cho form ğãng k?
-    /// </summary>
+   
     public class SignupViewModel : ViewModelBase
     {
         private readonly DatabaseManager _dbManager;
@@ -21,15 +19,13 @@ namespace MyShop.ViewModels
         {
             _dbManager = dbManager ?? throw new ArgumentNullException(nameof(dbManager));
 
-            // Kh?i t?o Commands
+            
             SignupCommand = new AsyncRelayCommand(SignupAsync, CanSignup);
         }
 
         #region Properties
 
-        /// <summary>
-        /// Username ngı?i dùng nh?p
-        /// </summary>
+      
         public string Username
         {
             get => _username;
@@ -42,9 +38,7 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// Password ngı?i dùng nh?p
-        /// </summary>
+     
         public string Password
         {
             get => _password;
@@ -57,9 +51,7 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// H? tên ngı?i dùng
-        /// </summary>
+      
         public string FullName
         {
             get => _fullName;
@@ -72,9 +64,7 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// Tr?ng thái ğang loading
-        /// </summary>
+      
         public bool IsLoading
         {
             get => _isLoading;
@@ -91,32 +81,23 @@ namespace MyShop.ViewModels
 
         #region Commands
 
-        /// <summary>
-        /// Command ğ? ğãng k?
-        /// </summary>
+      
         public ICommand SignupCommand { get; }
 
         #endregion
 
         #region Events
 
-        /// <summary>
-        /// Event khi ğãng k? thành công
-        /// </summary>
+       
         public event EventHandler<SignupSuccessEventArgs>? SignupSuccess;
 
-        /// <summary>
-        /// Event khi có l?i x?y ra
-        /// </summary>
+        
         public event EventHandler<ErrorEventArgs>? ErrorOccurred;
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Ki?m tra có th? ğãng k? không
-        /// </summary>
         private bool CanSignup()
         {
             return !IsLoading &&
@@ -125,9 +106,6 @@ namespace MyShop.ViewModels
                    !string.IsNullOrWhiteSpace(FullName);
         }
 
-        /// <summary>
-        /// Th?c hi?n ğãng k?
-        /// </summary>
         private async Task SignupAsync()
         {
             try
@@ -135,30 +113,29 @@ namespace MyShop.ViewModels
                 IsLoading = true;
                 Debug.WriteLine($"[SignupViewModel] Starting registration for username: '{Username}'");
 
-                // Ki?m tra k?t n?i database
+                
                 bool canConnect = await _dbManager.UserRepository.TestConnectionAsync();
                 if (!canConnect)
                 {
-                    RaiseError("L?i k?t n?i", "Không th? k?t n?i t?i database.\n\nKi?m tra:\n- PostgreSQL ğang ch?y?\n- Thông tin k?t n?i ğúng chıa?");
+                    RaiseError("Lá»—i káº¿t ná»‘i", "KhÃ´ng tháº¿ káº¿t ná»‘i tá»›i database.\n\nKiá»ƒm tra:\n- PostgreSQL Ä‘ang cháº¡y?\n- ThÃ´ng tin káº¿t ná»‘i Ä‘Ãºng chÆ°a?");
                     return;
                 }
 
                 Debug.WriteLine($"[SignupViewModel] Database connection OK");
 
-                // Ki?m tra username ğ? t?n t?i chıa
+               
                 bool exists = await _dbManager.UserRepository.IsUsernameExistsAsync(Username);
 
                 Debug.WriteLine($"[SignupViewModel] Username '{Username}' exists: {exists}");
 
                 if (exists)
                 {
-                    RaiseError("Th?t b?i", $"Username '{Username}' ğ? t?n t?i trong h? th?ng.\nVui l?ng ch?n username khác.");
+                    RaiseError("Tháº¥t báº¡i", $"Username '{Username}' Ä‘Ã£ tá»“n táº¡i trong há»‡ thá»‘ng.\nVui lÃ²ng chá»n username khÃ¡c.");
                     return;
                 }
 
                 Debug.WriteLine($"[SignupViewModel] Calling RegisterUserAsync...");
 
-                // Ğãng k? user m?i
                 bool success = await _dbManager.UserRepository.RegisterUserAsync(Username, Password, FullName);
 
                 Debug.WriteLine($"[SignupViewModel] RegisterUserAsync returned: {success}");
@@ -173,7 +150,7 @@ namespace MyShop.ViewModels
                 }
                 else
                 {
-                    RaiseError("Th?t b?i", "Không th? ğãng k? tài kho?n.\n\nNguyên nhân có th?:\n- Username ğ? t?n t?i\n- L?i database\n- Không ğ? quy?n\n\nVui l?ng ki?m tra Output window (View ? Output) ğ? xem chi ti?t l?i.");
+                    RaiseError("Tháº¥t báº¡i", "KhÃ´ng thá»ƒ Ä‘Äƒng kÃ­ tÃ i khoáº£n..");
                 }
             }
             catch (Npgsql.PostgresException pgEx)
@@ -182,11 +159,11 @@ namespace MyShop.ViewModels
 
                 if (pgEx.SqlState == "23505") // Unique violation
                 {
-                    RaiseError("L?i", $"Username '{Username}' ğ? t?n t?i trong database.");
+                    RaiseError("Lá»—i", $"Username '{Username}' Ä‘Ã£ tá»“n táº¡i trong database.");
                 }
                 else
                 {
-                    RaiseError("L?i Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
+                    RaiseError("Lá»—i Database", $"PostgreSQL Error:\n{pgEx.Message}\n\nCode: {pgEx.SqlState}");
                 }
             }
             catch (Exception ex)
@@ -195,7 +172,7 @@ namespace MyShop.ViewModels
                 Debug.WriteLine($"[SignupViewModel] Message: {ex.Message}");
                 Debug.WriteLine($"[SignupViewModel] StackTrace: {ex.StackTrace}");
 
-                RaiseError("L?i", $"Ğ? x?y ra l?i khi ğãng k?:\n\n{ex.Message}\n\nXem Output window (View ? Output) ğ? bi?t chi ti?t.");
+                RaiseError("Lá»—i", $"ÄÃ£ xáº£y ra lá»—i khi Ä‘Äƒng kÃ½:\n\n{ex.Message}\n\nXem Output window (View ? Output) Ä‘á»ƒ biáº¿t chi tiáº¿t.");
             }
             finally
             {
@@ -203,9 +180,7 @@ namespace MyShop.ViewModels
             }
         }
 
-        /// <summary>
-        /// Raise error event
-        /// </summary>
+     
         private void RaiseError(string title, string message)
         {
             ErrorOccurred?.Invoke(this, new ErrorEventArgs
@@ -220,9 +195,7 @@ namespace MyShop.ViewModels
 
     #region Event Args
 
-    /// <summary>
-    /// Event args cho ğãng k? thành công
-    /// </summary>
+   
     public class SignupSuccessEventArgs : EventArgs
     {
         public string Username { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Microsoft.UI.Xaml.Data;
 
 namespace MyShop.Views
@@ -9,9 +9,9 @@ namespace MyShop.Views
         {
             if (value is int quantity)
             {
-                return $"Ğ? bán: {quantity}";
+                return $"ÄÃ£ bÃ¡n: {quantity}";
             }
-            return "Ğ? bán: 0";
+            return "ÄÃ£ bÃ¡n: 0";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -26,9 +26,9 @@ namespace MyShop.Views
         {
             if (value is int stock)
             {
-                return $"C?n {stock}";
+                return $"CÃ²n {stock}";
             }
-            return "C?n 0";
+            return "CÃ²n 0";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -43,9 +43,9 @@ namespace MyShop.Views
         {
             if (value is int orderId)
             {
-                return $"Ğõn #{orderId}";
+                return $"ÄÆ¡n #{orderId}";
             }
-            return "Ğõn #0";
+            return "ÄÆ¡n #0";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -77,17 +77,17 @@ namespace MyShop.Views
         {
             if (value is decimal price)
             {
-                return $"{price:N0} ğ";
+                return $"{price:N0} Ä‘";
             }
             if (value is double priceDouble)
             {
-                return $"{priceDouble:N0} ğ";
+                return $"{priceDouble:N0} Ä‘";
             }
             if (value is int priceInt)
             {
-                return $"{priceInt:N0} ğ";
+                return $"{priceInt:N0} Ä‘";
             }
-            return "0 ğ";
+            return "0 Ä‘";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

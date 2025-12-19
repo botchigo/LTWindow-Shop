@@ -4,9 +4,7 @@ using Database.Repositories;
 
 namespace MyShop.Services
 {
-    /// <summary>
-    /// Service ð? qu?n l? database context và repositories
-    /// </summary>
+   
     public class DatabaseManager : IDisposable
     {
         private readonly AppDbContext _context;
@@ -14,7 +12,7 @@ namespace MyShop.Services
 
         public DatabaseManager()
         {
-            // C?u h?nh connection string - thay ð?i theo thông tin server c?a b?n
+      
             var connectionString = BuildConnectionString(
                 host: "localhost",
                 port: 5432,
@@ -37,9 +35,7 @@ namespace MyShop.Services
             return $"Host={host};Port={port};Database={database};Username={username};Password={password}";
         }
 
-        /// <summary>
-        /// User Repository ð? thao tác v?i users
-        /// </summary>
+       
         public IUserRepository UserRepository
         {
             get
@@ -49,9 +45,6 @@ namespace MyShop.Services
             }
         }
 
-        /// <summary>
-        /// L?y DbContext (n?u c?n truy c?p tr?c ti?p)
-        /// </summary>
         public AppDbContext Context => _context;
 
         public void Dispose()
