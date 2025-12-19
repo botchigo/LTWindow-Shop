@@ -55,76 +55,122 @@ namespace MyShop.Views
 
         private void RenderChart()
         {
+            if (ChartCanvas == null || _viewModel == null) return;
+            if (ChartCanvas.ActualWidth <= 0 || ChartCanvas.ActualHeight <= 0) return;
+
             ChartCanvas.Children.Clear();
             if (_viewModel.DataPoints == null || _viewModel.DataPoints.Count == 0) return;
 
-            // Chỉnh ẩn/hiện chú thích lợi nhuận
-            ProfitLegend.Visibility = _viewModel.SelectedReportType == ReportType.RevenueProfit ? Visibility.Visible : Visibility.Collapsed;
+            // Thiết lập Margin để thu nhỏ Canvas hiển thị (Padding nội bộ)
+            double marginLeft = 60;   // Chừa chỗ cho nhãn trục Y
+            double marginRight = 40;
+            double marginTop = 40;
+            double marginBottom = 60; // Chừa chỗ cho nhãn trục X
 
-            if (_viewModel.SelectedReportType == ReportType.ProductSales)
+            double drawWidth = ChartCanvas.ActualWidth - marginLeft - marginRight;
+            double drawHeight = ChartCanvas.ActualHeight - marginTop - marginBottom;
+
+            try
             {
-                DrawLineChart(); // Vẽ biểu đồ đường cho sản lượng
+                // 1. Vẽ lưới ngang (Grid lines) và Nhãn trục Y
+                DrawBackgroundGrid(marginLeft, marginTop, drawWidth, drawHeight);
+
+                // 2. Vẽ dữ liệu chính
+                if (_viewModel.SelectedReportType == ReportType.ProductSales)
+                    DrawLineChart(marginLeft, marginTop, drawWidth, drawHeight);
+                else
+                    DrawBarChart(marginLeft, marginTop, drawWidth, drawHeight);
             }
-            else
+            catch (Exception ex)
             {
-                DrawBarChart(); // Vẽ biểu đồ cột cho doanh thu/lợi nhuận
+                System.Diagnostics.Debug.WriteLine($"[Render Error] {ex.Message}");
             }
         }
-
-        private void DrawBarChart()
+        private void DrawBackgroundGrid(double xOffset, double yOffset, double width, double height)
         {
-            double canvasWidth = ChartCanvas.ActualWidth;
-            double canvasHeight = ChartCanvas.ActualHeight - 60; // Trừ lề dưới cho label
+            int gridCount = 5; // Chia làm 5 khoảng
             double maxVal = _viewModel.DataPoints.Max(p => Math.Max(p.Value, p.Profit));
-            if (maxVal == 0) maxVal = 1;
+            if (maxVal <= 0) maxVal = 1;
 
-            double spacing = canvasWidth / _viewModel.DataPoints.Count;
-            double barWidth = spacing * 0.4;
+            for (int i = 0; i <= gridCount; i++)
+            {
+                double y = yOffset + height - (i * (height / gridCount));
+
+                // Vẽ đường lưới ngang
+                var line = new Line
+                {
+                    X1 = xOffset,
+                    Y1 = y,
+                    X2 = xOffset + width,
+                    Y2 = y,
+                    Stroke = new SolidColorBrush(Microsoft.UI.Colors.LightGray),
+                    StrokeThickness = 0.5,
+                    StrokeDashArray = new DoubleCollection { 4, 4 } // Đường đứt nét
+                };
+                ChartCanvas.Children.Add(line);
+
+                // Vẽ giá trị bên trái (Trục Y)
+                double labelVal = (maxVal / gridCount) * i;
+                var tb = new TextBlock
+                {
+                    Text = labelVal.ToString("N0"),
+                    FontSize = 10,
+                    Foreground = new SolidColorBrush(Microsoft.UI.Colors.Gray),
+                    Width = xOffset - 10,
+                    TextAlignment = TextAlignment.Right
+                };
+                Canvas.SetLeft(tb, 0);
+                Canvas.SetTop(tb, y - 7);
+                ChartCanvas.Children.Add(tb);
+            }
+        }
+        private void DrawBarChart(double xOffset, double yOffset, double width, double height)
+        {
+            double maxVal = _viewModel.DataPoints.Max(p => Math.Max(p.Value, p.Profit));
+            if (maxVal <= 0) maxVal = 1;
+
+            double spacing = width / _viewModel.DataPoints.Count;
+            double barWidth = spacing * 0.3;
 
             for (int i = 0; i < _viewModel.DataPoints.Count; i++)
             {
                 var point = _viewModel.DataPoints[i];
-                double xBase = i * spacing + (spacing / 4);
+                double xBase = xOffset + (i * spacing) + (spacing / 4);
 
-                // Vẽ cột Doanh thu (Màu xanh)
-                double revHeight = (point.Value / maxVal) * canvasHeight;
-                DrawRectangle(xBase, canvasHeight - revHeight, barWidth, revHeight, Colors.CornflowerBlue);
+                // Vẽ Doanh thu
+                double revHeight = (point.Value / maxVal) * height;
+                DrawRectangle(xBase, yOffset + height - revHeight, barWidth, revHeight, Microsoft.UI.Colors.CornflowerBlue);
 
-                // Vẽ cột Lợi nhuận (Màu xanh lá) - Vẽ cạnh bên
-                double profHeight = (point.Profit / maxVal) * canvasHeight;
-                DrawRectangle(xBase + barWidth + 2, canvasHeight - profHeight, barWidth, profHeight, Colors.LightGreen);
+                // Vẽ Lợi nhuận
+                double profHeight = (point.Profit / maxVal) * height;
+                DrawRectangle(xBase + barWidth + 4, yOffset + height - profHeight, barWidth, profHeight, Microsoft.UI.Colors.LightGreen);
 
-                // Vẽ nhãn trục X
-                AddLabel(point.Label, xBase, canvasHeight + 10);
+                // Nhãn trục X
+                AddLabel(point.Label, xBase, yOffset + height + 10);
             }
         }
 
-        private void DrawLineChart()
+        private void DrawLineChart(double xOffset, double yOffset, double width, double height)
         {
-            double canvasWidth = ChartCanvas.ActualWidth;
-            double canvasHeight = ChartCanvas.ActualHeight - 60;
             double maxVal = _viewModel.DataPoints.Max(p => p.Value);
-            if (maxVal == 0) maxVal = 1;
+            if (maxVal <= 0) maxVal = 1;
 
-            double spacing = canvasWidth / Math.Max(_viewModel.DataPoints.Count - 1, 1);
+            // Tính khoảng cách giữa các điểm trên trục X
+            double spacing = width / Math.Max(_viewModel.DataPoints.Count - 1, 1);
             var points = new List<Point>();
 
+            // 1. Tính toán tọa độ tất cả các điểm trước
             for (int i = 0; i < _viewModel.DataPoints.Count; i++)
             {
-                double x = i * spacing;
-                double y = canvasHeight - ((_viewModel.DataPoints[i].Value / maxVal) * canvasHeight);
-                points.Add(new Point { X = x, Y = y });
+                var point = _viewModel.DataPoints[i];
+                double x = xOffset + (i * spacing);
+                double ratio = point.Value / maxVal;
+                double y = yOffset + height - (ratio * height);
 
-                // Vẽ điểm nút
-                var dot = new Ellipse { Width = 8, Height = 8, Fill = new SolidColorBrush(Colors.CornflowerBlue) };
-                Canvas.SetLeft(dot, x - 4);
-                Canvas.SetTop(dot, y - 4);
-                ChartCanvas.Children.Add(dot);
-
-                AddLabel(_viewModel.DataPoints[i].Label, x - 10, canvasHeight + 10);
+                points.Add(new Point(x, y));
             }
 
-            // Nối các điểm bằng đường thẳng
+            // 2. Vẽ các đường nối (Polyline hoặc Line)
             for (int i = 0; i < points.Count - 1; i++)
             {
                 var line = new Line
@@ -133,10 +179,32 @@ namespace MyShop.Views
                     Y1 = points[i].Y,
                     X2 = points[i + 1].X,
                     Y2 = points[i + 1].Y,
-                    Stroke = new SolidColorBrush(Colors.CornflowerBlue),
-                    StrokeThickness = 2
+                    Stroke = new SolidColorBrush(Microsoft.UI.Colors.CornflowerBlue),
+                    StrokeThickness = 3,
+                    StrokeStartLineCap = PenLineCap.Round,
+                    StrokeEndLineCap = PenLineCap.Round
                 };
                 ChartCanvas.Children.Add(line);
+            }
+
+            // 3. Vẽ các điểm nút (Dots) đè lên đường nối
+            for (int i = 0; i < points.Count; i++)
+            {
+                // Vẽ vòng tròn điểm
+                var dot = new Ellipse
+                {
+                    Width = 10,
+                    Height = 10,
+                    Fill = new SolidColorBrush(Microsoft.UI.Colors.White),
+                    Stroke = new SolidColorBrush(Microsoft.UI.Colors.CornflowerBlue),
+                    StrokeThickness = 2
+                };
+                Canvas.SetLeft(dot, points[i].X - 5);
+                Canvas.SetTop(dot, points[i].Y - 5);
+                ChartCanvas.Children.Add(dot);
+
+                // Thêm nhãn trục X (Ngày/Tháng)
+                AddLabel(_viewModel.DataPoints[i].Label, points[i].X - 20, yOffset + height + 10);
             }
         }
 

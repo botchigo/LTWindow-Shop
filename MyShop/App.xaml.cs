@@ -28,6 +28,8 @@ namespace MyShop
         /// </summary>
         public App()
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             InitializeComponent();
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
