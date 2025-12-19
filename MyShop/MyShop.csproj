@@ -85,6 +85,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Page Update="Views\ReportPage.xaml">
+    </Page>
     <Page Update="Dialogs\ProductDetailsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

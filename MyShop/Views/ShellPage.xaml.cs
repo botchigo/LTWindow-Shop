@@ -50,7 +50,7 @@ namespace MyShop.Pages
                     AppFrame.Navigate(typeof(OrderManagementPage));
                     break;
                 case "Reports":
-                    ContentFrame.Navigate(typeof(ReportPage));
+                    AppFrame.Navigate(typeof(ReportPage));
                     break;
                 case "Settings":
                     // ContentFrame.Navigate(typeof(SettingsPage));

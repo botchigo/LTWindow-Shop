@@ -136,7 +136,7 @@ namespace Database
                     Id = 100 + i,
                     UserId = userId,
                     FinalPrice = price,
-                    Status = OrderStatus.Delivered,
+                    Status = OrderStatus.Paid,
                     PaymentMethod = PaymentMethod.COD,
                     CreatedAt = date,
                     UpdatedAt = date
