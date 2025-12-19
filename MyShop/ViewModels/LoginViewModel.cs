@@ -149,6 +149,11 @@ namespace MyShop.ViewModels
                     // L?y thông tin user
                     var user = await _dbManager.UserRepository.GetUserByUsernameAsync(Username);
                     
+                    if(user is not null)
+                    {
+                        UserSession.StartSession(user);
+                    }
+                    
                     LoginSuccess?.Invoke(this, new LoginSuccessEventArgs 
                     { 
                         Username = Username,

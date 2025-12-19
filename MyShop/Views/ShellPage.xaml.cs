@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using MyShop.Services;
 using MyShop.Views;
 using System;
 
@@ -20,7 +21,13 @@ namespace MyShop.Pages
         public ShellPage()
         {
             InitializeComponent();
-            ContentFrame.Navigate(typeof(DashboardPage));
+
+            var navService = App.GetService<INavigationService>() as NavigationService;
+            if(navService is not null)
+            {
+                navService.SetFrame(this.AppFrame);
+            }
+            AppFrame.Navigate(typeof(DashboardPage));
             UpdateButtonVisuals(NavDashboard);
         }
 
@@ -34,13 +41,13 @@ namespace MyShop.Pages
             switch (tag)
             {
                 case "Dashboard":
-                    ContentFrame.Navigate(typeof(DashboardPage));
+                    AppFrame.Navigate(typeof(DashboardPage));
                     break;
                 case "Products":
-                    ContentFrame.Navigate(typeof(ProductManagementPage));
+                    AppFrame.Navigate(typeof(ProductManagementPage));
                     break;
                 case "Orders":
-                    // ContentFrame.Navigate(typeof(OrdersPage));
+                    AppFrame.Navigate(typeof(OrderManagementPage));
                     break;
                 case "Statistics":
                     // ContentFrame.Navigate(typeof(StatisticsPage));

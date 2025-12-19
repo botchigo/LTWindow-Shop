@@ -90,6 +90,6 @@
             </Grid>
         </Border>
 
-        <Frame x:Name="ContentFrame" Grid.Column="1" Background="White"/>
+        <Frame x:Name="AppFrame" Grid.Column="1" Background="White"/>
     </Grid>
 </Page>

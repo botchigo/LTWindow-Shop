@@ -234,6 +234,7 @@ namespace MyShop.ViewModels
                 Name = product.Name,
                 ImportPrice = product.ImportPrice,
                 SalePrice = product.SalePrice,
+                Stock = product.Stock,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 Category = product.Category,
@@ -260,7 +261,15 @@ namespace MyShop.ViewModels
             if (product is null)
                 return;
 
-            await _dialogService.ShowProductDetailsDialogAsync(product);
+            await _dialogService.ShowProductDetailsDialogAsync(product,
+                onCofirmEdit: async () =>
+                {
+                    await UpdateProductAsync(product);
+                },
+                onCofirmDelete: async () =>
+                {
+                    await DeleteProductAsync(product);
+                });
         }
 
         [RelayCommand]

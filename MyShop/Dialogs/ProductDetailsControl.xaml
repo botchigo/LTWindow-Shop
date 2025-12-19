@@ -6,13 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Database.models"
     xmlns:converters="using:MyShop.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Width="500">
     <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Padding="0,16,0,16" 
@@ -118,13 +118,5 @@
 
             </StackPanel>
         </ScrollViewer>
-
-        <Grid Grid.Row="3" Padding="0,10,0,24">
-            <Button Content="Đóng" 
-                Click="CloseButton_Click"
-                HorizontalAlignment="Center" 
-                Width="150"
-                Style="{StaticResource AccentButtonStyle}"/>
-        </Grid>
     </Grid>
 </UserControl>

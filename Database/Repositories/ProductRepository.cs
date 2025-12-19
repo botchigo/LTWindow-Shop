@@ -69,8 +69,10 @@ namespace Database.Repositories
 
         public async Task<List<Product>> GetPagedProductsAsync(
             int pageNumber, int pageSize,
-            int categoryId, string? keyword, decimal? minPrice, decimal? maxPrice,
-            SortCriteria selectedSortCriteria, SortDirection selectedSortDirection)
+            int categoryId, string? keyword = null, 
+            decimal? minPrice = null, decimal? maxPrice = null,
+            SortCriteria selectedSortCriteria = SortCriteria.Default, 
+            SortDirection selectedSortDirection = SortDirection.Ascending)
         {
             using var context = await _dbContextFactory.CreateDbContextAsync();
 
@@ -184,7 +186,7 @@ namespace Database.Repositories
                 existingProduct.ImportPrice = product.ImportPrice;
                 existingProduct.SalePrice = product.SalePrice;
                 existingProduct.Description = product.Description;
-                existingProduct.UpdatedAt = DateTime.UtcNow;
+                existingProduct.Stock = product.Stock;
 
                 //delete old img
                 var newImagePaths = product.ProductImages.Select(i => i.Path).ToList();

@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyShop.Converters
@@ -12,9 +13,9 @@ namespace MyShop.Converters
         {
             var placeholder = new BitmapImage(new Uri("ms-appx:///Assets/placeholder.png"));
 
-            if (value is Product product)
+            if (value is IEnumerable<ProductImage> images)
             {
-                var firstImage = product.ProductImages?.FirstOrDefault();
+                var firstImage = images.FirstOrDefault();
 
                 if (firstImage != null && !string.IsNullOrEmpty(firstImage.Path))
                 {
@@ -46,6 +47,7 @@ namespace MyShop.Converters
                     }
                 }
             }
+
             return placeholder;
         }
 
