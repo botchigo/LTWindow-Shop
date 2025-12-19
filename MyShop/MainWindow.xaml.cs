@@ -38,7 +38,7 @@ namespace MyShop
 
             try
             {
-                _dbManager = new DatabaseManager("localhost", 5432, "WindowApp_MyShop", "postgres", "23120138");
+                _dbManager = new DatabaseManager("localhost", 5432, "MyShop", "postgres", "123456");
                 return true;
             }
             catch

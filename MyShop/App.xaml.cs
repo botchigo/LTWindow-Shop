@@ -28,6 +28,8 @@ namespace MyShop
         /// </summary>
         public App()
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             InitializeComponent();
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
@@ -55,6 +57,10 @@ namespace MyShop
                     services.AddTransient<ProductManagementViewModel>();
                     services.AddTransient<ProductDetailsViewModel>();
                     services.AddTransient<CategoryManagementViewModel>();
+
+                    services.AddTransient<ReportViewModel>();
+                    services.AddTransient<IReportRepository, ReportRepository>();
+
                     services.AddTransient<OrderManagementViewModel>();
                     services.AddTransient<CreateOrderViewModel>();
                     services.AddTransient<LoginViewModel>();

@@ -1,10 +1,12 @@
-﻿using Database.Configurations;
-using Database.models;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Database.Configurations;
+using Database.Enums;
+using Database.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database
 {
@@ -118,6 +120,43 @@ namespace Database
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 }
             );
+            // Seed 7 Orders rải đều các ngày trong tháng 12/2025
+            var orders = new List<Order>();
+            var orderItems = new List<OrderItem>();
+            int userId = 1; // Giả định admin user có ID = 1 
+
+            for (int i = 1; i <= 7; i++)
+            {
+                // Tạo ngày cách nhau 3 ngày để biểu đồ có độ dốc
+                var date = new DateTime(2025, 12, i * 3, 10, 0, 0, DateTimeKind.Utc);
+                decimal price = 500000 * i; // Giá tăng dần
+
+                orders.Add(new Order
+                {
+                    Id = 100 + i,
+                    UserId = userId,
+                    FinalPrice = price,
+                    Status = OrderStatus.Delivered,
+                    PaymentMethod = PaymentMethod.COD,
+                    CreatedAt = date,
+                    UpdatedAt = date
+                });
+
+                // Mỗi đơn hàng kèm theo 1 sản phẩm tương ứng
+                orderItems.Add(new OrderItem
+                {
+                    Id = 100 + i,
+                    OrderId = 100 + i,
+                    ProductId = (i % 2 == 0) ? 1 : 2, // Luân phiên sản phẩm 1 và 2 
+                    Quantity = i,
+                    UnitSalePrice = price / i,
+                    UnitCost = (price / i) * 0.7m, // Giả định giá vốn bằng 70% giá bán
+                    TotalPrice = price
+                });
+            }
+
+            modelBuilder.Entity<Order>().HasData(orders);
+            modelBuilder.Entity<OrderItem>().HasData(orderItems);
         }
 
         //custom

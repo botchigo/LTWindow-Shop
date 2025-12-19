@@ -22,6 +22,7 @@
     <None Remove="Dialogs\ProductDetailsDialog.xaml" />
     <None Remove="Pages\ProductManagementPage.xaml" />
     <None Remove="Pages\ShellPage.xaml" />
+    <None Remove="Views\ReportPage.xaml" />
     <None Remove="Views\CreateOrderPage.xaml" />
     <None Remove="Views\OrderManagementPage.xaml" />
   </ItemGroup>
@@ -83,6 +84,7 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ReportPage.xaml">
     <Page Update="Dialogs\ProductDetailsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,5 +134,6 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>
