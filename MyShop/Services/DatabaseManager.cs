@@ -1,32 +1,23 @@
 using Database;
 using Database.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.Extensions.Options;
+using MyShop.Models;
 
 namespace MyShop.Services
 {
-    /// <summary>
-    /// Service ð? qu?n l? database context và repositories
-    /// </summary>
     public class DatabaseManager : IDisposable
     {
         private readonly AppDbContext _context;
         private IUserRepository? _userRepository;
 
-        public DatabaseManager()
+        // Constructor cho DI
+        public DatabaseManager(IOptions<DatabaseSettings> settings)
         {
-            // C?u h?nh connection string - thay ð?i theo thông tin server c?a b?n
-            var connectionString = BuildConnectionString(
-                host: "localhost",
-                port: 5432,
-                database: "WindowApp_MyShop",
-                username: "postgres",
-                password: "23120138"
-            );
-
+            var connectionString = settings.Value.GetConnectionString();
             _context = AppDbContextFactory.CreateDbContext(connectionString);
         }
 
+        // Constructor c? ð? backward compatibility (s? deprecated sau)
         public DatabaseManager(string host, int port, string database, string username, string password)
         {
             var connectionString = BuildConnectionString(host, port, database, username, password);
@@ -38,9 +29,6 @@ namespace MyShop.Services
             return $"Host={host};Port={port};Database={database};Username={username};Password={password}";
         }
 
-        /// <summary>
-        /// User Repository ð? thao tác v?i users
-        /// </summary>
         public IUserRepository UserRepository
         {
             get
@@ -50,9 +38,6 @@ namespace MyShop.Services
             }
         }        
 
-        /// <summary>
-        /// L?y DbContext (n?u c?n truy c?p tr?c ti?p)
-        /// </summary>
         public AppDbContext Context => _context;
 
         public void Dispose()

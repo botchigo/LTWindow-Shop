@@ -1,220 +1,187 @@
-using System;
+Ôªøusing System;
 using System.Linq;
 using System.Threading.Tasks;
 using Database;
 using Database.models;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using MyShop.Models;
 
 namespace MyShop.Services
 {
-    /// <summary>
-    /// Utility class ? test v‡ debug database connection
-    /// </summary>
-    public static class DatabaseDebugger
+    public class DatabaseDebugger
     {
-        /// <summary>
-        /// Test k?t n?i database v?i thÙng tin chi ti?t
-        /// </summary>
-        public static async Task<(bool success, string message)> TestDatabaseConnectionAsync()
+        private readonly DatabaseManager _dbManager;
+
+        public DatabaseDebugger(DatabaseManager dbManager)
+        {
+            _dbManager = dbManager ?? throw new ArgumentNullException(nameof(dbManager));
+        }
+
+        public async Task<(bool success, string message)> TestDatabaseConnectionAsync()
         {
             try
             {
-                var connectionString = "Host=localhost;Port=5432;Database=MyShop;Username=postgres;Password=12345";
+                var context = _dbManager.Context;
                 
-                // Test 1: T?o context
-                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                optionsBuilder.UseNpgsql(connectionString);
-                
-                using var context = new AppDbContext(optionsBuilder.Options);
-                
-                // Test 2: Ki?m tra k?t n?i
                 bool canConnect = await context.Database.CanConnectAsync();
                 if (!canConnect)
                 {
-                    return (false, "? KhÙng th? k?t n?i t?i PostgreSQL server.\nKi?m tra:\n- PostgreSQL ang ch?y?\n- Port 5432 cÛ m? khÙng?\n- Username/Password ˙ng ch˝a?");
+                    return (false, "Kh√¥ng th·ªÉ k·∫øt n·ªëi vui l√≤ng ki·ªÉm tra l·∫°i");
                 }
                 
-                // Test 3: Ki?m tra database t?n t?i
                 var databaseName = context.Database.GetDbConnection().Database;
-                
-                // Test 4: Ki?m tra b?ng app_user
                 bool tableExists = await context.AppUsers.AnyAsync();
                 
-                return (true, $"? K?t n?i th‡nh cÙng!\n?? Database: {databaseName}\n?? CÛ {await context.AppUsers.CountAsync()} users trong database");
+                return (true, $"K·∫øt n·ªëi th√†nh c√¥ng!\n‚úì Database: {databaseName}\n‚úì C√≥ {await context.AppUsers.CountAsync()} users trong database");
             }
             catch (Npgsql.NpgsqlException ex)
             {
                 if (ex.Message.Contains("does not exist"))
                 {
-                    return (false, $"? Database 'MyShop' ch˝a ˝?c t?o.\n\nCh?y SQL sau trong pgAdmin:\nCREATE DATABASE \"MyShop\";\n\nChi ti?t l?i: {ex.Message}");
+                    return (false, $"‚úó Database 'MyShop' ch∆∞a ƒë∆∞·ª£c t·∫°o.\n\nCh·∫°y SQL sau trong pgAdmin:\nCREATE DATABASE \"MyShop\";\n\nChi ti·∫øt l·ªói: {ex.Message}");
                 }
                 else if (ex.Message.Contains("password authentication failed"))
                 {
-                    return (false, $"? Sai m?t kh?u PostgreSQL.\n\nKi?m tra l?i password trong:\n- DatabaseManager.cs\n- AppDbContextFactory.cs\n\nChi ti?t: {ex.Message}");
+                    return (false, $"‚úó Sai m·∫≠t kh·∫©u PostgreSQL: {ex.Message}");
                 }
                 else if (ex.Message.Contains("connection refused"))
                 {
-                    return (false, $"? PostgreSQL server khÙng ch?y ho?c khÙng th? k?t n?i.\n\nKi?m tra:\n- M? Services ? t?m 'postgresql' ? Start\n- Ho?c ch?y: net start postgresql-x64-18\n\nChi ti?t: {ex.Message}");
+                    return (false, $"‚úó PostgreSQL server kh√¥ng ch·∫°y ho·∫∑c kh√¥ng th·ªÉ k·∫øt n·ªëi: {ex.Message}");
                 }
-                return (false, $"? L?i PostgreSQL: {ex.Message}");
+                return (false, $"‚úó L·ªói PostgreSQL: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return (false, $"? L?i khÙng x·c ?nh:\n{ex.Message}\n\nInner Exception: {ex.InnerException?.Message}");
+                return (false, $"‚úó L·ªói kh√¥ng x√°c ƒë·ªãnh:\n{ex.Message}\n\nInner Exception: {ex.InnerException?.Message}");
             }
         }
 
-        /// <summary>
-        /// T?o database v‡ b?ng n?u ch˝a cÛ
-        /// </summary>
-        public static async Task<(bool success, string message)> EnsureDatabaseCreatedAsync()
+        public async Task<(bool success, string message)> EnsureDatabaseCreatedAsync()
         {
             try
             {
-                var connectionString = "Host=localhost;Port=5432;Database=MyShop;Username=postgres;Password=12345";
+                var context = _dbManager.Context;
                 
-                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                optionsBuilder.UseNpgsql(connectionString);
-                
-                using var context = new AppDbContext(optionsBuilder.Options);
-                
-                // T?o database v‡ b?ng n?u ch˝a cÛ
                 bool created = await context.Database.EnsureCreatedAsync();
                 
                 if (created)
                 {
-                    return (true, "? –? t?o database v‡ b?ng th‡nh cÙng!");
+                    return (true, "‚úì ƒê√£ t·∫°o database v√† b·∫£ng th√†nh c√¥ng!");
                 }
                 else
                 {
-                    return (true, "?? Database v‡ b?ng ? t?n t?i.");
+                    return (true, "‚úì Database v√† b·∫£ng ƒë√£ t·ªìn t·∫°i.");
                 }
             }
             catch (Exception ex)
             {
-                return (false, $"? KhÙng th? t?o database:\n{ex.Message}");
+                return (false, $"‚úó Kh√¥ng th·ªÉ t·∫°o database:\n{ex.Message}");
             }
         }
 
-        /// <summary>
-        /// ThÍm d? li?u test
-        /// </summary>
-        public static async Task<(bool success, string message)> SeedTestDataAsync()
+        public async Task<(bool success, string message)> SeedTestDataAsync()
         {
             try
             {
-                using var dbManager = new DatabaseManager();
-                var repo = dbManager.UserRepository;
+                var repo = _dbManager.UserRepository;
                 
-                // ThÍm admin n?u ch˝a cÛ
                 if (!await repo.IsUsernameExistsAsync("admin"))
                 {
                     await repo.RegisterUserAsync("admin", "123456", "Administrator");
                 }
                 
-                // ThÍm test user n?u ch˝a cÛ
                 if (!await repo.IsUsernameExistsAsync("test"))
                 {
                     await repo.RegisterUserAsync("test", "test123", "Test User");
                 }
                 
-                return (true, "? –? thÍm d? li?u test:\n- Username: admin / Password: 123456\n- Username: test / Password: test123");
+                return (true, "‚úì ƒê√£ th√™m d·ªØ li·ªáu test:\n- Username: admin / Password: 123456\n- Username: test / Password: test123");
             }
             catch (Exception ex)
             {
-                return (false, $"? KhÙng th? thÍm d? li?u test: {ex.Message}");
+                return (false, $"‚úó Kh√¥ng th·ªÉ th√™m d·ªØ li·ªáu test: {ex.Message}");
             }
         }
 
-        /// <summary>
-        /// Hi?n th? t?t c? users trong database
-        /// </summary>
-        public static async Task<(bool success, string message)> ListAllUsersAsync()
+        public async Task<(bool success, string message)> ListAllUsersAsync()
         {
             try
             {
-                using var dbManager = new DatabaseManager();
-                var context = dbManager.Context;
+                var context = _dbManager.Context;
                 
                 var users = await context.AppUsers.ToListAsync();
                 
                 if (users.Count == 0)
                 {
-                    return (true, "?? Ch˝a cÛ user n‡o trong database.");
+                    return (true, "‚úì Ch∆∞a c√≥ user n√†o trong database.");
                 }
                 
-                var result = $"?? Danh s·ch {users.Count} users:\n\n";
+                var result = $"‚úì Danh s√°ch {users.Count} users:\n\n";
                 foreach (var user in users)
                 {
-                    result += $"ï ID: {user.UserId} | Username: {user.Username} | Name: {user.FullName}\n";
+                    result += $"‚Ä¢ ID: {user.UserId} | Username: {user.Username} | Name: {user.FullName}\n";
                 }
                 
                 return (true, result);
             }
             catch (Exception ex)
             {
-                return (false, $"? L?i khi l?y danh s·ch users: {ex.Message}");
+                return (false, $"‚úó L·ªói khi l·∫•y danh s√°ch users: {ex.Message}");
             }
         }
 
-        /// <summary>
-        /// Debug chi ti?t: Ki?m tra username v‡ password trong database
-        /// </summary>
-        public static async Task<(bool success, string message)> DebugLoginAsync(string username, string password)
+        public async Task<(bool success, string message)> DebugLoginAsync(string username, string password)
         {
             try
             {
-                using var dbManager = new DatabaseManager();
-                var context = dbManager.Context;
+                var context = _dbManager.Context;
                 
-                // Ki?m tra t?ng s? users
                 var totalUsers = await context.AppUsers.CountAsync();
                 
-                // T?m user theo username
                 var userByUsername = await context.AppUsers
                     .FirstOrDefaultAsync(u => u.Username == username);
                 
                 if (userByUsername == null)
                 {
-                    return (false, $"? Username '{username}' KH‘NG T?N T?I trong database!\n\n" +
-                                   $"?? T?ng s? users: {totalUsers}\n\n" +
-                                   $"?? C·c username cÛ s?n:\n" +
+                    return (false, $"‚úó Username '{username}' KH√îNG T·ªíN T·∫†I trong database!\n\n" +
+                                   $"‚úì T·ªïng s·ªë users: {totalUsers}\n\n" +
+                                   $"‚úì C√°c username c√≥ s·∫µn:\n" +
                                    $"{await GetAllUsernamesAsync(context)}");
                 }
                 
-                // Ki?m tra password
                 var storedPassword = userByUsername.Password;
                 var passwordMatch = storedPassword == password;
                 
-                var result = $"?? DEBUG LOGIN:\n\n" +
-                            $"Username nh?p: '{username}'\n" +
-                            $"Password nh?p: '{password}'\n\n" +
+                var result = $"‚úì DEBUG LOGIN:\n\n" +
+                            $"Username nh·∫≠p: '{username}'\n" +
+                            $"Password nh·∫≠p: '{password}'\n\n" +
                             $"Username trong DB: '{userByUsername.Username}'\n" +
                             $"Password trong DB: '{storedPassword}'\n\n" +
-                            $"? Username kh?p: YES\n" +
-                            $"{(passwordMatch ? "?" : "?")} Password kh?p: {(passwordMatch ? "YES" : "NO")}\n\n";
+                            $"‚úì Username kh·ªõp: YES\n" +
+                            $"{(passwordMatch ? "‚úì" : "‚úó")} Password kh·ªõp: {(passwordMatch ? "YES" : "NO")}\n\n";
                 
                 if (!passwordMatch)
                 {
-                    result += $"? M?T KH?U KH‘NG KH?P!\n" +
-                             $"B?n nh?p: '{password}' (length: {password.Length})\n" +
+                    result += $"‚úó M·∫¨T KH·∫®U KH√îNG KH·ªöP!\n" +
+                             $"B·∫°n nh·∫≠p: '{password}' (length: {password.Length})\n" +
                              $"Trong DB: '{storedPassword}' (length: {storedPassword.Length})\n\n" +
-                             $"CÛ th? do:\n" +
-                             $"ï Sai m?t kh?u\n" +
-                             $"ï CÛ kho?ng tr?ng th?a\n" +
-                             $"ï Caps Lock b?t";
+                             $"C√≥ th·ªÉ do:\n" +
+                             $"‚Ä¢ Sai m·∫≠t kh·∫©u\n" +
+                             $"‚Ä¢ C√≥ kho·∫£ng tr·∫Øng\n" +
+                             $"‚Ä¢ Caps Lock b·∫≠t";
                 }
                 else
                 {
-                    result += "? C? username v‡ password ?u –⁄NG!";
+                    result += "‚úì C·∫£ username v√† password ƒë·ªÅu ƒê√öNG!";
                 }
                 
                 return (passwordMatch, result);
             }
             catch (Exception ex)
             {
-                return (false, $"? L?i debug: {ex.Message}");
+                return (false, $"‚úó L·ªói debug: {ex.Message}");
             }
         }
         
@@ -225,12 +192,12 @@ namespace MyShop.Services
                 .ToListAsync();
             
             if (users.Count == 0)
-                return "  (khÙng cÛ user n‡o)";
+                return "  (kh√¥ng c√≥ user n√†o)";
             
             var result = "";
             foreach (var user in users)
             {
-                result += $"  ï '{user.Username}' / '{user.Password}' ({user.FullName})\n";
+                result += $"  ‚Ä¢ '{user.Username}' / '{user.Password}' ({user.FullName})\n";
             }
             return result;
         }
