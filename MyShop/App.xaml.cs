@@ -43,7 +43,7 @@ namespace MyShop
                     services.AddTransient<MainWindow>();
 
                     services.AddTransient<ICategoryRepository, CategoryRepository>();
-                    services.AddTransient<DatabaseManager>();
+                    services.AddSingleton<DatabaseManager>();
                     services.AddTransient<IProductRepository, ProductRepository>();
                     services.AddTransient<IDialogService, DialogService>();
                     services.AddTransient<IImportService, ImportService>();

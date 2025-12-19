@@ -46,9 +46,8 @@ namespace MyShop.Views
             DispatcherQueue.TryEnqueue(() =>
             {
                 SetLoading(false);
-                
-                var mainWindow = (Application.Current as App)?.m_window as MainWindow;
-                if (mainWindow != null)
+
+                if (App.MainWindow is MainWindow mainWindow)
                 {
                     mainWindow.NavigateToDashboard(e.FullName);
                 }

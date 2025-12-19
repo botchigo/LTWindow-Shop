@@ -8,6 +8,10 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using MyShop.ViewModels;
 using MyShop.Extensions;
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyShop.Views
 {
@@ -83,15 +87,18 @@ namespace MyShop.Views
                 if (await dialog.ShowAsync() == ContentDialogResult.Primary)
                 {
                     // Navigate back to login using MainWindow method
-                    var mainWindow = (Application.Current as App)?.m_window as MainWindow;
-                    if (mainWindow != null)
-                    {
-                        mainWindow.NavigateToLogin();
-                    }
-                    else if (Frame.CanGoBack)
-                    {
-                        Frame.GoBack();
-                    }
+                    //var mainWindow = (Application.Current as App)?. as MainWindow;
+                    //var mainWindow = App.MainWindow;
+                    //if (mainWindow != null)
+                    //{
+                    //    mainWindow.NavigateToLogin();
+                    //}
+                    //else if (Frame.CanGoBack)
+                    //{
+                    //    Frame.GoBack();
+                    //}
+                    Frame.Navigate(typeof(LoginPage));
+                    Frame.BackStack.Clear();
                 }
             });
         }

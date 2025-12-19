@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.UI.Xaml;
+using MyShop.Pages;
 using MyShop.Views;
 
 namespace MyShop
@@ -18,6 +19,7 @@ namespace MyShop
 
             // Navigate to LoginPage on startup
             RootFrame.Navigate(typeof(LoginPage));
+            //RootFrame.Navigate(typeof(ShellPage));
         }
 
         public void NavigateToDashboard(string userName)
@@ -45,6 +47,7 @@ namespace MyShop
 
             // Navigate back to Login
             RootFrame.Navigate(typeof(LoginPage));
+            
 
             // Update window title
             this.Title = "MyShop - Login";

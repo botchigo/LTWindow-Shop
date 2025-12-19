@@ -20,10 +20,18 @@ namespace Database.Repositories
         {
             try
             {
+                await EnsureDatabaseCreatedAsync();
                 return await _context.Database.CanConnectAsync();
             }
-            catch
+            catch(Exception ex) 
             {
+                System.Diagnostics.Debug.WriteLine($"[DB Connection Error]: {ex.Message}");
+
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[DB Inner Error]: {ex.InnerException.Message}");
+                }
+
                 return false;
             }
         }
@@ -180,7 +188,9 @@ namespace Database.Repositories
         {
             try
             {
-                return await _context.Database.CanConnectAsync();
+                await _context.Database.EnsureCreatedAsync();
+                return true;
+                //return await _context.Database.CanConnectAsync();
             }
             catch
             {
