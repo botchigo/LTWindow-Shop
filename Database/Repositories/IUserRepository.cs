@@ -13,6 +13,5 @@ namespace Database.Repositories
         Task<AppUser?> GetUserByIdAsync(int id);
         Task<bool> UpdateUserAsync(AppUser user);
         Task<bool> DeleteUserAsync(int id);
-        Task<bool> EnsureDatabaseCreatedAsync();
     }
 }

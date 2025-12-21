@@ -175,17 +175,5 @@ namespace Database.Repositories
                 return false;
             }
         }
-
-        public async Task<bool> EnsureDatabaseCreatedAsync()
-        {
-            try
-            {
-                return await _context.Database.CanConnectAsync();
-            }
-            catch
-            {
-                return false;
-            }
-        }
     }
 }
