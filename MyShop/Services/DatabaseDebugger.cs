@@ -40,7 +40,7 @@ namespace MyShop.Services
             {
                 if (ex.Message.Contains("does not exist"))
                 {
-                    return (false, $"✗ Database 'MyShop' chưa được tạo.\n\nChạy SQL sau trong pgAdmin:\nCREATE DATABASE \"MyShop\";\n\nChi tiết lỗi: {ex.Message}");
+                    return (false, $"✗ Database 'MyShop' chưa được tạo.\n\nChạy command:\ndotnet ef database update --project Database\n\nChi tiết lỗi: {ex.Message}");
                 }
                 else if (ex.Message.Contains("password authentication failed"))
                 {
@@ -55,29 +55,6 @@ namespace MyShop.Services
             catch (Exception ex)
             {
                 return (false, $"✗ Lỗi không xác định:\n{ex.Message}\n\nInner Exception: {ex.InnerException?.Message}");
-            }
-        }
-
-        public async Task<(bool success, string message)> EnsureDatabaseCreatedAsync()
-        {
-            try
-            {
-                var context = _dbManager.Context;
-                
-                bool created = await context.Database.EnsureCreatedAsync();
-                
-                if (created)
-                {
-                    return (true, "✓ Đã tạo database và bảng thành công!");
-                }
-                else
-                {
-                    return (true, "✓ Database và bảng đã tồn tại.");
-                }
-            }
-            catch (Exception ex)
-            {
-                return (false, $"✗ Không thể tạo database:\n{ex.Message}");
             }
         }
 
