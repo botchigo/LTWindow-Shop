@@ -1,6 +1,4 @@
-﻿using Database.Repositories;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 using MyShop.Domain.Interfaces;
 
 namespace MyShop.Infrastructure.Data.Repositories
@@ -33,7 +31,7 @@ namespace MyShop.Infrastructure.Data.Repositories
             Orders = orderRepository;
             Users = userRepository;
             Products = productRepository;
-        }      
+        }
 
         public async Task BeginTransactionAsync()
         {

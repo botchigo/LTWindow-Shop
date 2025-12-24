@@ -8,18 +8,18 @@ namespace MyShop.API.GraphQL.Mutations
     [ExtendObjectType("Mutation")]
     public class UserMutations
     {
-        public async Task<TPayload<AppUser>> LoginAsync(
+        public async Task<TPayload<LoginResponse>> LoginAsync(
             [Service] IUserService userService,
             LoginDTO request)
         {
             try
             {
-                var user = await userService.LoginAsync(request);
-                return new TPayload<AppUser>(user);
+                var response = await userService.LoginAsync(request);
+                return new TPayload<LoginResponse>(response);
             }
             catch(Exception ex)
             {
-                return new TPayload<AppUser>(ex.Message);
+                return new TPayload<LoginResponse>(ex.Message);
             }
         }
 

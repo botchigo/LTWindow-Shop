@@ -8,6 +8,7 @@ using MyShop.Domain.Interfaces;
 using MyShop.Infrastructure.Data;
 using MyShop.Infrastructure.Data.Repositories;
 using MyShop.Infrastructure.Services;
+using MyShop.Shared.Contants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,10 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+//options
+builder.Services.Configure<JwtOption>(builder.Configuration.GetSection("Jwt"));
 
 var app = builder.Build();
 

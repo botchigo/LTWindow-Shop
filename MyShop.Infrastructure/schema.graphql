@@ -1,0 +1,530 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  products(skip: Int take: Int where: ProductFilterInput order: [ProductSortInput!]): ProductsCollectionSegment
+  productById(id: Int!): Product
+  productSalesReport(request: ReportBaseParamsInput!): [ReportDataPoint!]!
+  productComparisonReport(request: ReportBaseParamsInput!): [ProductSeries!]!
+  revenueProfitReport(request: ReportBaseParamsInput!): [ReportDataPoint!]!
+  singleProductSeries(request: GetSingleProductSeriesDTOInput!): ProductSeries!
+  totalProducts: Int!
+  top5LowStock: [LowStockProduct!]!
+  top5BestSellers: [BestSellerProduct!]!
+  totalOrdersToday: Int!
+  totalRevenueToday: Decimal!
+  latest3Orders: [RecentOrder!]!
+  revenueByDayCurrentMonth: [DailyRevenue!]!
+  dashboardData: DashboardData!
+  orders(skip: Int take: Int where: OrderFilterInput order: [OrderSortInput!]): OrdersCollectionSegment
+  orderById(orderId: Int!): Order
+  categories(skip: Int take: Int where: CategoryFilterInput order: [CategorySortInput!]): CategoriesCollectionSegment
+}
+
+type Mutation {
+  addProduct(input: AddProductDTOInput!): TPayloadOfProduct!
+  updateProduct(input: UpdateProductDTOInput!): TPayloadOfProduct!
+  deleteProduct(id: Int!): TPayloadOfProduct!
+  createOrder(request: AddOrderDTOInput!): TPayloadOfOrder!
+  deleteOrder(orderId: Int!): TPayloadOfOrder!
+  updateOrderStatus(request: UpdateOrderStatusDTOInput!): TPayloadOfOrder!
+  addCategory(request: AddCategoryDTOInput!): TPayloadOfCategory!
+  deleteCategory(categoryId: Int!): TPayloadOfCategory!
+  login(request: LoginDTOInput!): TPayloadOfAppUser!
+  register(request: RegisterDTOInput!): TPayloadOfAppUser!
+}
+
+input ProductFilterInput {
+  and: [ProductFilterInput!]
+  or: [ProductFilterInput!]
+  id: IntOperationFilterInput
+  sku: StringOperationFilterInput
+  name: StringOperationFilterInput
+  importPrice: DecimalOperationFilterInput
+  salePrice: DecimalOperationFilterInput
+  saleAmount: IntOperationFilterInput
+  stock: IntOperationFilterInput
+  description: StringOperationFilterInput
+  categoryId: IntOperationFilterInput
+  category: CategoryFilterInput
+  productImages: ListFilterInputTypeOfProductImageFilterInput
+  createdAt: DateTimeOperationFilterInput
+  updatedAt: DateTimeOperationFilterInput
+}
+
+input ProductSortInput {
+  id: SortEnumType
+  sku: SortEnumType
+  name: SortEnumType
+  importPrice: SortEnumType
+  salePrice: SortEnumType
+  saleAmount: SortEnumType
+  stock: SortEnumType
+  description: SortEnumType
+  categoryId: SortEnumType
+  category: CategorySortInput
+  createdAt: SortEnumType
+  updatedAt: SortEnumType
+}
+
+"A segment of a collection."
+type ProductsCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [Product!]
+  totalCount: Int!
+}
+
+input OrderFilterInput {
+  and: [OrderFilterInput!]
+  or: [OrderFilterInput!]
+  id: IntOperationFilterInput
+  finalPrice: DecimalOperationFilterInput
+  status: OrderStatusOperationFilterInput
+  paymentMethod: PaymentMethodOperationFilterInput
+  userId: IntOperationFilterInput
+  user: AppUserFilterInput
+  orderItems: ListFilterInputTypeOfOrderItemFilterInput
+  createdAt: DateTimeOperationFilterInput
+  updatedAt: DateTimeOperationFilterInput
+}
+
+input OrderSortInput {
+  id: SortEnumType
+  finalPrice: SortEnumType
+  status: SortEnumType
+  paymentMethod: SortEnumType
+  userId: SortEnumType
+  user: AppUserSortInput
+  createdAt: SortEnumType
+  updatedAt: SortEnumType
+}
+
+"A segment of a collection."
+type OrdersCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [Order!]
+  totalCount: Int!
+}
+
+input CategoryFilterInput {
+  and: [CategoryFilterInput!]
+  or: [CategoryFilterInput!]
+  id: IntOperationFilterInput
+  name: StringOperationFilterInput
+  description: StringOperationFilterInput
+  products: ListFilterInputTypeOfProductFilterInput
+  createdAt: DateTimeOperationFilterInput
+  updatedAt: DateTimeOperationFilterInput
+}
+
+input CategorySortInput {
+  id: SortEnumType
+  name: SortEnumType
+  description: SortEnumType
+  createdAt: SortEnumType
+  updatedAt: SortEnumType
+}
+
+"A segment of a collection."
+type CategoriesCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [Category!]
+  totalCount: Int!
+}
+
+input IntOperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+input DecimalOperationFilterInput {
+  eq: Decimal
+  neq: Decimal
+  in: [Decimal]
+  nin: [Decimal]
+  gt: Decimal
+  ngt: Decimal
+  gte: Decimal
+  ngte: Decimal
+  lt: Decimal
+  nlt: Decimal
+  lte: Decimal
+  nlte: Decimal
+}
+
+input ListFilterInputTypeOfProductImageFilterInput {
+  all: ProductImageFilterInput
+  none: ProductImageFilterInput
+  some: ProductImageFilterInput
+  any: Boolean
+}
+
+input DateTimeOperationFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+"Information about the offset pagination."
+type CollectionSegmentInfo {
+  "Indicates whether more items exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more items exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+}
+
+input OrderStatusOperationFilterInput {
+  eq: OrderStatus
+  neq: OrderStatus
+  in: [OrderStatus!]
+  nin: [OrderStatus!]
+}
+
+input PaymentMethodOperationFilterInput {
+  eq: PaymentMethod
+  neq: PaymentMethod
+  in: [PaymentMethod!]
+  nin: [PaymentMethod!]
+}
+
+input AppUserFilterInput {
+  and: [AppUserFilterInput!]
+  or: [AppUserFilterInput!]
+  userId: IntOperationFilterInput
+  username: StringOperationFilterInput
+  password: StringOperationFilterInput
+  fullName: StringOperationFilterInput
+  createdAt: DateTimeOperationFilterInput
+}
+
+input ListFilterInputTypeOfOrderItemFilterInput {
+  all: OrderItemFilterInput
+  none: OrderItemFilterInput
+  some: OrderItemFilterInput
+  any: Boolean
+}
+
+input AppUserSortInput {
+  userId: SortEnumType
+  username: SortEnumType
+  password: SortEnumType
+  fullName: SortEnumType
+  createdAt: SortEnumType
+}
+
+input ListFilterInputTypeOfProductFilterInput {
+  all: ProductFilterInput
+  none: ProductFilterInput
+  some: ProductFilterInput
+  any: Boolean
+}
+
+"The `Decimal` scalar type represents a decimal floating-point number."
+scalar Decimal
+
+input ProductImageFilterInput {
+  and: [ProductImageFilterInput!]
+  or: [ProductImageFilterInput!]
+  id: IntOperationFilterInput
+  path: StringOperationFilterInput
+  productId: IntOperationFilterInput
+  product: ProductFilterInput
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+input OrderItemFilterInput {
+  and: [OrderItemFilterInput!]
+  or: [OrderItemFilterInput!]
+  id: IntOperationFilterInput
+  quantity: IntOperationFilterInput
+  unitSalePrice: DecimalOperationFilterInput
+  unitCost: DecimalOperationFilterInput
+  totalPrice: DecimalOperationFilterInput
+  orderId: IntOperationFilterInput
+  order: OrderFilterInput
+  productId: IntOperationFilterInput
+  product: ProductFilterInput
+}
+
+type BestSellerProduct {
+  productId: Int!
+  productName: String!
+  totalQuantity: Long!
+}
+
+type LowStockProduct {
+  productId: Int!
+  name: String!
+  stock: Int!
+}
+
+input GetSingleProductSeriesDTOInput {
+  productName: String!
+  start: DateTime!
+  end: DateTime!
+  interval: ReportTimeInterval!
+  colorIndex: Int!
+}
+
+type ProductSeries {
+  productName: String!
+  points: [ReportDataPoint!]!
+  colorHex: String!
+}
+
+input ReportBaseParamsInput {
+  start: DateTime!
+  end: DateTime!
+  interval: ReportTimeInterval!
+}
+
+type ReportDataPoint {
+  label: String!
+  value: Float!
+  profit: Float!
+  date: DateTime!
+}
+
+type Product {
+  id: Int!
+  sku: String!
+  name: String!
+  importPrice: Decimal!
+  salePrice: Decimal!
+  saleAmount: Int!
+  stock: Int!
+  description: String!
+  categoryId: Int!
+  category: Category!
+  productImages: [ProductImage!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type RecentOrder {
+  orderId: Int!
+  createdTime: DateTime!
+  finalPrice: Decimal!
+  status: OrderStatus!
+  paymentMethod: PaymentMethod!
+}
+
+type DailyRevenue {
+  day: DateTime!
+  totalRevenue: Decimal!
+}
+
+type DashboardData {
+  totalProducts: Int!
+  todayOrders: Int!
+  todayRevenue: Decimal!
+  lowStockProducts: [LowStockProduct!]!
+  bestSellerProducts: [BestSellerProduct!]!
+  recentOrders: [RecentOrder!]!
+  monthlyRevenue: [DailyRevenue!]!
+}
+
+type Order {
+  id: Int!
+  finalPrice: Decimal!
+  status: OrderStatus!
+  paymentMethod: PaymentMethod!
+  userId: Int!
+  user: AppUser!
+  orderItems: [OrderItem!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TPayloadOfProduct {
+  data: Product
+  errors: [UserError!]
+}
+
+input AddProductDTOInput {
+  name: String!
+  importPrice: Decimal!
+  salePrice: Decimal!
+  stock: Int!
+  description: String!
+  categoryId: Int!
+  imagePaths: [String!]!
+}
+
+input UpdateProductDTOInput {
+  id: Int!
+  name: String!
+  importPrice: Decimal!
+  salePrice: Decimal!
+  stock: Int!
+  description: String!
+  categoryId: Int!
+  newImagePaths: [String!]!
+  imageIdToDelete: [Int!]!
+}
+
+type TPayloadOfOrder {
+  data: Order
+  errors: [UserError!]
+}
+
+input AddOrderDTOInput {
+  status: OrderStatus!
+  paymentMethod: PaymentMethod!
+  userId: Int!
+  orderItems: [OrderItemInfoDTOInput!]!
+}
+
+input UpdateOrderStatusDTOInput {
+  id: Int!
+  newStatus: OrderStatus!
+}
+
+type TPayloadOfCategory {
+  data: Category
+  errors: [UserError!]
+}
+
+input AddCategoryDTOInput {
+  name: String!
+  description: String!
+}
+
+type TPayloadOfAppUser {
+  data: AppUser
+  errors: [UserError!]
+}
+
+input LoginDTOInput {
+  username: String!
+  password: String!
+}
+
+input RegisterDTOInput {
+  username: String!
+  password: String!
+  fullName: String!
+}
+
+type Category {
+  id: Int!
+  name: String!
+  description: String!
+  products: [Product!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum OrderStatus {
+  CREATED
+  PAID
+  CANCELED
+}
+
+enum PaymentMethod {
+  MOMO
+  VNPAY
+  COD
+}
+
+input OrderItemInfoDTOInput {
+  quantity: Int!
+  productId: Int!
+}
+
+type UserError {
+  message: String!
+  code: String!
+}
+
+type OrderItem {
+  id: Int!
+  quantity: Int!
+  unitSalePrice: Decimal!
+  unitCost: Decimal!
+  totalPrice: Decimal!
+  orderId: Int!
+  order: Order!
+  productId: Int!
+  product: Product!
+}
+
+type AppUser {
+  userId: Int!
+  username: String!
+  password: String!
+  fullName: String
+  createdAt: DateTime!
+}
+
+type ProductImage {
+  id: Int!
+  path: String!
+  productId: Int!
+  product: Product!
+}
+
+enum ReportTimeInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION
+
+"The purpose of the `@listSize` directive is to either inform the static analysis about the size of returned lists (if that information is statically available), or to point the analysis to where to find that information."
+directive @listSize("The `assumedSize` argument can be used to statically define the maximum length of a list returned by a field." assumedSize: Int "The `slicingArguments` argument can be used to define which of the field's arguments with numeric type are slicing arguments, so that their value determines the size of the list returned by that field. It may specify a list of multiple slicing arguments." slicingArguments: [String!] "The `sizedFields` argument can be used to define that the value of the `assumedSize` argument or of a slicing argument does not affect the size of a list returned by a field itself, but that of a list returned by one of its sub-fields." sizedFields: [String!] "The `requireOneSlicingArgument` argument can be used to inform the static analysis that it should expect that exactly one of the defined slicing arguments is present in a query. If that is not the case (i.e., if none or multiple slicing arguments are present), the static analysis may throw an error." requireOneSlicingArgument: Boolean! = true) on FIELD_DEFINITION
