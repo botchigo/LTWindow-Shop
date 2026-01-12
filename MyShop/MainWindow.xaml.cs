@@ -26,10 +26,10 @@ namespace MyShop
             _viewModel.LoginSuccess += OnLoginSuccess;
             _viewModel.ErrorOccurred += OnErrorOccurred;
 
-            //var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            //var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
-            //var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            //appWindow.Resize(new Windows.Graphics.SizeInt32(1100, 650));
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+            var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+            appWindow.Resize(new Windows.Graphics.SizeInt32(1100, 650));
         }
 
         private bool InitDatabase()
