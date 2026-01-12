@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MyShop.Modules.Report.Views.ReportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyShop.Modules.Report.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
+
+    <Grid Padding="24" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Phân tích Doanh số" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,4"/>
+                <TextBlock Text="Theo dõi hiệu suất bán hàng theo sản phẩm và thời gian" Style="{StaticResource CaptionTextBlockStyle}" Foreground="Gray"/>
+            </StackPanel>
+
+            <StackPanel Spacing="5" HorizontalAlignment="Right" Margin="300,0,0,0">
+                <TextBlock Text="Loại báo cáo" FontSize="12" FontWeight="SemiBold"/>
+                <ComboBox x:Name="ReportTypeCombo" Width="200" PlaceholderText="Chọn loại..." SelectionChanged="OnFilterChanged"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" CornerRadius="8" Padding="16">
+            <StackPanel Orientation="Horizontal" Spacing="24">
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Chế độ xem" FontSize="12" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="IntervalCombo" Width="120" SelectionChanged="OnFilterChanged"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Khoảng thời gian" FontSize="12" FontWeight="SemiBold"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <CalendarDatePicker x:Name="FromDatePicker" PlaceholderText="Từ ngày" Width="140" DateChanged="OnFilterChanged"/>
+                        <TextBlock Text="-" VerticalAlignment="Center"/>
+                        <CalendarDatePicker x:Name="ToDatePicker" PlaceholderText="Đến ngày" Width="140" DateChanged="OnFilterChanged"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Thêm sản phẩm (So sánh)" FontSize="12" FontWeight="SemiBold"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ComboBox x:Name="ProductSelector" 
+                                  ItemsSource="{x:Bind ViewModel.FilteredProductNames, Mode=OneWay}"
+                                  Width="220" 
+                                  PlaceholderText="Chọn sản phẩm để thêm..."
+                                  SelectionChanged="OnProductSelected"/>
+
+                        <Button Content="Xóa hết" 
+                                Command="{x:Bind ViewModel.ClearAllProductsCommand}" 
+                                ToolTipService.ToolTip="Xóa tất cả sản phẩm khỏi biểu đồ"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Border Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" CornerRadius="12" Padding="20" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1">
+                <Grid>
+                    <Canvas x:Name="ChartCanvas" SizeChanged="ChartCanvas_SizeChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                    <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" 
+                                  Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                  Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

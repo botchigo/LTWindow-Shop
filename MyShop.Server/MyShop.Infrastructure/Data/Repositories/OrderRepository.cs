@@ -56,7 +56,12 @@ namespace Database.Repositories
         public async Task<List<DailyRevenue>> GetRevenueByDayCurrentMonthAsync()
         {
             var now = DateTime.UtcNow;
-            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var startOfMonth = new DateTime(
+                now.Year,
+                now.Month,
+                1,
+                0, 0, 0,
+                DateTimeKind.Utc);
             var endOfMonth = startOfMonth.AddMonths(1);
 
             return await _dbSet

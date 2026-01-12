@@ -7,6 +7,7 @@ namespace MyShop.Domain.Interfaces
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        IQueryable<Product> GetProductQueryable(string? keyword, int? categoryId);
         Task<Product?> GetWithImagesAsync(int id);   
         Task<Product?> GetProductDetailsAsync(int productId);
         Task<bool> IsDuplicatedSku(string sku);

@@ -1,4 +1,5 @@
 using Database.Repositories;
+using HotChocolate.Data.Filters;
 using Microsoft.EntityFrameworkCore;
 using MyShop.API.GraphQL.Mutations;
 using MyShop.API.GraphQL.Queries;
@@ -41,7 +42,14 @@ builder.Services
     .AddProjections()
     .AddFiltering()
     .AddSorting()
-    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
+    .ModifyRequestOptions(opt =>
+    {
+        opt.IncludeExceptionDetails = true;
+    })
+    .ModifyCostOptions(opt =>
+    {
+        opt.MaxFieldCost = 5000;
+    });
 
 //Service
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

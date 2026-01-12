@@ -1,0 +1,24 @@
+﻿query GetOrders(
+  $skip: Int
+  $take: Int
+  $fromDate : DateTime
+  $toDate : DateTime
+  $order : [OrderSortInput!]){
+  orders(
+    skip: $skip
+    take: $take
+    order: $order
+    where:  {
+       createdAt: {gte: $fromDate, lte: $toDate}
+    }
+  ){
+    items{
+      id
+      finalPrice
+      status
+      paymentMethod
+      createdAt
+    }
+    totalCount
+  }
+}

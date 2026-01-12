@@ -1,0 +1,21 @@
+﻿query GetProductForOrder(
+  $skip: Int
+  $take: Int
+  $keyword: String) {
+  products(
+    skip: $skip
+    take: $take
+    keyword: $keyword) {
+      items {
+        id
+        name
+        salePrice
+        importPrice
+        stock
+      productImages {
+        path
+      }
+    }
+    totalCount
+  }
+}

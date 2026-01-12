@@ -5,7 +5,7 @@ namespace MyShop.Shared.DTOs.Orders
     public record OrderItemInfoDTO
     {
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "Giá không được âm")]
+        [Range(0, double.MaxValue, ErrorMessage = "Số lượng không được âm")]
         public int Quantity { get; set; }
 
         [Required]

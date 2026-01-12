@@ -20,6 +20,19 @@ namespace MyShop.Infrastructure.Data.Repositories
             _mapper = mapper;
         }
 
+        public IQueryable<Product> GetProductQueryable(string? keyword, int? categoryId)
+        {
+            var query = _dbSet.AsQueryable();
+
+            if(categoryId.HasValue && categoryId != 0)
+                query = query.Where(p => p.CategoryId == categoryId);
+
+            if(!string.IsNullOrEmpty(keyword))
+                query = query.Where(p => p.Name.Contains(keyword));
+
+            return query;
+        }
+
         public async Task<List<Product>> GetByIdsAsync(List<int> ids)
         {
             return await _dbSet.Where(p => ids.Contains(p.Id)).ToListAsync();

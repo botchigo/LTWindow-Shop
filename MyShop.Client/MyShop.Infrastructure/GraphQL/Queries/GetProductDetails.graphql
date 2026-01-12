@@ -1,0 +1,20 @@
+﻿query GetProductDetails($productId : Int!){
+  productById(id: $productId){
+    id,
+    name,
+    sku,
+    importPrice,
+    salePrice,
+    saleAmount,
+    stock,
+    description,
+    category{
+      id,
+      name
+    },
+    productImages{
+      id,
+      path
+    }
+  }
+}

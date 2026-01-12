@@ -2,6 +2,7 @@
 using MyShop.Domain.Entities;
 using MyShop.Shared.DTOs.Dashboards;
 using MyShop.Shared.DTOs.Products;
+using MyShop.Shared.Helpers;
 
 namespace MyShop.Application.Mappers
 {
@@ -16,7 +17,11 @@ namespace MyShop.Application.Mappers
                         src.ImagePaths.Select(path => new ProductImage
                         {
                             Path = path,
-                        })));
+                        })))
+                .ForMember(dest =>
+                    dest.Sku, opt =>
+                    opt.MapFrom(src =>
+                        StringHelper.GenerateSku(src.Name, null)));
 
             CreateMap<UpdateProductDTO, Product>();
 
@@ -25,6 +30,8 @@ namespace MyShop.Application.Mappers
 
             CreateMap<Product, BestSellerProduct>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id));
+
+            CreateMap<ImportProductDTO, Product>();
         }
     }
 }

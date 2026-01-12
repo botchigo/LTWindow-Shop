@@ -13,9 +13,12 @@ namespace MyShop.API.GraphQL.Queries
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Product> GetProducts([Service] IUnitOfWork unitOfWork)
+        public IQueryable<Product> GetProducts(
+            [Service] IUnitOfWork unitOfWork,
+            string? keyword,
+            int? categoryId)
         {
-            return unitOfWork.Products.GetQueryable();
+            return unitOfWork.Products.GetProductQueryable(keyword, categoryId);
         }
 
         [UseFirstOrDefault]
@@ -95,11 +98,6 @@ namespace MyShop.API.GraphQL.Queries
         public async Task<List<DailyRevenue>> GetRevenueByDayCurrentMonthAsync([Service] IUnitOfWork unitOfWork)
         {
             return await unitOfWork.Orders.GetRevenueByDayCurrentMonthAsync();
-        }
-
-        public async Task<DashboardData> GetDashboardDataAsync([Service] IProductService productService)
-        {
-            return await productService.GetDashboardDataAsync();
-        }
+        }   
     }
 }

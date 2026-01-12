@@ -33,7 +33,7 @@ namespace MyShop.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("NOW()");
 
@@ -65,7 +65,7 @@ namespace MyShop.Infrastructure.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             FullName = "admin",
                             Password = "123",
                             Username = "admin"
@@ -109,7 +109,7 @@ namespace MyShop.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 12, 24, 14, 41, 8, 247, DateTimeKind.Utc).AddTicks(5717),
+                            CreatedAt = new DateTime(2025, 12, 25, 2, 48, 6, 552, DateTimeKind.Utc).AddTicks(8270),
                             Description = "Laptop các loại",
                             Name = "Laptop",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)

@@ -23,6 +23,21 @@ namespace MyShop.API.GraphQL.Mutations
             }
         }
 
+        public async Task<TPayload<List<Product>>> ImportProductsAsync(
+            [Service] IProductService productService,
+            List<ImportProductDTO> input)
+        {
+            try
+            {
+                var products = await productService.ImportProductsAsync(input);
+                return new TPayload<List<Product>>(products);
+            }
+            catch (Exception ex)
+            {
+                return new TPayload<List<Product>>(ex.Message);
+            }
+        }
+
         public async Task<TPayload<Product>> UpdateProductAsync(
             [Service] IProductService productService,
             UpdateProductDTO input)

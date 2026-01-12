@@ -51,7 +51,7 @@ namespace MyShop.Infrastructure.Data
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
-                    .HasColumnType("timestamp")
+                    .HasColumnType("timestamp with time zone")
                     .HasDefaultValueSql("NOW()")
                     .ValueGeneratedOnAdd();
 
@@ -64,7 +64,8 @@ namespace MyShop.Infrastructure.Data
                     UserId = 1,
                     Username = "admin",
                     Password = "123",
-                    FullName = "admin"
+                    FullName = "admin",
+                    CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 });
 
             //category

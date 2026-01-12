@@ -1,0 +1,26 @@
+﻿query GetDashboardData{
+  totalProducts
+  top5LowStock{
+    productId
+    name
+    stock
+  }
+  top5BestSellers{
+    productId
+    productName
+    totalQuantity
+  }
+  totalOrdersToday
+  totalRevenueToday
+  latest3Orders{
+    orderId
+    createdTime
+    finalPrice
+    status
+    paymentMethod
+  }
+  revenueByDayCurrentMonth{
+    day
+    totalRevenue
+  }
+}

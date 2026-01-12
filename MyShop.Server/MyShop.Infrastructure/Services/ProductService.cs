@@ -5,6 +5,7 @@ using MyShop.Domain.Entities;
 using MyShop.Domain.Interfaces;
 using MyShop.Shared.DTOs.Dashboards;
 using MyShop.Shared.DTOs.Products;
+using MyShop.Shared.Helpers;
 
 namespace MyShop.Infrastructure.Services
 {
@@ -84,6 +85,75 @@ namespace MyShop.Infrastructure.Services
                 await _unitOfWork.CompleteAsync();
 
                 return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Lỗi thêm sản phẩm: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<List<Product>> ImportProductsAsync(IEnumerable<ImportProductDTO> request)
+        {
+            try
+            {
+                var products = new List<Product>();
+
+                var categoryDic = await _unitOfWork.Categories.GetDictionaryAsync();
+
+                try
+                {
+                    var jsonDebug = System.Text.Json.JsonSerializer.Serialize(categoryDic, new System.Text.Json.JsonSerializerOptions
+                    {
+                        WriteIndented = true, 
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping 
+                    });
+
+                    _logger.LogInformation("--- CHECK DICTIONARY SERVER ---");
+                    _logger.LogInformation(jsonDebug);
+                    _logger.LogInformation("-------------------------------");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning("Không thể log dictionary: " + ex.Message);
+                }
+
+                foreach (var item in request)
+                {
+                    if (string.IsNullOrWhiteSpace(item.CategoryName)) continue;                    
+
+                    var product = _mapper.Map<Product>(item);
+
+                    var sku = StringHelper.GenerateSku(product.Name);
+                    var baseSku = sku;
+                    int count = 1;
+                    while(await _unitOfWork.Products.IsDuplicatedSku(sku))
+                    {
+                        sku = $"{baseSku}-{count}";
+                        count++;
+                    }
+                    product.Sku = sku;
+
+                    var inputCategoryName = item.CategoryName.Trim();
+                    var lookupKey = StringHelper.GenerateSku(inputCategoryName);
+
+                    if (!categoryDic.TryGetValue(StringHelper.GenerateSku(item.CategoryName), out var categoryId))
+                    {
+                        _logger.LogWarning($"Không tìm thấy danh mục khớp với: {item.CategoryName} (Key: {lookupKey})");
+                        continue;
+                    }
+                    product.CategoryId = categoryId;
+
+                    products.Add(product);
+                }
+
+                if (products.Count == 0)
+                    throw new Exception("Không có sản phẩm nào hợp lệ");
+
+                await _unitOfWork.Products.AddRangeAsync(products);
+                await _unitOfWork.CompleteAsync();
+
+                return products;
             }
             catch (Exception ex)
             {

@@ -9,7 +9,10 @@ namespace MyShop.Application.Mappers
     {
         public OrderMappingProfile()
         {
-            CreateMap<AddOrderDTO, Order>();
+            CreateMap<AddOrderDTO, Order>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => src.PaymentMethod));
+
             CreateMap<OrderItemInfoDTO, OrderItem>();
 
             CreateMap<Order, RecentOrder>()

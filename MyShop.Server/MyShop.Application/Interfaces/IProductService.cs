@@ -10,5 +10,6 @@ namespace MyShop.Application.Interfaces
         Task<Product> UpdateProductAsync(UpdateProductDTO request);
         Task<Product> DeleteProductAsync(int productId);
         Task<DashboardData> GetDashboardDataAsync();
+        Task<List<Product>> ImportProductsAsync(IEnumerable<ImportProductDTO> request);
     }
 }

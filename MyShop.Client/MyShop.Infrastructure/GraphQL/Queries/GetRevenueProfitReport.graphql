@@ -1,0 +1,8 @@
+﻿query GetRevenueProfitReport($input : ReportBaseParamsInput!){
+  revenueProfitReport(request: $input){
+    label
+    value
+    profit
+    date
+  }
+}

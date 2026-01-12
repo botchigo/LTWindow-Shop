@@ -7,5 +7,6 @@ namespace MyShop.Domain.Interfaces
         Task<List<Category>> GetCategoriesAsync();
         Task<Category?> GetByNameAsync(string name);           
         Task<bool> IsNameExistAsync(string name);
+        Task<Dictionary<string, int>> GetDictionaryAsync();
     }
 }

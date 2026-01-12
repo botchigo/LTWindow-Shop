@@ -1,0 +1,7 @@
+﻿mutation DeleteCategory($id : Int!){
+  deleteCategory(categoryId: $id){
+    errors{
+      message
+    }
+  }
+}

@@ -1,0 +1,7 @@
+﻿mutation ImportProducts($input: [ImportProductDTOInput!]!){
+  importProducts(input: $input){
+    errors{
+      message
+    }
+  }
+}

@@ -1,0 +1,9 @@
+﻿mutation UpdateProduct($input : UpdateProductDTOInput!)
+{
+  updateProduct(input: $input)
+  {
+    errors{
+      message
+    }
+  }
+}
