@@ -1,0 +1,8 @@
+﻿mutation Register($input: RegisterDTOInput!) {
+  register(request: $input) 
+  {
+    errors{
+      message
+    }
+  }
+}

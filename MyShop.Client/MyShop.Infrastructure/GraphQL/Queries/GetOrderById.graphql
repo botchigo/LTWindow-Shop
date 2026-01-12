@@ -1,0 +1,29 @@
+﻿query GetOrderById($id : Int!){
+  orderById(orderId: $id){
+    id,
+    finalPrice,
+    status,
+    paymentMethod,
+    userId,
+    createdAt
+    orderItems {
+      id
+      quantity
+      unitSalePrice
+      unitCost
+      totalPrice
+      product{
+        id
+        name
+        importPrice
+        salePrice
+        stock
+        sku
+        saleAmount
+        productImages{
+          path
+        }
+      }
+    }
+  }
+}

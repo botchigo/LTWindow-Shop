@@ -1,0 +1,8 @@
+﻿query GetProductSalesReport($input : ReportBaseParamsInput!){
+  productSalesReport(request : $input){
+    label
+    value
+    profit
+    date
+  }
+}

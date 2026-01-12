@@ -1,0 +1,14 @@
+﻿query GetProductNames(
+  $keyword : String!
+  $kip : Int!
+  $take: Int!){
+  products(
+    keyword: $keyword
+    skip: $kip
+    take: $take){
+    items{
+      id
+      name
+    }
+  }
+}

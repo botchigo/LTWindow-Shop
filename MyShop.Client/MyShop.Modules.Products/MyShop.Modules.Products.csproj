@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>MyShop.Modules.Products</RootNamespace>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Views\CategoryManagementPage.xaml" />
+    <None Remove="Views\ProductDetailsPage.xaml" />
+    <None Remove="Views\ProductEditorPage.xaml" />
+    <None Remove="Views\ProductListPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyShop.Contract\MyShop.Contract.csproj" />
+    <ProjectReference Include="..\MyShop.Core\MyShop.Core.csproj" />
+    <ProjectReference Include="..\MyShop.Infrastructure\MyShop.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\CategoryManagementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ProductEditorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ProductDetailsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ProductListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="SET &quot;DestDir=$(SolutionDir)MyShop.Shell\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pri&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S /I &quot;$(TargetDir)$(TargetName)&quot; &quot;%25DestDir%25$(TargetName)&quot;" />
+  </Target>
+  
+</Project>

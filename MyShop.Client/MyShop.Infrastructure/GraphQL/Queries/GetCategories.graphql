@@ -1,0 +1,11 @@
+﻿query GetCategories($skip : Int!, $take : Int!){
+  categories(
+    skip: $skip
+    take: $take){
+    items{
+      id
+      name  
+      description
+    }
+  }
+}

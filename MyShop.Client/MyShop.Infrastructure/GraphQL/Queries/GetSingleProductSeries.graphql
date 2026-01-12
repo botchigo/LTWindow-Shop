@@ -1,0 +1,12 @@
+﻿query GetSingleProductSeries($input: GetSingleProductSeriesDTOInput!){
+  singleProductSeries(request: $input){
+    productName
+    points{
+      label
+      value
+      profit
+      date
+    }
+    colorHex
+  }
+}

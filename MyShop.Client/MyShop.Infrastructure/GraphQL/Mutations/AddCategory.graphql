@@ -1,0 +1,14 @@
+﻿mutation AddCategory($input : AddCategoryDTOInput!){
+  addCategory(request: $input){
+    data{
+      id
+      name
+      description
+      createdAt
+      updatedAt
+    }
+    errors{
+      message
+    }
+  }
+}

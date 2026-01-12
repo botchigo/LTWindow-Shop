@@ -1,0 +1,22 @@
+{
+  "schema": "schema.graphql",
+  "documents": "GraphQL/**/*.graphql",
+  "extensions": {
+    "strawberryShake": {
+      "name": "MyShopClient",
+      "namespace": "MyShop.Infrastructure",
+      "url": "https://localhost:7210/graphql",
+      "dependencyInjection": true,     
+      "records": {
+        "inputs": false,
+        "entities": false
+      },
+      "transportProfiles": [
+        {
+          "default": "Http",
+          "subscription": "WebSocket"
+        }
+      ]
+    }
+  }
+}
