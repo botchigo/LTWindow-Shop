@@ -1,0 +1,25 @@
+﻿query GetProductList(
+  $skip: Int
+  $take: Int
+  $categoryId: Int
+  $filter : ProductFilterInput
+  $order: [ProductSortInput!]
+  $keyword: String) {
+  products(
+    skip: $skip
+    take: $take
+    keyword: $keyword
+    categoryId: $categoryId
+    where: $filter
+    order: $order) {
+      items {
+        id
+        name
+        salePrice
+        productImages {
+        path
+      }
+    }
+    totalCount
+  }
+}

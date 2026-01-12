@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MyShop.Modules.Orders.Views.CreateOrderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    x:Name="Root"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyShop.Modules.Orders.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:graphql="using:MyShop.Infrastructure" 
+    xmlns:models="using:MyShop.Modules.Orders.Models"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Padding="24,24,24,0">
+            <Button Command="{x:Bind ViewModel.GoBackCommand}" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
+            <TextBlock Text="Tạo đơn hàng mới" Style="{StaticResource TitleTextBlockStyle}" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="420"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Padding="24,16,24,0" RowSpacing="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox PlaceholderText="Tìm kiếm sản phẩm..." 
+                             Text="{x:Bind ViewModel.SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             KeyDown="SearchBox_KeyDown"/>
+                    <Button Grid.Column="1" Content="Tìm" Command="{x:Bind ViewModel.SearchCommand}" Style="{StaticResource AccentButtonStyle}"/>
+                </Grid>
+
+                <GridView Grid.Row="1" 
+                          ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}"                      
+                          SelectionMode="None" 
+                          IsItemClickEnabled="True"
+                          ItemClick="OnProductClicked"
+                          Padding="0,16,0,24">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="graphql:IGetProductForOrder_Products_Items">
+                            <Grid Width="160" Height="240" CornerRadius="8" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="140"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" CornerRadius="8,8,0,0" Background="White">
+                                    <Image Source="{x:Bind ProductImages, Converter={StaticResource ProductThumbnailConverter}}" Stretch="Uniform" Margin="8"/>
+                                </Grid>
+                                <StackPanel Grid.Row="1" Padding="12">
+                                    <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" MaxLines="2" Height="40" Style="{StaticResource BodyTextBlockStyle}"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <StackPanel>
+                                            <TextBlock Text="{x:Bind SalePrice, Converter={StaticResource CurrencyConverter}}" FontWeight="Bold" Foreground="{ThemeResource SystemFillColorSuccessBrush}"/>
+                                            <TextBlock FontSize="11" Foreground="Gray">
+                                                <Run Text="Kho:"/> <Run Text="{x:Bind Stock}"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <Button Command="{Binding ElementName=Root, Path=ViewModel.AddToCartCommand}" CommandParameter="{Binding}" 
+                                                Style="{StaticResource SubtleButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="4">
+                                            <FontIcon Glyph="&#xE710;" FontSize="16"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+
+            <Grid Grid.Column="1" Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Giỏ hàng" FontSize="20" FontWeight="Bold" Margin="20,20,20,10"/>
+
+                <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Carts, Mode=OneWay}" SelectionMode="None" Padding="10">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CartItem">
+                            <Grid Margin="0,8" Padding="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{x:Bind ImagePath, Converter={StaticResource ProductThumbnailConverter}}" Width="40" Height="40" Stretch="UniformToFill" Margin="0,0,12,0"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind ProductName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{x:Bind UnitPrice, Converter={StaticResource CurrencyConverter}}" FontSize="12" Foreground="Gray"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Content="-" 
+                                            Click="Decrease_Click" 
+                                            Padding="0" Width="30" Height="30" CornerRadius="15"/>
+                                    <TextBlock Text="{x:Bind Quantity, Mode=OneWay}" VerticalAlignment="Center" FontWeight="Bold" MinWidth="20" TextAlignment="Center"/>
+                                    <Button Content="+" 
+                                            Click="Increase_Click" 
+                                            Padding="0" Width="30" Height="30" CornerRadius="15"/>
+                                    <Button Content="🗑" 
+                                            Click="Remove_Click" 
+                                            Background="Transparent" BorderThickness="0" Foreground="Red" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <StackPanel Grid.Row="2" Padding="24" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}" BorderThickness="0,1,0,0" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+                    <Grid Margin="0,0,0,20">
+                        <TextBlock Text="Tổng cộng:" FontSize="16"/>
+                        <TextBlock Text="{x:Bind ViewModel.TotalAmount, Mode=OneWay, Converter={StaticResource CurrencyConverter}}" FontSize="24" FontWeight="Bold" Foreground="{ThemeResource SystemFillColorSuccessBrush}" HorizontalAlignment="Right"/>
+                    </Grid>
+                    <ComboBox Header="Phương thức thanh toán" ItemsSource="{x:Bind ViewModel.PaymentMethods}" SelectedItem="{x:Bind ViewModel.SelectedPaymentMethod, Mode=TwoWay}" HorizontalAlignment="Stretch" Margin="0,0,0,20">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:PaymentMethodOption">
+                                <TextBlock Text="{x:Bind DisplayName}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="Thanh toán &amp; Tạo đơn" Command="{x:Bind ViewModel.CheckoutCommand}" IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBoolConverter}}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Stretch" Height="45" FontSize="16" FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <Grid Grid.RowSpan="3" Background="#80FFFFFF" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ProgressRing IsActive="True"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,12 @@
+﻿query GetProductComparisonReport($input : ReportBaseParamsInput!){
+  productComparisonReport(request : $input){
+    productName
+    points{
+      label
+      value
+      profit
+      date
+    }
+    colorHex
+  }
+}

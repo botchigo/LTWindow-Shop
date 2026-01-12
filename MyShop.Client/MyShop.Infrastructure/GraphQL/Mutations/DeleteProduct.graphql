@@ -1,0 +1,9 @@
+﻿mutation DeleteProduct($productId : Int!)
+{
+  deleteProduct(id: $productId)
+  {
+    errors{
+      message
+    }
+  }
+}

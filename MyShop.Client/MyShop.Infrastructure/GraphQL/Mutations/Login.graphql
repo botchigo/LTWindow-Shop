@@ -1,0 +1,14 @@
+﻿mutation Login($input: LoginDTOInput!) {
+  login(request: $input) 
+  {
+    data{
+      user{
+        userId,
+        username,
+        fullName
+      },
+      accessToken,
+      expiredAt
+    }
+  }
+}

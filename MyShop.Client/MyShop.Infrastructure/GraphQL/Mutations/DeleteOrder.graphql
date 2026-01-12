@@ -1,0 +1,7 @@
+﻿mutation DeleteOrder($id : Int!){
+  deleteOrder(orderId : $id){
+    errors{
+      message
+    }
+  }
+}

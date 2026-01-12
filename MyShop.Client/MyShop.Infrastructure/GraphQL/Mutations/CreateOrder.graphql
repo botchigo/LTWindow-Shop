@@ -1,0 +1,7 @@
+﻿mutation CreateOrder($input : AddOrderDTOInput!){
+  createOrder(request: $input){
+    errors{
+      message
+    }
+  }
+}

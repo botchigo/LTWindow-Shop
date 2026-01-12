@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MyShop.Modules.Products.Views.ProductEditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyShop.Modules.Products.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:format="using:Windows.Globalization.NumberFormatting"
+    mc:Ignorable="d"
+    x:Name="PageRoot">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="12" Padding="24,24,24,12">
+            <Button Command="{x:Bind ViewModel.CancelCommand}" Background="Transparent" BorderThickness="0" Padding="8">
+                <FontIcon Glyph="&#xE72B;" FontSize="16"/>
+            </Button>
+
+            <StackPanel Spacing="2">
+                <TextBlock Text="{x:Bind ViewModel.PageTitle}" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="Điền đầy đủ thông tin bên dưới" Style="{StaticResource CaptionTextBlockStyle}" 
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" Padding="24,0,24,24">
+            <StackPanel Spacing="24" HorizontalAlignment="Stretch">
+
+                <StackPanel Spacing="16" Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                            CornerRadius="8" Padding="24" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE716;" FontSize="16" Foreground="{ThemeResource SystemAccentColor}"/>
+                        <TextBlock Text="Thông tin cơ bản" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    </StackPanel>
+                    <MenuFlyoutSeparator/>
+
+                    <TextBox Header="Tên sản phẩm (*)" 
+                             Text="{x:Bind ViewModel.Product.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="Ví dụ: iPhone 15 Pro Max"/>
+
+                    <ComboBox Header="Danh mục (*)"
+                              ItemsSource="{x:Bind ViewModel.Categories}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{x:Bind ViewModel.SelectedCategory, Mode=TwoWay}"
+                              HorizontalAlignment="Stretch"
+                              PlaceholderText="Chọn loại sản phẩm"/>
+
+                    <NumberBox Header="Số lượng tồn kho" 
+                               Value="{x:Bind ViewModel.Product.Stock, Mode=TwoWay}"
+                               SpinButtonPlacementMode="Inline"
+                               Minimum="0"
+                               PlaceholderText="0"/>
+                </StackPanel>
+
+                <StackPanel Spacing="16" Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                            CornerRadius="8" Padding="24" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE8D4;" FontSize="16" Foreground="{ThemeResource SystemAccentColor}"/>
+                        <TextBlock Text="Chi tiết bán hàng" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    </StackPanel>
+                    <MenuFlyoutSeparator/>
+
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <NumberBox Grid.Column="0" Header="Giá nhập" 
+                                   Value="{x:Bind ViewModel.Product.ImportPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}"
+                                   NumberFormatter="{StaticResource PriceFormatter}"
+                                   PlaceholderText="VNĐ"/>
+
+                        <NumberBox Grid.Column="1" Header="Giá bán" 
+                                   Value="{x:Bind ViewModel.Product.SalePrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}"
+                                   NumberFormatter="{StaticResource PriceFormatter}"
+                                   PlaceholderText="VNĐ"/>
+                    </Grid>
+
+                    <TextBox Header="Mô tả" 
+                             Text="{x:Bind ViewModel.Product.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True" Height="100" 
+                             TextWrapping="Wrap"
+                             PlaceholderText="Nhập mô tả chi tiết về sản phẩm..."/>
+                </StackPanel>
+
+                <StackPanel Spacing="16" Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                            CornerRadius="8" Padding="24" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+
+                    <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <FontIcon Glyph="&#xEB9F;" FontSize="16" Foreground="{ThemeResource SystemAccentColor}"/>
+                        <TextBlock Text="Thư viện ảnh" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <Border Background="{ThemeResource AccentFillColorDefaultBrush}" CornerRadius="10" Padding="8,2">
+                            <TextBlock Text="{x:Bind ViewModel.Product.Images.Count, Mode=OneWay}" Foreground="White" FontSize="12" FontWeight="Bold"/>
+                        </Border>
+                    </StackPanel>
+                    <MenuFlyoutSeparator/>
+
+                    <GridView ItemsSource="{x:Bind ViewModel.Product.Images, Mode=OneWay}" 
+                              SelectionMode="None" IsItemClickEnabled="False">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Grid Width="100" Height="100" Margin="0,0,12,12" CornerRadius="8" 
+                                      BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1"
+                                      Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
+
+                                    <Image Source="{x:Bind Converter={StaticResource ProductThumbnailConverter}}" 
+                                           Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                    <Button Command="{Binding ElementName=PageRoot, Path=ViewModel.RemoveImageCommand}" 
+                                            CommandParameter="{Binding}"
+                                            VerticalAlignment="Top" HorizontalAlignment="Right" Margin="4"
+                                            Padding="4" Width="28" Height="28" CornerRadius="14" 
+                                            Style="{StaticResource SubtleButtonStyle}" Background="#99000000">
+                                        <FontIcon Glyph="&#xE711;" FontSize="12" Foreground="White"/>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+
+                    <Button Command="{x:Bind ViewModel.AddImageCommand}" 
+                            HorizontalAlignment="Stretch" Background="Transparent" 
+                            BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                            Padding="12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8B9;" Foreground="{ThemeResource SystemAccentColor}"/>
+                            <TextBlock Text="Tải ảnh lên"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="2" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="24,16" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                <Button Content="Hủy bỏ" Command="{x:Bind ViewModel.CancelCommand}" MinWidth="80"/>
+                <Button Content="Lưu lại" Command="{x:Bind ViewModel.SaveCommand}" Style="{StaticResource AccentButtonStyle}" MinWidth="100"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.RowSpan="3" Background="#80000000" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressRing IsActive="True" Width="60" Height="60"/>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,7 @@
+﻿mutation UpdateOrderStatus($input : UpdateOrderStatusDTOInput!){
+  updateOrderStatus(request : $input){
+    errors{
+      message
+    }
+  }
+}
