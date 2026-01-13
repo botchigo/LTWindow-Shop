@@ -17,24 +17,58 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Phân tích Doanh số" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,4"/>
-                <TextBlock Text="Theo dõi hiệu suất bán hàng theo sản phẩm và thời gian" Style="{StaticResource CaptionTextBlockStyle}" Foreground="Gray"/>
+        <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,12">
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="Phân tích Doanh số" 
+                   Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="Hiệu suất bán hàng theo sản phẩm &amp; thời gian" 
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
             </StackPanel>
 
-            <StackPanel Spacing="5" HorizontalAlignment="Right" Margin="300,0,0,0">
-                <TextBlock Text="Loại báo cáo" FontSize="12" FontWeight="SemiBold"/>
-                <ComboBox x:Name="ReportTypeCombo" Width="200" PlaceholderText="Chọn loại..." SelectionChanged="OnFilterChanged"/>
+            <StackPanel Grid.Column="1" 
+                Orientation="Horizontal" 
+                Spacing="8" 
+                VerticalAlignment="Bottom"
+                Visibility="{x:Bind ViewModel.IsProductFilterVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                <ComboBox x:Name="ProductSelector"
+                  Header="Thêm sản phẩm hiển thị"
+                  ItemsSource="{x:Bind ViewModel.FilteredProductNames, Mode=OneWay}"
+                  PlaceholderText="Chọn sản phẩm..."
+                  Width="240"
+                  SelectionChanged="OnProductSelected"/>
+
+                <Button Command="{x:Bind ViewModel.ClearAllProductsCommand}"
+                ToolTipService.ToolTip="Xóa tất cả sản phẩm"
+                VerticalAlignment="Bottom"
+                Padding="10,6">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <SymbolIcon Symbol="Delete" />
+                        <TextBlock Text="Xóa" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
-        </StackPanel>
+        </Grid>
 
         <Border Grid.Row="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" CornerRadius="8" Padding="16">
             <StackPanel Orientation="Horizontal" Spacing="24">
-
+                
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Loại báo cáo" FontSize="12" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="ReportTypeCombo" 
+                              Width="200" 
+                              PlaceholderText="Chọn loại..." 
+                              SelectionChanged="OnFilterChanged"/>
+                </StackPanel>
+                
                 <StackPanel Spacing="5">
                     <TextBlock Text="Chế độ xem" FontSize="12" FontWeight="SemiBold"/>
-                    <ComboBox x:Name="IntervalCombo" Width="120" SelectionChanged="OnFilterChanged"/>
+                    <ComboBox x:Name="IntervalCombo" 
+                              Width="120" 
+                              PlaceholderText="Chọn..."
+                              SelectionChanged="OnFilterChanged"/>
                 </StackPanel>
 
                 <StackPanel Spacing="5">
@@ -43,21 +77,6 @@
                         <CalendarDatePicker x:Name="FromDatePicker" PlaceholderText="Từ ngày" Width="140" DateChanged="OnFilterChanged"/>
                         <TextBlock Text="-" VerticalAlignment="Center"/>
                         <CalendarDatePicker x:Name="ToDatePicker" PlaceholderText="Đến ngày" Width="140" DateChanged="OnFilterChanged"/>
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Spacing="5">
-                    <TextBlock Text="Thêm sản phẩm (So sánh)" FontSize="12" FontWeight="SemiBold"/>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <ComboBox x:Name="ProductSelector" 
-                                  ItemsSource="{x:Bind ViewModel.FilteredProductNames, Mode=OneWay}"
-                                  Width="220" 
-                                  PlaceholderText="Chọn sản phẩm để thêm..."
-                                  SelectionChanged="OnProductSelected"/>
-
-                        <Button Content="Xóa hết" 
-                                Command="{x:Bind ViewModel.ClearAllProductsCommand}" 
-                                ToolTipService.ToolTip="Xóa tất cả sản phẩm khỏi biểu đồ"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

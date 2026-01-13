@@ -25,6 +25,8 @@ namespace MyShop.Modules.Report.ViewModels
         [ObservableProperty] private ReportType _selectedReportType = ReportType.RevenueProfit;
         [ObservableProperty] private ReportTimeInterval _selectedInterval = ReportTimeInterval.Day;
         [ObservableProperty] private bool _isLoading;
+        [ObservableProperty]
+        private bool _isProductFilterVisible;
 
         public ObservableCollection<ReportDataPointDto> DataPoints { get; } = new();
 
@@ -39,7 +41,23 @@ namespace MyShop.Modules.Report.ViewModels
             _client = client;
             _dialogService = dialogService;
         }
+        partial void OnSelectedReportTypeChanged(ReportType value)
+        {
+            // Nếu là ProductSales thì hiện (true), còn lại (RevenueProfit) thì ẩn (false)
+            IsProductFilterVisible = value == ReportType.ProductSales;
 
+            // 2. Xóa dữ liệu biểu đồ cũ
+            DataPoints.Clear();
+            ProductSeriesList.Clear();
+
+            // Cập nhật lại danh sách lọc (để hiện đầy đủ sản phẩm trở lại)
+            OnPropertyChanged(nameof(FilteredProductNames));
+
+            if (value == ReportType.RevenueProfit)
+            {
+                LoadReportCommand.ExecuteAsync(null);
+            }
+        }
         public async Task InitializeAsync()
         {
             await _semaphore.WaitAsync();
@@ -65,23 +83,66 @@ namespace MyShop.Modules.Report.ViewModels
         [RelayCommand]
         public async Task LoadReportAsync()
         {
+            // Nếu đang load thì không cho chạy tiếp để tránh spam nút
+            if (IsLoading) return;
+
             await _semaphore.WaitAsync();
             try
             {
                 IsLoading = true;
+
+                // Clear dữ liệu cũ trước khi tải mới
                 DataPoints.Clear();
+                if (SelectedReportType == ReportType.RevenueProfit)
+                {
+                    // Nếu chuyển tab báo cáo thì clear luôn list bên kia cho sạch
+                    ProductSeriesList.Clear();
+                }
+
+                // --- 1. LOGIC TÍNH TOÁN NGÀY (QUAN TRỌNG) ---
+
+                // Lấy giá trị Start/End từ DatePicker (Lấy phần .Date để về 00:00:00 giờ Local)
+                // TUYỆT ĐỐI KHÔNG DÙNG .UtcDateTime Ở ĐÂY VÌ SẼ BỊ TRỪ 7 TIẾNG
+                DateTime startInput = StartDate.Date;
+                DateTime endInput = EndDate.Date;
+                DateTime finalEnd;
+
+                // Tự động mở rộng thời gian kết thúc dựa trên chế độ xem
+                if (SelectedInterval == ReportTimeInterval.Year)
+                {
+                    // Nếu xem Năm: Lấy đến hết ngày 31/12 23:59:59
+                    finalEnd = new DateTime(endInput.Year, 12, 31, 23, 59, 59);
+
+                    // (Tùy chọn) Nếu muốn start luôn là đầu năm:
+                    // startInput = new DateTime(startInput.Year, 1, 1);
+                }
+                else if (SelectedInterval == ReportTimeInterval.Month)
+                {
+                    // Nếu xem Tháng: Lấy đến ngày cuối cùng của tháng 23:59:59
+                    var daysInMonth = DateTime.DaysInMonth(endInput.Year, endInput.Month);
+                    finalEnd = new DateTime(endInput.Year, endInput.Month, daysInMonth, 23, 59, 59);
+
+                    // (Tùy chọn) Nếu muốn start luôn là đầu tháng:
+                    // startInput = new DateTime(startInput.Year, startInput.Month, 1);
+                }
+                else
+                {
+                    // Nếu xem Ngày/Tuần: Lấy đến hết ngày hiện tại (23:59:59)
+                    finalEnd = new DateTime(endInput.Year, endInput.Month, endInput.Day, 23, 59, 59);
+                }
+
+                // Tạo object Input chung
+                var input = new ReportBaseParamsInput
+                {
+                    Start = startInput,
+                    End = finalEnd,
+                    Interval = SelectedInterval
+                };
+
+                // --- 2. GỌI API THEO LOẠI BÁO CÁO ---
 
                 if (SelectedReportType == ReportType.RevenueProfit)
                 {
-                    ProductSeriesList.Clear();
-
-                    var input = new ReportBaseParamsInput
-                    {
-                        Start = StartDate.UtcDateTime,
-                        End = EndDate.UtcDateTime,
-                        Interval = SelectedInterval
-                    };
-
                     var result = await _client.GetRevenueProfitReport.ExecuteAsync(input);
 
                     if (result.IsErrorResult())
@@ -97,21 +158,16 @@ namespace MyShop.Modules.Report.ViewModels
                                 Date = item.Date,
                                 Value = item.Value,
                                 Profit = item.Profit,
-                                Label = item.Date.ToLocalTime().ToString("dd/MM")
+                                // Lưu ý: Nếu ở View đã dùng Helper FormatDate thì Label ở đây không quan trọng lắm
+                                // Bỏ .ToLocalTime() để giữ nguyên giá trị ngày nhận được từ Server
+                                Label = item.Date.ToString("dd/MM")
                             });
                         }
                     }
                 }
                 else if (SelectedReportType == ReportType.ProductSales)
                 {
-                    DataPoints.Clear();
-
-                    var input = new ReportBaseParamsInput
-                    {
-                        Start = StartDate.UtcDateTime,
-                        End = EndDate.UtcDateTime,
-                        Interval = SelectedInterval
-                    };
+                    ProductSeriesList.Clear(); // Clear trước khi add
 
                     var result = await _client.GetProductComparisonReport.ExecuteAsync(input);
 
@@ -126,14 +182,14 @@ namespace MyShop.Modules.Report.ViewModels
                             ProductSeriesList.Add(new ProductSeriesDto
                             {
                                 ProductName = item.ProductName,
+                                ColorHex = item.ColorHex,
                                 Points = item.Points.Select(p => new ReportDataPointDto
                                 {
                                     Date = p.Date,
                                     Value = p.Value,
                                     Profit = p.Profit,
                                     Label = p.Label,
-                                }).ToList(),
-                                ColorHex = item.ColorHex,
+                                }).ToList()
                             });
                         }
                     }
