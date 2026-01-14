@@ -44,6 +44,7 @@ namespace MyShop.Shell
             services.AddTransient<IImportService, ImportService>();
             services.AddSingleton<ILocalSettingService, LocalSettingService>();
             services.AddTransient<ICompositeMetaDataProvider, CompositeMetadataProvider>();
+            services.AddSingleton<ISettingsService, SettingsService>();
 
             services.AddClientInfrastructure();
 

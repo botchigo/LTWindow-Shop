@@ -70,11 +70,41 @@ namespace MyShop.Shell.Views
             {
                 try
                 {
-                    var firstItem = NavView.MenuItems.OfType<NavigationViewItem>().FirstOrDefault();
-                    if (firstItem != null)
+                    var settingsService = App.GetService<ISettingsService>();
+
+                    // 1. Lấy trang cuối cùng đã lưu
+                    // (Hàm GetLastPageKey trong Service nên trả về "DashboardPage" nếu chưa có gì)
+                    string lastPageKey = settingsService?.GetLastPageKey() ?? "";
+                    bool isRememberEnabled = settingsService?.GetIsRememberLastPageEnabled() ?? true;
+
+                    NavigationViewItem? itemToSelect = null;
+
+                    // 2. Nếu bật tính năng nhớ -> Tìm item tương ứng
+                    if (isRememberEnabled && !string.IsNullOrEmpty(lastPageKey))
                     {
-                        NavView.SelectedItem = firstItem;
-                        LoadPageFromTag(firstItem.Tag?.ToString());
+                        // Nếu lần trước ở trang Settings
+                        if (lastPageKey == "SettingsPage")
+                        {
+                            NavView.SelectedItem = NavView.SettingsItem;
+                            //_navService.NavigateTo("SettingsPage");
+                            LoadPageFromTag("SettingsPage");
+                            return;
+                        }
+
+                        itemToSelect = FindNavItemByTag(lastPageKey);
+                    }
+
+                    // 3. Fallback: Nếu không tìm thấy hoặc tắt tính năng -> Lấy item đầu tiên
+                    if (itemToSelect == null)
+                    {
+                        itemToSelect = NavView.MenuItems.OfType<NavigationViewItem>().FirstOrDefault();
+                    }
+
+                    // 4. Thực hiện chọn và load
+                    if (itemToSelect != null)
+                    {
+                        NavView.SelectedItem = itemToSelect;
+                        LoadPageFromTag(itemToSelect.Tag?.ToString());
                     }
                 }
                 catch (Exception ex)
@@ -86,6 +116,19 @@ namespace MyShop.Shell.Views
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
+            var settingsService = App.GetService<ISettingsService>();
+
+            //1.Xử lý khi bấm nút Bánh răng(Settings mặc định)
+            if (args.IsSettingsSelected)
+            {
+                // Điều hướng đến trang Settings (key phải khớp với map trong NavigationService)
+                LoadPageFromTag("SettingsPage"); // Hoặc _navService.NavigateTo("SettingsPage");
+
+                // Lưu lại trạng thái
+                settingsService?.SetLastPageKey("SettingsPage");
+                return;
+            }
+
             if (args.SelectedItem is NavigationViewItem item)
             {
                 string? key = item.Tag?.ToString();
@@ -98,6 +141,12 @@ namespace MyShop.Shell.Views
                 else
                 {
                     LoadPageFromTag(key);
+
+                    // 2. [MỚI] Lưu lại trang hiện tại vào LocalSettings
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        settingsService?.SetLastPageKey(key);
+                    }
                 }
             }
         }
@@ -125,6 +174,22 @@ namespace MyShop.Shell.Views
             {
                 System.Diagnostics.Debug.WriteLine($"---> CẢNH BÁO: Không tìm thấy Page Type cho key '{key}'. Hãy kiểm tra lại MapNavigation trong Module.");
             }
+        }
+        private NavigationViewItem? FindNavItemByTag(string tag)
+        {
+            // Tìm trong Menu chính
+            foreach (var item in NavView.MenuItems.OfType<NavigationViewItem>())
+            {
+                if (item.Tag?.ToString() == tag) return item;
+            }
+
+            // Tìm trong Footer (nếu bạn để nút Logout hay User ở dưới)
+            foreach (var item in NavView.FooterMenuItems.OfType<NavigationViewItem>())
+            {
+                if (item.Tag?.ToString() == tag) return item;
+            }
+
+            return null;
         }
     }
 }

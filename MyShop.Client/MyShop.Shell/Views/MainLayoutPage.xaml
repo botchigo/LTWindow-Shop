@@ -12,7 +12,7 @@
                     PaneDisplayMode="Left" 
                     SelectionChanged="NavView_SelectionChanged"
                     Loaded="NavView_Loaded"
-                    IsSettingsVisible="False">
+                    IsSettingsVisible="True">
 
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Tổng quan" Tag="DashboardPage">
