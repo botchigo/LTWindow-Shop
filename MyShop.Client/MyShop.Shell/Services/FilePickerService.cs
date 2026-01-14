@@ -48,5 +48,21 @@ namespace MyShop.Shell.Services
             var file = await picker.PickSingleFileAsync();
             return file;
         }
+        public async Task<string> PickSaveFileAsync(string suggestedFileName, string filter)
+        {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+
+            // Cần lấy Window Handle (HWND) vì WinUI 3 chạy Desktop
+            var window = App.MainWindow;
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            WinRT.Interop.InitializeWithWindow.Initialize(savePicker, hWnd);
+
+            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            savePicker.FileTypeChoices.Add("PDF Document", new List<string>() { ".pdf" });
+            savePicker.SuggestedFileName = suggestedFileName;
+
+            var file = await savePicker.PickSaveFileAsync();
+            return file?.Path ?? string.Empty;
+        }
     }
 }
