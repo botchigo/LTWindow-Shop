@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<WindowsPackageType>None</WindowsPackageType>
+  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -10,7 +12,9 @@
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
+
     <EnableMsixTooling>true</EnableMsixTooling>
+
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
@@ -59,6 +63,13 @@
     <ProjectReference Include="..\MyShop.Contract\MyShop.Contract.csproj" />
     <ProjectReference Include="..\MyShop.Core\MyShop.Core.csproj" />
     <ProjectReference Include="..\MyShop.Infrastructure\MyShop.Infrastructure.csproj" />
+
+    <ProjectReference Include="..\MyShop.Modules.Auth\MyShop.Modules.Auth.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\MyShop.Modules.Dashboard\MyShop.Modules.Dashboard.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\MyShop.Modules.Orders\MyShop.Modules.Orders.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\MyShop.Modules.Products\MyShop.Modules.Products.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\MyShop.Modules.Report\MyShop.Modules.Report.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\MyShop.Modules.Settings\MyShop.Modules.Settings.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainLayoutPage.xaml">
@@ -80,6 +91,23 @@
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">False</PublishTrimmed>
   </PropertyGroup>
+
+  <Target Name="ForceCopyPluginsAndAssets" AfterTargets="Publish">
+    <Message Text=">>> BẮT ĐẦU COPY PLUGIN..." Importance="high" />
+
+    <ItemGroup>
+        <PluginFiles Include="..\MyShop.Modules.*\bin\$(Configuration)\net8.0-windows10.0.19041.0\win-x64\MyShop.Modules.*.*" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+    
+    <ItemGroup>
+        <MyAssets Include="$(ProjectDir)Assets\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(MyAssets)" DestinationFolder="$(PublishDir)\Assets\%(RecursiveDir)" SkipUnchangedFiles="true" />
+
+    <Message Text=">>> ĐÃ COPY XONG PLUGIN (SỐ LƯỢNG: @(PluginFiles->Count()))" Importance="high" />
+</Target>
 </Project>

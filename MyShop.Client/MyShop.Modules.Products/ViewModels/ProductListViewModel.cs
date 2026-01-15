@@ -1,4 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MyShop.Contract;
@@ -6,14 +11,10 @@ using MyShop.Core.DTOs;
 using MyShop.Core.Enums;
 using MyShop.Core.Interfaces;
 using MyShop.Infrastructure;
+using MyShop.Infrastructure.Services;
 using MyShop.Modules.Products.Models;
 using MyShop.Modules.Products.Views;
 using StrawberryShake;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyShop.Modules.Products.ViewModels
 {
@@ -24,6 +25,7 @@ namespace MyShop.Modules.Products.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IFilePickerService _filePickerService;
         private readonly IImportService _importService;
+        private readonly ISettingsService _settingsService;
 
         public ObservableCollection<IGetProductList_Products_Items> Products { get; set; } = new();
         [ObservableProperty] private IGetProductList_Products_Items? _selectedProduct;
@@ -62,13 +64,16 @@ namespace MyShop.Modules.Products.ViewModels
         [ObservableProperty] private SortDirection _selectedSortDirection = SortDirection.Ascending;
 
         public ProductListViewModel(IMyShopClient client, INavigationService nav, IDialogService dialog,
-            IFilePickerService filePickerService, IImportService importService)
+            IFilePickerService filePickerService, IImportService importService, ISettingsService settingsService)
         {
             _client = client;
             _navigationService = nav;
             _dialogService = dialog;
             _filePickerService = filePickerService;
             _importService = importService;
+            _settingsService = settingsService;
+
+            PageSize = _settingsService.GetPageSize();
 
             _ = LoadCategoriesAsync();
             _ = LoadDataAsync();
@@ -103,6 +108,8 @@ namespace MyShop.Modules.Products.ViewModels
             IsLoading = true;
             try
             {
+                PageSize = _settingsService.GetPageSize();
+
                 var skip = (CurrentPage - 1) * PageSize;
                 var sortInoput = BuildSortInput();
                 var orderParams = new List<ProductSortInput> { sortInoput };

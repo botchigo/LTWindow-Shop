@@ -1,0 +1,14 @@
+0. Xóa hết post-build event của các project Plugin module.
+1. Mở .sln của MyShop.Client.
+2. Build solution.
+3. Chạy unpackaged
+4. Terminate app + quit VS
+5. Mở terminal chứa file .sln: C:\Coding\C#\Project\LTWindow-Shop\LTWindow-Shop\MyShop.Client
+--> dotnet clean
+--> dotnet build -c Release
+--> dotnet publish "MyShop.Shell\MyShop.Shell.csproj" -c Release -r win-x64 --self-contained true -o "C:\Coding\C#\Project\Deploy"
+6. Mở C:\Coding\C#\Project\LTWindow-Shop\LTWindow-Shop\MyShop.Client\MyShop.Shell\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64 chứa file .exe thực thi app
+7. Copy MyShop.Modules.* vào thư mục output Deploy (C:\Coding\C#\Project\Deploy)
+8. Copy Thư mục Views chứa file MainLayout.xbf vào Deploy
+9. Copy file App.xbf, MainWindow.xbf vào Deploy
+10. Chạy file MyShop.Shell.exe (file thực thi app).

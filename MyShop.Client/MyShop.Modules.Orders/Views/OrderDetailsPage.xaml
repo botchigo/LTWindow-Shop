@@ -87,13 +87,40 @@
                                 Background="Transparent" Foreground="Red" HorizontalAlignment="Stretch" Margin="0,8,0,0"/>
                     </StackPanel>
 
-                    <StackPanel Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="16" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" Spacing="8">
-                        <Grid>
-                            <TextBlock Text="TỔNG THANH TOÁN" FontWeight="Bold"/>
+                    <StackPanel Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                                Padding="16" 
+                                CornerRadius="8" 
+                                BorderThickness="1" 
+                                BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+
+                        <StackPanel Spacing="4">
+
+                            <TextBlock Text="TỔNG THANH TOÁN" 
+                                       FontWeight="SemiBold" 
+                                       FontSize="14"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+
                             <TextBlock Text="{x:Bind ViewModel.Order.FinalPrice, Converter={StaticResource CurrencyConverter}, Mode=OneWay}" 
-                                       FontWeight="Bold" Foreground="{ThemeResource SystemFillColorSuccessBrush}" HorizontalAlignment="Right" FontSize="16"/>
-                        </Grid>
+                                       FontWeight="Bold" 
+                                       Foreground="{ThemeResource SystemFillColorSuccessBrush}" 
+                                       FontSize="24"/>
+                        </StackPanel>
+
                     </StackPanel>
+
+                    <CommandBar DefaultLabelPosition="Right">
+                        <CommandBar.Content>
+                            <Button Command="{x:Bind ViewModel.PrintOrderCommand}"
+                                    Style="{StaticResource AccentButtonStyle}" 
+                                    Margin="10,6,0,0"
+                                    Padding="15,8">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon Glyph="&#xE749;" FontSize="20"/>
+                                    <TextBlock Text="IN HÓA ĐƠN" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                            </Button>
+                        </CommandBar.Content>
+                    </CommandBar>
 
                 </StackPanel>
             </Grid>

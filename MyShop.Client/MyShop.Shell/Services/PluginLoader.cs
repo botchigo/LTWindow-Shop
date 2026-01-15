@@ -1,12 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using MyShop.Contract;
-using MyShop.Core.Interfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Runtime.Loader;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Shapes;
+using MyShop.Contract;
+using MyShop.Core.Interfaces;
 
 namespace MyShop.Shell.Services
 {

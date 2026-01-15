@@ -32,6 +32,9 @@ namespace MyShop.Shell
         {
             InitializeComponent();
 
+            // Cấu hình QuestPDF License
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             var services = new ServiceCollection();
             var navService = new NavigationService();
 
@@ -44,6 +47,8 @@ namespace MyShop.Shell
             services.AddTransient<IImportService, ImportService>();
             services.AddSingleton<ILocalSettingService, LocalSettingService>();
             services.AddTransient<ICompositeMetaDataProvider, CompositeMetadataProvider>();
+            services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddTransient<IPrintService, PrintService>();
 
             services.AddClientInfrastructure();
 
