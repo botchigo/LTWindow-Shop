@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>MyShop.Modules.Orders</RootNamespace>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
+
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\CreateOrderPage.xaml" />
@@ -37,8 +38,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="SET &quot;DestDir=$(SolutionDir)MyShop.Shell\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pri&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S /I &quot;$(TargetDir)$(TargetName)&quot; &quot;%25DestDir%25$(TargetName)&quot;" />
-  </Target>
-  
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="SET &quot;DestDir=$(SolutionDir)MyShop.Shell\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pri&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S /I &quot;$(TargetDir)$(TargetName)&quot; &quot;%25DestDir%25$(TargetName)&quot;" />
+	</Target>
 </Project>
