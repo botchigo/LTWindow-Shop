@@ -103,7 +103,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="{x:Bind ImagePath, Converter={StaticResource ProductThumbnailConverter}}" Width="40" Height="40" Stretch="UniformToFill" Margin="0,0,12,0"/>
+                                <Image Grid.Column="0" Source="{x:Bind ImagePath, Converter={StaticResource StringToImageConverter}}" Width="40" Height="40" Stretch="UniformToFill" Margin="0,0,12,0"/>
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Text="{x:Bind ProductName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Text="{x:Bind UnitPrice, Converter={StaticResource CurrencyConverter}}" FontSize="12" Foreground="Gray"/>
