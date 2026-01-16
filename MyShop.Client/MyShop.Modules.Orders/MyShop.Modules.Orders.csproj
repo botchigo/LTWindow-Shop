@@ -38,6 +38,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="SET &quot;DestDir=$(SolutionDir)MyShop.Shell\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetFileName)&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S &quot;$(TargetDir)$(TargetName).pri&quot; &quot;%25DestDir%25&quot;&#xD;&#xA;xcopy /Y /S /I &quot;$(TargetDir)$(TargetName)&quot; &quot;%25DestDir%25$(TargetName)&quot;" />
 	</Target>

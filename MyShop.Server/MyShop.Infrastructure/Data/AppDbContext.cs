@@ -68,24 +68,6 @@ namespace MyShop.Infrastructure.Data
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 });
 
-            //category
-            modelBuilder.Entity<Category>().HasData(
-                new Category
-                {
-                    Id = 1,
-                    Name = "Laptop",
-                    Description = "Laptop các loại",
-                    CreatedAt = DateTime.UtcNow
-                },
-                new Category
-                {
-                    Id = 2,
-                    Name = "Phụ kiện",
-                    Description = "Phụ kiện máy tính",
-                    CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                }
-            );
-
             //product
             modelBuilder.HasPostgresExtension("unaccent");
             modelBuilder.HasPostgresExtension("pg_trgm");  // for similarity search: xử lí sai chính tả
@@ -109,71 +91,6 @@ namespace MyShop.Infrastructure.Data
                     .HasForeignKey(i => i.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-            modelBuilder.Entity<Product>().HasData(
-                new Product
-                {
-                    Id = 1,
-                    Sku = "LAP001",
-                    Name = "MacBook Pro M3",
-                    ImportPrice = 25000000,
-                    SalePrice = 30000000,
-                    Stock = 10,
-                    SaleAmount = 0,
-                    Description = "MacBook Pro chip M3",
-                    CategoryId = 1,
-                    CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                },
-                new Product
-                {
-                    Id = 2,
-                    Sku = "ACC001",
-                    Name = "Chuột Logitech",
-                    ImportPrice = 300000,
-                    SalePrice = 450000,
-                    Stock = 50,
-                    SaleAmount = 30,
-                    Description = "Chuột không dây Logitech",
-                    CategoryId = 2,
-                    CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                }
-            );
-            // Seed 7 Orders rải đều các ngày trong tháng 12/2025
-            var orders = new List<Order>();
-            var orderItems = new List<OrderItem>();
-            int userId = 1; // Giả định admin user có ID = 1 
-
-            for (int i = 1; i <= 7; i++)
-            {
-                // Tạo ngày cách nhau 3 ngày để biểu đồ có độ dốc
-                var date = new DateTime(2025, 12, i * 3, 10, 0, 0, DateTimeKind.Utc);
-                decimal price = 500000 * i; // Giá tăng dần
-
-                orders.Add(new Order
-                {
-                    Id = 100 + i,
-                    UserId = userId,
-                    FinalPrice = price,
-                    Status = OrderStatus.Paid,
-                    PaymentMethod = PaymentMethod.COD,
-                    CreatedAt = date,
-                    UpdatedAt = date
-                });
-
-                // Mỗi đơn hàng kèm theo 1 sản phẩm tương ứng
-                orderItems.Add(new OrderItem
-                {
-                    Id = 100 + i,
-                    OrderId = 100 + i,
-                    ProductId = (i % 2 == 0) ? 1 : 2, // Luân phiên sản phẩm 1 và 2 
-                    Quantity = i,
-                    UnitSalePrice = price / i,
-                    UnitCost = (price / i) * 0.7m, // Giả định giá vốn bằng 70% giá bán
-                    TotalPrice = price
-                });
-            }
-
-            modelBuilder.Entity<Order>().HasData(orders);
-            modelBuilder.Entity<OrderItem>().HasData(orderItems);
         }
 
         //custom

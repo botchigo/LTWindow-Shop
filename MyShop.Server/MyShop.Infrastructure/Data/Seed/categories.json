@@ -1,0 +1,17 @@
+﻿[
+    {
+        "Id": 1,
+        "Name": "Xe hơi",
+        "Description": "Các loại xe hơi"
+    },
+    {
+        "Id": 2,
+        "Name": "Xe máy",
+        "Description": "Các loại xe máy"
+    },
+    {
+        "Id": 3,
+        "Name": "Xe đạp",
+        "Description": "Các loại xe đạp"
+    }
+]

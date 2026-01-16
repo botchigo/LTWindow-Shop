@@ -26,13 +26,6 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +65,11 @@
     <ProjectReference Include="..\MyShop.Modules.Settings\MyShop.Modules.Settings.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
+	  <Content Update="Assets\*.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+</ItemGroup>
+  <ItemGroup>
     <Page Update="Views\MainLayoutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,7 +93,7 @@
   </PropertyGroup>
 
   <Target Name="ForceCopyPluginsAndAssets" AfterTargets="Publish">
-    <Message Text=">>> BẮT ĐẦU COPY PLUGIN..." Importance="high" />
+    <Message Text="&gt;&gt;&gt; BẮT ĐẦU COPY PLUGIN..." Importance="high" />
 
     <ItemGroup>
         <PluginFiles Include="..\MyShop.Modules.*\bin\$(Configuration)\net8.0-windows10.0.19041.0\win-x64\MyShop.Modules.*.*" />
@@ -108,6 +106,6 @@
     </ItemGroup>
     <Copy SourceFiles="@(MyAssets)" DestinationFolder="$(PublishDir)\Assets\%(RecursiveDir)" SkipUnchangedFiles="true" />
 
-    <Message Text=">>> ĐÃ COPY XONG PLUGIN (SỐ LƯỢNG: @(PluginFiles->Count()))" Importance="high" />
+    <Message Text="&gt;&gt;&gt; ĐÃ COPY XONG PLUGIN (SỐ LƯỢNG: @(PluginFiles-&gt;Count()))" Importance="high" />
 </Target>
 </Project>

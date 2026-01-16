@@ -106,24 +106,6 @@ namespace MyShop.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 16, 14, 43, 32, 788, DateTimeKind.Utc).AddTicks(4649),
-                            Description = "Laptop các loại",
-                            Name = "Laptop",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Phụ kiện máy tính",
-                            Name = "Phụ kiện",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("MyShop.Domain.Entities.Order", b =>
@@ -165,78 +147,6 @@ namespace MyShop.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("order");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 101,
-                            CreatedAt = new DateTime(2025, 12, 3, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 500000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 3, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 102,
-                            CreatedAt = new DateTime(2025, 12, 6, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 1000000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 6, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 103,
-                            CreatedAt = new DateTime(2025, 12, 9, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 1500000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 9, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 104,
-                            CreatedAt = new DateTime(2025, 12, 12, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 2000000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 12, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 105,
-                            CreatedAt = new DateTime(2025, 12, 15, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 2500000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 15, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 106,
-                            CreatedAt = new DateTime(2025, 12, 18, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 3000000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 18, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 107,
-                            CreatedAt = new DateTime(2025, 12, 21, 10, 0, 0, 0, DateTimeKind.Utc),
-                            FinalPrice = 3500000m,
-                            PaymentMethod = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2025, 12, 21, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("MyShop.Domain.Entities.OrderItem", b =>
@@ -282,78 +192,6 @@ namespace MyShop.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("order_item");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 101,
-                            OrderId = 101,
-                            ProductId = 2,
-                            Quantity = 1,
-                            TotalPrice = 500000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 102,
-                            OrderId = 102,
-                            ProductId = 1,
-                            Quantity = 2,
-                            TotalPrice = 1000000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 103,
-                            OrderId = 103,
-                            ProductId = 2,
-                            Quantity = 3,
-                            TotalPrice = 1500000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 104,
-                            OrderId = 104,
-                            ProductId = 1,
-                            Quantity = 4,
-                            TotalPrice = 2000000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 105,
-                            OrderId = 105,
-                            ProductId = 2,
-                            Quantity = 5,
-                            TotalPrice = 2500000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 106,
-                            OrderId = 106,
-                            ProductId = 1,
-                            Quantity = 6,
-                            TotalPrice = 3000000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        },
-                        new
-                        {
-                            Id = 107,
-                            OrderId = 107,
-                            ProductId = 2,
-                            Quantity = 7,
-                            TotalPrice = 3500000m,
-                            UnitCost = 350000.0m,
-                            UnitSalePrice = 500000m
-                        });
                 });
 
             modelBuilder.Entity("MyShop.Domain.Entities.Product", b =>
@@ -429,36 +267,6 @@ namespace MyShop.Infrastructure.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
                     b.ToTable("product");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "MacBook Pro chip M3",
-                            ImportPrice = 25000000m,
-                            Name = "MacBook Pro M3",
-                            SaleAmount = 0,
-                            SalePrice = 30000000m,
-                            Sku = "LAP001",
-                            Stock = 10,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Chuột không dây Logitech",
-                            ImportPrice = 300000m,
-                            Name = "Chuột Logitech",
-                            SaleAmount = 30,
-                            SalePrice = 450000m,
-                            Sku = "ACC001",
-                            Stock = 50,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("MyShop.Domain.Entities.ProductImage", b =>
