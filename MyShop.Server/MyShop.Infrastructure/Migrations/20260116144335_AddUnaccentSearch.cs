@@ -14,22 +14,37 @@ namespace MyShop.Infrastructure.Migrations
         {
             //Create unaccent extension
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:unaccent", ",,");
+                .Annotation("Npgsql:PostgresExtension:unaccent", ",,")
+                .Annotation("Npgsql:PostgresExtension:pg_trgm", ",,");
 
             // B. Tạo cấu hình tìm kiếm tùy chỉnh tên là "vn_unaccent"
             // Logic: Copy từ 'simple' -> Áp dụng bộ lọc 'unaccent' -> Áp dụng 'simple'
             migrationBuilder.Sql(@"
-            CREATE TEXT SEARCH CONFIGURATION vn_unaccent (COPY = simple);
-            ALTER TEXT SEARCH CONFIGURATION vn_unaccent
-                ALTER MAPPING FOR hword, hword_part, word
-                WITH unaccent, simple;
+                -- A. Xóa config cũ nếu đã tồn tại để tránh lỗi Duplicate Key
+                DROP TEXT SEARCH CONFIGURATION IF EXISTS vn_unaccent CASCADE;
+
+                -- B. Tạo lại bộ lọc
+                CREATE TEXT SEARCH CONFIGURATION vn_unaccent (COPY = simple);
+                ALTER TEXT SEARCH CONFIGURATION vn_unaccent
+                    ALTER MAPPING FOR hword, hword_part, word
+                    WITH unaccent, simple;
+
+                -- C. Tạo Index Trigram (Dùng IF NOT EXISTS để tránh lỗi nếu index đã có)
+                CREATE INDEX IF NOT EXISTS ""IX_product_Name_Trigram"" ON ""product"" USING GIN (""name"" gin_trgm_ops);
             ");
+
+            var vectorSql = @"
+                setweight(to_tsvector('vn_unaccent', coalesce(""name"", '')), 'A') || 
+                setweight(to_tsvector('vn_unaccent', coalesce(""Description"", '')), 'B')
+            ";
 
             migrationBuilder.AddColumn<NpgsqlTsVector>(
                 name: "SearchVector",
                 table: "product",
                 type: "tsvector",
-                nullable: false)
+                nullable: false,
+                computedColumnSql: vectorSql,
+                stored: true)
                 .Annotation("Npgsql:TsVectorConfig", "vn_unaccent")
                 .Annotation("Npgsql:TsVectorProperties", new[] { "name", "Description" });
 

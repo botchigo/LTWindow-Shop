@@ -88,6 +88,7 @@ namespace MyShop.Infrastructure.Data
 
             //product
             modelBuilder.HasPostgresExtension("unaccent");
+            modelBuilder.HasPostgresExtension("pg_trgm");  // for similarity search: xử lí sai chính tả
 
             modelBuilder.Entity<Product>(entity =>
             {
