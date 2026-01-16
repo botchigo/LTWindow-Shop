@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyShop.Core.Helpers;
 using MyShop.Core.Interfaces;
 using MyShop.Infrastructure.Authentication;
+using Windows.Storage;
 
 namespace MyShop.Infrastructure
 {
@@ -14,7 +16,13 @@ namespace MyShop.Infrastructure
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            string apiUrl = configuration["ApiSettings:BaseUrl"]!;
+            string finalUrl = configuration["ApiSettings:BaseUrl"]!;
+
+            string? customUrl = ConfigHelper.GetServerUrl();
+            if (!string.IsNullOrEmpty(customUrl))
+            {
+                finalUrl = customUrl;
+            }
 
             services.AddSingleton<IAuthenticationService, AuthenticationService>();
             services.AddTransient<AuthHeaderHandler>();
@@ -22,7 +30,7 @@ namespace MyShop.Infrastructure
             services
                 .AddMyShopClient()
                 .ConfigureHttpClient(
-                    client => client.BaseAddress = new Uri(apiUrl),
+                    client => client.BaseAddress = new Uri(finalUrl),
                     builder => builder.AddHttpMessageHandler<AuthHeaderHandler>()
                 );
 

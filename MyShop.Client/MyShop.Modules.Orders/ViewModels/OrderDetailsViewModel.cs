@@ -132,6 +132,10 @@ namespace MyShop.Modules.Orders.ViewModels
             if (Order is null)
                 return;
 
+            var confirm = await _dialogService.ShowConfirmationDialogAsync("Xác nhận",
+                "Bạn có chắc chắn muốn xóa đơn hàng này không?");
+            if (!confirm) return;
+
             var result = await _client.DeleteOrder.ExecuteAsync(Order.Id);
             if (result.IsErrorResult())
             {

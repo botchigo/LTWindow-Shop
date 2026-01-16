@@ -54,107 +54,90 @@
             </StackPanel>
         </Grid>
 
-        <ScrollViewer Grid.Column="1" 
-                      Background="White" 
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-            <Grid Padding="60" MinHeight="500">
-                <StackPanel VerticalAlignment="Center" MaxWidth="350" HorizontalAlignment="Center">
-                    
-                    <TextBlock Text="Login" FontSize="36" FontWeight="Bold" 
-                               Foreground="#1A1A2E" Margin="0,0,0,10" FontFamily="Segoe UI"/>
-                    
-                    <TextBlock Text="Welcome back! Please login to your account." 
-                               FontSize="14" Foreground="#888888" Margin="0,0,0,30"
-                               TextWrapping="Wrap" FontFamily="Segoe UI"/>
+        <Grid Grid.Column="1" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                    <TextBlock Text="User Name" FontSize="13" Foreground="#555555" Margin="0,0,0,8" FontFamily="Segoe UI"/>
-                    
-                    <TextBox x:Name="UsernameTextBox" 
-                             Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PlaceholderText="username"
-                             Background="White"
-                             Foreground="Black"
-                             BorderBrush="#E0E0E0"
-                             BorderThickness="1"
-                             CornerRadius="4"
-                             Margin="0,0,0,20"
-                             FontSize="14"
-                             Height="40"
-                             Padding="12,8"
-                             FontFamily="Segoe UI"/>
+            <Button x:Name="ConfigButton"
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,20,20,0"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="ConfigButton_Click"
+            ToolTipService.ToolTip="Cấu hình Server">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE713;" Foreground="#888888" FontSize="18"/>
+            </Button>
 
-                    <TextBlock Text="Password"                                
-                               FontSize="13" 
-                               Foreground="#555555" 
-                               Margin="0,0,0,8" 
-                               FontFamily="Segoe UI"/>
-                    
-                    <PasswordBox x:Name="PasswordTextBox"
-                                 PlaceholderText="••••••••••"
-                                 Background="White"
-                                 Foreground="Black"
-                                 BorderBrush="#E0E0E0"
-                                 BorderThickness="1"
-                                 CornerRadius="4"
-                                 Margin="0,0,0,15"
-                                 FontSize="14"
-                                 Height="40"
-                                 Padding="12,8"
-                                 FontFamily="Segoe UI"
-                                 PasswordChanged="PasswordBox_PasswordChanged"/>
+            <ScrollViewer Grid.Row="1"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                <Grid Padding="60" MinHeight="400">
+                    <StackPanel VerticalAlignment="Center" MaxWidth="350" HorizontalAlignment="Center">
 
-                    <Grid Margin="0,0,0,25">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <CheckBox x:Name="RememberMeCheckBox"
-                                  Content="Remember Me" 
-                                  Grid.Column="0" Foreground="#555555" FontSize="13" FontFamily="Segoe UI"/>
-                        
-                        <HyperlinkButton Content="Forgot Password?" Grid.Column="1"
-                                         Foreground="#888888" FontSize="13" Padding="0" FontFamily="Segoe UI"/>
-                    </Grid>
+                        <TextBlock Text="Login" FontSize="36" FontWeight="Bold"
+                           Foreground="#1A1A2E" Margin="0,0,0,10" FontFamily="Segoe UI"/>
 
-                    <Button x:Name="LoginButton"
-                            Command="{x:Bind ViewModel.LoginCommand}"
-                            IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}"
-                            Content="Login" 
-                            HorizontalAlignment="Stretch"
-                            Height="45"
-                            FontSize="16"
-                            FontWeight="SemiBold"
-                            FontFamily="Segoe UI"   
-                            Foreground="White"
-                            CornerRadius="8"
-                            Margin="0,0,0,15">
-                        <Button.Background>
-                            <SolidColorBrush Color="#7B5CD6"/>
-                        </Button.Background>
-                    </Button>
+                        <TextBlock Text="Welcome back! Please login to your account."
+                           FontSize="14" Foreground="#888888" Margin="0,0,0,30"
+                           TextWrapping="Wrap" FontFamily="Segoe UI"/>
 
-                    <ProgressRing x:Name="LoadingRing"
-                                  IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" 
-                                  Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                  Width="40" Height="40"
-                                  Margin="0,0,0,15"
-                                  Foreground="#7B5CD6"/>
+                        <TextBlock Text="User Name" FontSize="13" Foreground="#555555" Margin="0,0,0,8" FontFamily="Segoe UI"/>
+                        <TextBox x:Name="UsernameTextBox"
+                         Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="username"
+                         Height="40" Margin="0,0,0,20" CornerRadius="4"/>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="New User? " FontSize="14" Foreground="#888888"
-                                   VerticalAlignment="Center" FontFamily="Segoe UI"/>
-                        <HyperlinkButton Content="Sign Up" 
-                                         Command="{x:Bind ViewModel.GoToRegisterCommand}"
-                                         Foreground="#7B5CD6" 
-                                         FontSize="14" 
-                                         Padding="0" 
-                                         FontFamily="Segoe UI"/>
+                        <TextBlock Text="Password" FontSize="13" Foreground="#555555" Margin="0,0,0,8" FontFamily="Segoe UI"/>
+                        <PasswordBox x:Name="PasswordTextBox"
+                             PlaceholderText="••••••••••"
+                             Height="40" Margin="0,0,0,15" CornerRadius="4"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                        <Grid Margin="0,0,0,25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="RememberMeCheckBox" Content="Remember Me" Grid.Column="0" Foreground="#555555"/>
+                            <HyperlinkButton Content="Forgot Password?" Grid.Column="1" Foreground="#888888" Padding="0"/>
+                        </Grid>
+
+                        <Button x:Name="LoginButton"
+                        Command="{x:Bind ViewModel.LoginCommand}"
+                        IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}"
+                        Content="Login" HorizontalAlignment="Stretch" Height="45"
+                        FontSize="16" FontWeight="SemiBold" Foreground="White" CornerRadius="8" Margin="0,0,0,15">
+                            <Button.Background>
+                                <SolidColorBrush Color="#7B5CD6"/>
+                            </Button.Background>
+                        </Button>
+
+                        <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+                              Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                              Width="40" Height="40" Margin="0,0,0,15" Foreground="#7B5CD6"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="New User? " FontSize="14" Foreground="#888888" VerticalAlignment="Center"/>
+                            <HyperlinkButton Content="Sign Up" Command="{x:Bind ViewModel.GoToRegisterCommand}" Foreground="#7B5CD6" FontSize="14" Padding="0"/>
+                        </StackPanel>
                     </StackPanel>
+                </Grid>
+            </ScrollViewer>
 
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+            <TextBlock x:Name="AppVersionText"
+               Grid.Row="2"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Bottom"
+               Margin="0,0,0,20"
+               FontSize="12"
+               Foreground="#AAAAAA"
+               FontFamily="Segoe UI"/>
+        </Grid>
+
     </Grid>
 </Page>

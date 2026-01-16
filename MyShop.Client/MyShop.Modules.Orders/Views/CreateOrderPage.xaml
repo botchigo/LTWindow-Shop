@@ -70,8 +70,11 @@
                                                 <Run Text="Kho:"/> <Run Text="{x:Bind Stock}"/>
                                             </TextBlock>
                                         </StackPanel>
-                                        <Button Command="{Binding ElementName=Root, Path=ViewModel.AddToCartCommand}" CommandParameter="{Binding}" 
-                                                Style="{StaticResource SubtleButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="4">
+                                        <Button Click="AddToCart_Click"
+                                                Style="{StaticResource SubtleButtonStyle}" 
+                                                HorizontalAlignment="Right" 
+                                                VerticalAlignment="Bottom" 
+                                                Padding="4">
                                             <FontIcon Glyph="&#xE710;" FontSize="16"/>
                                         </Button>
                                     </Grid>

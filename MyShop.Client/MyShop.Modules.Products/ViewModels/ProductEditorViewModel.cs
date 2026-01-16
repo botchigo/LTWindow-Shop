@@ -241,9 +241,21 @@ namespace MyShop.Modules.Products.ViewModels
             {
                 var files = await _filePickerService.PickImagesAsync();
 
-                if (files.Count > 0)
+                if (files is not null && files.Any())
                 {
-                    var storageFolder = ApplicationData.Current.LocalFolder;
+                    // 1. Lấy đường dẫn chuẩn của Windows (C:\Users\Name\AppData\Local)
+                    string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    // 2. Tạo thư mục riêng 
+                    string appFolderPath = Path.Combine(localAppData, "MyWindowProject");
+
+                    if (!Directory.Exists(appFolderPath))
+                    {
+                        Directory.CreateDirectory(appFolderPath);
+                    }
+
+                    // 4. Lấy reference dạng StorageFolder từ đường dẫn string
+                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(appFolderPath);
+
                     var imagesFolder = await storageFolder.CreateFolderAsync("ProductImages", CreationCollisionOption.OpenIfExists);
 
                     foreach (var file in files)

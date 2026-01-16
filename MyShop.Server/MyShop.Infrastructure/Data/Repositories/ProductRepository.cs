@@ -28,7 +28,9 @@ namespace MyShop.Infrastructure.Data.Repositories
                 query = query.Where(p => p.CategoryId == categoryId);
 
             if(!string.IsNullOrEmpty(keyword))
-                query = query.Where(p => p.Name.Contains(keyword));
+            {
+                query = query.Where(p => p.SearchVector.Matches(EF.Functions.WebSearchToTsQuery("vn_unaccent", keyword)));
+            }
 
             return query;
         }

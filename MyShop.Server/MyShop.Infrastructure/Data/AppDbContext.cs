@@ -87,6 +87,18 @@ namespace MyShop.Infrastructure.Data
             );
 
             //product
+            modelBuilder.HasPostgresExtension("unaccent");
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasGeneratedTsVectorColumn(
+                    p => p.SearchVector,
+                    "vn_unaccent",
+                    p => new { p.Name, p.Description })
+                .HasIndex(p => p.SearchVector)
+                .HasMethod("GIN");
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasIndex(p => p.Name);
