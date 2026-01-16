@@ -109,25 +109,24 @@ namespace MyShop.Modules.Products.ViewModels
             try
             {
                 PageSize = _settingsService.GetPageSize();
-
                 var skip = (CurrentPage - 1) * PageSize;
-                var sortInoput = BuildSortInput();
-                var orderParams = new List<ProductSortInput> { sortInoput };
-                int? categoryFilter = (SelectedCategory is null)
-                    ? 0
-                    : SelectedCategory.Id;
+
+                // Xử lý Filter & Sort
+                var sortInput = BuildSortInput();
+                var orderParams = new List<ProductSortInput> { sortInput };
+
+                // Fix logic Category: Nếu null thì gửi null (lấy hết), gửi 0 backend sẽ tìm ID=0 (ko có)
+                int? categoryFilter = SelectedCategory?.Id;
+
                 var filter = new ProductFilterInput();
-                if(MinPrice.HasValue || MaxPrice.HasValue)
+                if (MinPrice.HasValue || MaxPrice.HasValue)
                 {
                     filter.ImportPrice = new DecimalOperationFilterInput();
-
-                    if(MinPrice.HasValue)
-                        filter.ImportPrice.Gte = MinPrice.Value;
-
-                    if(MaxPrice.HasValue)
-                        filter.ImportPrice.Lte = MaxPrice.Value;
+                    if (MinPrice.HasValue) filter.ImportPrice.Gte = MinPrice.Value;
+                    if (MaxPrice.HasValue) filter.ImportPrice.Lte = MaxPrice.Value;
                 }
-                
+
+                // Gọi API
                 var result = await _client.GetProductList.ExecuteAsync(
                     skip,
                     PageSize,
@@ -144,10 +143,9 @@ namespace MyShop.Modules.Products.ViewModels
                 }
 
                 var data = result.Data.Products;
-
                 TotalPage = (int)Math.Ceiling((double)data.TotalCount / PageSize);
 
-                //update UI
+                // --- CẬP NHẬT UI ---
                 Products.Clear();
                 foreach (var item in data.Items)
                 {
