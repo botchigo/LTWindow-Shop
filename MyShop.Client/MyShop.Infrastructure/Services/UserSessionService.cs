@@ -9,7 +9,7 @@ namespace MyShop.Infrastructure.Services
 
         public int UserId { get; private set; }
         public string? UserName { get; private set; }
-        public string? AccessToken { get; private set; }
+        public string? AccessToken { get; private set; } = null;
 
         public void ClearSession()
         {

@@ -54,7 +54,7 @@ namespace MyShop.Infrastructure.Services
                     item.OrderId = order.Id;
 
                     product.Stock -= item.Quantity;
-                    product.SaleAmount++;
+                    product.SaleAmount += item.Quantity;
                 }
 
                 order.FinalPrice = order.OrderItems.Sum(oi => oi.TotalPrice);

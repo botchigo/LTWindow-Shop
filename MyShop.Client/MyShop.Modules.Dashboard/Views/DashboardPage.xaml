@@ -121,7 +121,9 @@
                                 <TextBlock Text="📈 Doanh thu trong tháng" FontSize="18" FontWeight="Bold" Foreground="{ThemeResource SystemBaseHighColor}"/>
                             </Grid>
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="220">
-                                <Canvas x:Name="RevenueChart" Width="700" Height="200"/>
+                                <Canvas x:Name="RevenueChart" 
+                                        Width="700" Height="200" 
+                                        SizeChanged="RevenueChart_SizeChanged"/>
                             </ScrollViewer>
                         </StackPanel>
                     </Border>
@@ -144,10 +146,10 @@
                                             </Border>
 
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{x:Bind ProductName}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{x:Bind ProductName, Mode=OneWay}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis"/>
                                                 <TextBlock FontSize="11" Foreground="{ThemeResource SystemBaseMediumColor}">
                                                     <Run Text="Đã bán: "/>
-                                                    <Run Text="{x:Bind TotalQuantity}"/>
+                                                    <Run Text="{x:Bind TotalQuantity, Mode=OneWay}"/>
                                                 </TextBlock>
                                             </StackPanel>
                                         </Grid>

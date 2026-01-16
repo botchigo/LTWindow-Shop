@@ -112,7 +112,7 @@
                                       BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1"
                                       Background="{ThemeResource SolidBackgroundFillColorBaseBrush}">
 
-                                    <Image Source="{x:Bind Converter={StaticResource ProductThumbnailConverter}}" 
+                                    <Image Source="{x:Bind Converter={StaticResource StringToImageConverter}}" 
                                            Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                                     <Button Command="{Binding ElementName=PageRoot, Path=ViewModel.RemoveImageCommand}" 

@@ -36,6 +36,7 @@
             <converters:EnumToStringConverter x:Key="EnumToStringConverter"/>
             <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter"/>
             <converters:StatusColorConverter x:Key="StatusColorConverter"/>
+            <converters:StringToImageConverter x:Key="StringToImageConverter"/> 
 
         </ResourceDictionary>
     </Application.Resources>

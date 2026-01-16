@@ -43,6 +43,16 @@ namespace MyShop.Modules.Orders.Views
             }
         }
 
+        private void AddToCart_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+
+            if (button.DataContext is IGetProductForOrder_Products_Items productItem)
+            {
+                ViewModel.AddToCartCommand.Execute(productItem);
+            }
+        }
+
         private void SearchBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)

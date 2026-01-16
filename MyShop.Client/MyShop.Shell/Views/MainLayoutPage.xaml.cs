@@ -3,9 +3,11 @@ using Microsoft.UI.Xaml.Controls;
 using MyShop.Contract;
 using MyShop.Core.DTOs;
 using MyShop.Core.Interfaces;
+using MyShop.Infrastructure.Authentication;
 using MyShop.Infrastructure.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -114,7 +116,7 @@ namespace MyShop.Shell.Views
             });
         }
 
-        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private async void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var settingsService = App.GetService<ISettingsService>();
 
@@ -134,8 +136,11 @@ namespace MyShop.Shell.Views
                 string? key = item.Tag?.ToString();
                 if (key == "Logout")
                 {
-                    var userSession = App.GetService<IUserSessionService>() as UserSessionService;
-                    userSession?.ClearSession();
+                    var authService = App.GetService<IAuthenticationService>() as AuthenticationService;
+                    if (authService != null)
+                    {
+                        await authService.LogoutAsync();
+                    }
                     _navService.NavigateTo("LoginPage");
                 }
                 else

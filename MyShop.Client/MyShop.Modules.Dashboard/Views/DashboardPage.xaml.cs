@@ -1,9 +1,11 @@
 using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using MyShop.Core.Helpers;
 using MyShop.Modules.Dashboard.ViewModels;
+using System.ComponentModel;
 using System.Linq;
 using Windows.Foundation;
 
@@ -23,11 +25,27 @@ namespace MyShop.Modules.Dashboard.Views
             InitializeComponent();
             ViewModel = ServiceHelper.GetService<DashboardViewModel>();
             DataContext = ViewModel;
+
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            Loaded += (s, e) => DrawRevenueChart();
         }
 
         private void RefreshButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.LoadDashboardDataCommand.Execute(null);
+        }
+
+        private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModel.MonthlyRevenue) || e.PropertyName == nameof(ViewModel.IsLoading))
+            {
+                DispatcherQueue.TryEnqueue(() => DrawRevenueChart());
+            }
+        }
+
+        private void RevenueChart_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DrawRevenueChart();
         }
 
         private void DrawRevenueChart()
@@ -91,11 +109,6 @@ namespace MyShop.Modules.Dashboard.Views
             }
 
             RevenueChart.Children.Insert(0, polyline);
-        }
-
-        private void ChartCanvas_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
-        {
-            DrawRevenueChart();
         }
     }
 }

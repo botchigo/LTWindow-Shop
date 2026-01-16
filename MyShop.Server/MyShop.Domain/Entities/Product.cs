@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NpgsqlTypes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShop.Domain.Entities
@@ -44,5 +45,9 @@ namespace MyShop.Domain.Entities
 
         //Images
         public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
-    }
+
+        //Full text search vector
+        [GraphQLIgnore]
+        public NpgsqlTsVector SearchVector { get; set; }
+        }
 }

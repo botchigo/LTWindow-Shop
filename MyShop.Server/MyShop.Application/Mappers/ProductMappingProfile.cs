@@ -29,7 +29,9 @@ namespace MyShop.Application.Mappers
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Product, BestSellerProduct>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.TotalQuantity,  opt => opt.MapFrom(src => (long)src.SaleAmount));
 
             CreateMap<ImportProductDTO, Product>();
         }

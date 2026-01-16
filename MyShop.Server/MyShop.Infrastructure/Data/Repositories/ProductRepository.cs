@@ -22,15 +22,42 @@ namespace MyShop.Infrastructure.Data.Repositories
 
         public IQueryable<Product> GetProductQueryable(string? keyword, int? categoryId)
         {
-            var query = _dbSet.AsQueryable();
+            var baseQuery = _dbSet.AsQueryable();
 
-            if(categoryId.HasValue && categoryId != 0)
-                query = query.Where(p => p.CategoryId == categoryId);
+            if (categoryId.HasValue && categoryId != 0)
+                baseQuery = baseQuery.Where(p => p.CategoryId == categoryId);
 
-            if(!string.IsNullOrEmpty(keyword))
-                query = query.Where(p => p.Name.Contains(keyword));
+            if (string.IsNullOrEmpty(keyword))
+                return baseQuery;
 
-            return query;
+            // Loại bỏ ký tự đặc biệt nguy hiểm cho tsquery (như & | ! < >) để tránh syntax error
+            // Chỉ giữ lại chữ cái, số và khoảng trắng
+            var sanitizedKeyword = System.Text.RegularExpressions.Regex.Replace(keyword, @"[^\w\s]", " ").Trim();
+
+            if (string.IsNullOrWhiteSpace(sanitizedKeyword)) return baseQuery;
+
+            //Chuẩn hóa keyword để hỗ trợ tìm kiếm prefix
+            //Ví dụ user gõ: "áo thu" -> convert thành: "áo:* & thu:*"
+            //prefix matching
+            var searchTerms = keyword.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var tsQuery = string.Join(" & ", searchTerms.Select(t => $"{t}:*"));
+
+            // --- CHIẾN THUẬT 1: FTS + Prefix + Ranking ---
+            var ftsQuery = baseQuery.Where(p => p.SearchVector.Matches(
+                EF.Functions.ToTsQuery("vn_unaccent", tsQuery))
+            );
+
+            if (ftsQuery.Any())
+            {
+                return ftsQuery.OrderByDescending(p => p.SearchVector.Rank(
+                    EF.Functions.ToTsQuery("vn_unaccent", tsQuery))
+                );
+            }
+
+            // --- CHIẾN THUẬT 2: Fallback Trigram (Similarity) ---
+            return baseQuery
+                .Where(p => EF.Functions.TrigramsSimilarity(p.Name, keyword) > 0.3)
+                .OrderByDescending(p => EF.Functions.TrigramsSimilarity(p.Name, keyword));
         }
 
         public async Task<List<Product>> GetByIdsAsync(List<int> ids)
