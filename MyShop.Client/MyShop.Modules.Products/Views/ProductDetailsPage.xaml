@@ -36,18 +36,57 @@
                 <Grid ColumnSpacing="32">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="400"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                        <FlipView ItemsSource="{x:Bind ViewModel.Product.ProductImages, Mode=OneWay}" Height="300">
-                            <FlipView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Path, Converter={StaticResource PathToImageConverter}}" Stretch="Uniform"/>
-                                </DataTemplate>
-                            </FlipView.ItemTemplate>
-                        </FlipView>
-                    </Border>
+                    <StackPanel Grid.Column="0" Spacing="12">
+
+                        <Border CornerRadius="8" BorderThickness="1" 
+                                BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" 
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+
+                            <FlipView x:Name="ImageFlipView" 
+                                      ItemsSource="{x:Bind ViewModel.Product.ProductImages, Mode=OneWay}" 
+                                      Height="300">
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Path, Converter={StaticResource PathToImageConverter}}" 
+                                                Stretch="Uniform"/>
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+                        </Border>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                      VerticalScrollBarVisibility="Disabled" 
+                                      HorizontalScrollMode="Auto" 
+                                      VerticalScrollMode="Disabled">
+
+                            <GridView ItemsSource="{x:Bind ViewModel.Product.ProductImages, Mode=OneWay}"
+                                      SelectedIndex="{x:Bind ImageFlipView.SelectedIndex, Mode=TwoWay}"
+                                      SelectionMode="Single"
+                                      HorizontalAlignment="Center">
+
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="60" Height="60" CornerRadius="4" Margin="4"
+                                                BorderThickness="1" 
+                                                BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+                                            <Image Source="{Binding Path, Converter={StaticResource PathToImageConverter}}" 
+                                                    Stretch="UniformToFill"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsWrapGrid Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                            </GridView>
+                        </ScrollViewer>
+
+                    </StackPanel>
 
                     <StackPanel Grid.Column="1" Spacing="16">
                         <Border Background="{ThemeResource AccentFillColorDefaultBrush}" HorizontalAlignment="Left" CornerRadius="4" Padding="8,4">
@@ -92,17 +131,20 @@
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Bind ViewModel.Product.Sku, Mode=OneWay}" FontFamily="Consolas"/>
 
                         </Grid>
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Mô tả sản phẩm" Style="{StaticResource SubtitleTextBlockStyle}"/>
+
+                            <Border Background="{ThemeResource LayerFillColorDefaultBrush}" 
+                            Padding="16" CornerRadius="8"
+                            BorderThickness="1" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">
+                                <TextBlock Text="{x:Bind ViewModel.Product.Description, Mode=OneWay}" 
+                                   TextWrapping="Wrap" 
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   LineHeight="22"/>
+                            </Border>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
-
-                <StackPanel Spacing="8">
-                    <TextBlock Text="Mô tả sản phẩm" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <Border Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="16" CornerRadius="8">
-                        <TextBlock Text="{x:Bind ViewModel.Product.Description, Mode=OneWay}" 
-                                   TextWrapping="Wrap" Style="{StaticResource BodyTextBlockStyle}"/>
-                    </Border>
-                </StackPanel>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

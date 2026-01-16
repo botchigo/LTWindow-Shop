@@ -1,4 +1,4 @@
-using Database.Repositories;
+﻿using Database.Repositories;
 using HotChocolate.Data.Filters;
 using Microsoft.EntityFrameworkCore;
 using MyShop.API.GraphQL.Mutations;
@@ -8,6 +8,7 @@ using MyShop.Application.Interfaces;
 using MyShop.Domain.Interfaces;
 using MyShop.Infrastructure.Data;
 using MyShop.Infrastructure.Data.Repositories;
+using MyShop.Infrastructure.Data.Seed;
 using MyShop.Infrastructure.Services;
 using MyShop.Shared.Contants;
 
@@ -70,7 +71,27 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.Configure<JwtOption>(builder.Configuration.GetSection("Jwt"));
 
 var app = builder.Build();
+// === BẮT ĐẦU ĐOẠN CODE SEED DATA ===
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
 
+        // Tự động chạy migration (tạo bảng nếu chưa có)
+        await context.Database.MigrateAsync();
+
+        // Gọi hàm seed data
+        await DbInitializer.SeedAsync(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Đã xảy ra lỗi khi seed data.");
+    }
+}
+// === KẾT THÚC ĐOẠN CODE SEED DATA ===
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

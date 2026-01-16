@@ -1,0 +1,927 @@
+﻿[
+    {
+        "CategoryId": 1,
+        "Sku": "CAR001",
+        "Name": "Toyota Inova Cross",
+        "ImportPrice": 730000000,
+        "SalePrice": 1000000000,
+        "Stock": 50,
+        "Description" : "Thiết kế mới với chiều dài vượt trội tạo không gian ngồi thoải mái cho hành khách. Phần thân xe với các đường gân dập nổi giúp xe nổi bật và bề thế hơn.",
+        "ProductImages": [
+            { "Path": "1_1_1.png" },
+            { "Path": "1_1_2.png" },
+            { "Path": "1_1_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR002",
+        "Name": "Toyota Veloz Cross",
+        "ImportPrice": 630000000,
+        "SalePrice": 800000000,
+        "Stock": 50,
+        "Description": "Đầu xe hướng cao với lưới tản nhiệt hình tổ ong đi kèm với ốp cản trước tạo nên tổng thể thiết kế mạnh mẽ, hiên ngang.",
+        "ProductImages": [
+            { "Path": "1_2_1.png" },
+            { "Path": "1_2_2.png" },
+            { "Path": "1_2_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR003",
+        "Name": "Toyota Alphard",
+        "ImportPrice": 4030000000,
+        "SalePrice": 4500000000,
+        "Stock": 40,
+        "Description": "Phần đầu xe với lưới tản nhiệt cỡ lớn được thiết kế liền mạch mang lại vẻ ngoài bệ vệ.",
+        "ProductImages": [
+            { "Path": "1_3_1.png" },
+            { "Path": "1_3_2.png" },
+            { "Path": "1_3_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR004",
+        "Name": "Toyota Yasis Cross",
+        "ImportPrice": 630000000,
+        "SalePrice": 700000000,
+        "Stock": 50,
+        "Description": "Đầu xe tạo hình vững chãi cùng thiết kế lưới tản nhiệt hình than kết hợp mắt lưới đan xen thẩm mỹ mang tới diện mạo khỏe khoắn không kém phần tinh tế.",
+        "ProductImages": [
+            { "Path": "1_4_1.png" },
+            { "Path": "1_4_2.png" },
+            { "Path": "1_4_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR005",
+        "Name": "Toyota Corolla Cross",
+        "ImportPrice": 802000000,
+        "SalePrice": 905000000,
+        "Stock": 50,
+        "Description": "Lưới tản nhiệt tổ ong hoàn toàn mới mang đường nét cá tính tạo nên vẻ ngoài đầy ấn tượng.",
+        "ProductImages": [
+            { "Path": "1_5_1.png" },
+            { "Path": "1_5_2.png" },
+            { "Path": "1_5_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR006",
+        "Name": "Toyota Raize",
+        "ImportPrice": 502000000,
+        "SalePrice": 505000000,
+        "Stock": 50,
+        "Description": "Cụm đèn pha LED hiện đại, cao cấp mang đến khả năng chiếu sáng tối đa. Cụm đèn sử dụng hệ thống đèn xi nhan tuần tự cho vẻ ngoài cá tính.",
+        "ProductImages": [
+            { "Path": "1_6_1.png" },
+            { "Path": "1_6_2.png" },
+            { "Path": "1_6_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR007",
+        "Name": "Toyota Fortuner",
+        "ImportPrice": 1002000000,
+        "SalePrice": 1105000000,
+        "Stock": 20,
+        "Description": "Cụm đèn sau thiết kế hài hòa vuốt dọc từ hai bên thân xe cùng dải đèn LED chiếu sáng và cụm đèn sương mù tối ưu vào ban đêm.",
+        "ProductImages": [
+            { "Path": "1_7_1.png" },
+            { "Path": "1_7_2.png" },
+            { "Path": "1_7_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR008",
+        "Name": "Toyota Land Cruiser",
+        "ImportPrice": 4002000000,
+        "SalePrice": 4405000000,
+        "Stock": 10,
+        "Description": "Cụm đèn LED sau xe kết hợp với đuôi cabin được thiết kế khỏe khoắn, lịch lãm và sang trọng.",
+        "ProductImages": [
+            { "Path": "1_8_1.png" },
+            { "Path": "1_8_2.png" },
+            { "Path": "1_8_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR009",
+        "Name": "Toyota Vios",
+        "ImportPrice": 482000000,
+        "SalePrice": 525000000,
+        "Stock": 40,
+        "Description": "Cụm đèn trước sử dụng công nghệ LED dạng bóng chiếu với thiết kế bắt mắt cho khả năng chiếu sáng tuyệt vời và giảm tiêu thụ năng lượng.",
+        "ProductImages": [
+            { "Path": "1_9_1.png" },
+            { "Path": "1_9_2.png" },
+            { "Path": "1_9_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR010",
+        "Name": "Toyota Camry",
+        "ImportPrice": 782000000,
+        "SalePrice": 825000000,
+        "Stock": 40,
+        "Description": "Cụm đèn LED thiết kế hoàn toàn mới mang dáng vẻ mạnh mẽ và tinh tế, cùng khả năng chiếu sáng tối ưu, mang đến trải nghiệm lái an toàn hơn.",
+        "ProductImages": [
+            { "Path": "1_10_1.png" },
+            { "Path": "1_10_2.png" },
+            { "Path": "1_10_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR011",
+        "Name": "Toyota Corolla Altis",
+        "ImportPrice": 1502000000,
+        "SalePrice": 1825000000,
+        "Stock": 20,
+        "Description": "Phần đầu xe tạo ấn tượng bởi diện mạo tươi mới, trẻ trung với thiết kế dạng tổ ong cùng những chi tiết mạ crôm nổi bật.",
+        "ProductImages": [
+            { "Path": "1_11_1.png" },
+            { "Path": "1_11_2.png" },
+            { "Path": "1_11_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR012",
+        "Name": "Toyota Hilux",
+        "ImportPrice": 706000000,
+        "SalePrice": 756000000,
+        "Stock": 40,
+        "Description": "HILUX mở ra kỷ nguyên mới cho dòng xe bán tải hiện đại, phong cách, uy lực và đa năng. Với từng chi tiết được thiết kế mạnh mẽ và đầy cảm xúc, chỉ HILUX mới có thể đem đến những cuộc chinh phục xứng tầm.",
+        "ProductImages": [
+            { "Path": "1_12_1.png" },
+            { "Path": "1_12_2.png" },
+            { "Path": "1_12_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR013",
+        "Name": "Toyota Wigo G",
+        "ImportPrice": 406000000,
+        "SalePrice": 456000000,
+        "Stock": 40,
+        "Description": "Phần thân xe mạnh mẽ, khỏe khoắn nhờ đường gân nổi chạy dọc từ hông xe đến đuôi xe.",
+        "ProductImages": [
+            { "Path": "1_13_1.png" },
+            { "Path": "1_13_2.png" },
+            { "Path": "1_13_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR014",
+        "Name": "Huyndai I10 Sedan",
+        "ImportPrice": 380000000,
+        "SalePrice": 420000000,
+        "Stock": 40,
+        "Description": "Kể từ khi VinFast Fadil bị khai tử, Hyundai Grand i10 nhanh chóng giành lại vị thế dẫn đầu phân khúc xe cỡ nhỏ hạng A. Grand i10 là mẫu xe duy nhất trong phân khúc có 2 biến thể hatchback và sedan.",
+        "ProductImages": [
+            { "Path": "1_14_1.png" },
+            { "Path": "1_14_2.png" },
+            { "Path": "1_14_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR015",
+        "Name": "Huyndai Accent",
+        "ImportPrice": 430000000,
+        "SalePrice": 450000000,
+        "Stock": 40,
+        "Description": "Thế hệ thứ 5 của mẫu xe này đã chính thức trình làng Việt Nam với sự “lột xác” ngoạn mục cả về ngoại hình lẫn trang bị, tạo nên những dấu ấn đặc biệt, trở thành mẫu xe dẫn đầu về doanh số trong dải sản phẩm của Hyundai.",
+        "ProductImages": [
+            { "Path": "1_15_1.png" },
+            { "Path": "1_15_2.png" },
+            { "Path": "1_15_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR016",
+        "Name": "Huyndai Venue",
+        "ImportPrice": 530000000,
+        "SalePrice": 550000000,
+        "Stock": 40,
+        "Description": "Hyundai Venue là một dòng xe Crossover hạng nhỏ (subcompact Crossover SUV) thuộc phân khúc hạng A, do hãng xe Hyundai Hàn Quốc sản xuất. Được giới thiệu và chính thức ra mắt tại triển lãm ô tô New York 2019, mẫu xe này mang đến sự mới mẻ và độc đáo trong danh sách sản phẩm của Hyundai.",
+        "ProductImages": [
+            { "Path": "1_16_1.png" },
+            { "Path": "1_16_2.png" },
+            { "Path": "1_16_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR017",
+        "Name": "Huyndai Custin",
+        "ImportPrice": 820000000,
+        "SalePrice": 850000000,
+        "Stock": 30,
+        "Description": "Bên cạnh thiết kế trẻ trung, bắt mắt, đa dạng tính năng hiện đại thì giá xe cũng là một trong những điểm tạo sức hút lớn cho Hyundai Custin.",
+        "ProductImages": [
+            { "Path": "1_17_1.png" },
+            { "Path": "1_17_2.png" },
+            { "Path": "1_17_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR018",
+        "Name": "Huyndai Palisade",
+        "ImportPrice": 1420000000,
+        "SalePrice": 1550000000,
+        "Stock": 20,
+        "Description": "Hyundai ra mắt Palisade cho thị trường Việt Nam ngày 15/9. Palisade là mẫu SUV 3 hàng ghế lớn và đắt nhất của Hyundai, cạnh tranh với những đối thủ đáng gờm như Ford Explorer, Volkswagen Teramont. Palisade bổ sung thêm dòng sản phẩm xe gầm cao của Hyundai, bên cạnh Santa Fe, Tucson.",
+        "ProductImages": [
+            { "Path": "1_18_1.png" },
+            { "Path": "1_18_2.png" },
+            { "Path": "1_18_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR019",
+        "Name": "Huyndai Ioniq 5",
+        "ImportPrice": 620000000,
+        "SalePrice": 650000000,
+        "Stock": 20,
+        "Description": "Ngày 31/7/2023, Hyundai Thành Công chính thức phân phối Ioniq 5 – dòng ôtô điện đầu tiên của hãng ở Việt Nam. Hyundai Ioniq 5 lắp ráp tại Việt Nam. Hyundai định vị Ioniq 5 cạnh tranh với VinFast VF 8.",
+        "ProductImages": [
+            { "Path": "1_19_1.png" },
+            { "Path": "1_19_2.png" },
+            { "Path": "1_19_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR020",
+        "Name": "Huyndai StargazerX",
+        "ImportPrice": 480000000,
+        "SalePrice": 520000000,
+        "Stock": 30,
+        "Description": "Hyundai Stargazer X là mẫu MPV được phát triển trên nền tảng chiếc Stargazer đã được giới thiệu tại Việt Nam vào năm 2022. Stargazer X được Hyundai Motor nghiên cứu và phát triển theo phong cách SUV mạnh mẽ, đa dụng hơn.",
+        "ProductImages": [
+            { "Path": "1_20_1.png" },
+            { "Path": "1_20_2.png" },
+            { "Path": "1_20_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR021",
+        "Name": "Huyndai Elantra",
+        "ImportPrice": 570000000,
+        "SalePrice": 610000000,
+        "Stock": 30,
+        "Description": "Hyundai Elantra đang là bản nâng cấp giữa vòng đời của thế hệ thứ 6, ra mắt người tiêu dùng hồi tháng 05/2019. Tham chiến tại phân khúc sedan C với loạt những cái tên như KIA K3, Mazda3, Toyota Corolla Altis, giá xe Hyundai Elantra được cho là khá cạnh tranh khi chỉ nhỉnh hơn đối thủ đồng hương Cerato và thấp hơn hẳn các mẫu xe Nhật.",
+        "ProductImages": [
+            { "Path": "1_21_1.png" },
+            { "Path": "1_21_2.png" },
+            { "Path": "1_21_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 1,
+        "Sku": "CAR022",
+        "Name": "Huyndai SantaFE",
+        "ImportPrice": 970000000,
+        "SalePrice": 1000000000,
+        "Stock": 20,
+        "Description": "Tại Việt Nam, Hyundai Santa Fe đang là “vua” phân khúc SUV 7 chỗ với doanh số tháng liên tục lọt top 10 bán chạy. Thế hệ 4.5 của Hyundai SantaFe nhanh chóng được hãng đưa về nước hồi tháng 05 vừa qua, càng tăng thêm sức mạnh cạnh tranh và củng cố vững vị trí dẫn đầu.",
+        "ProductImages": [
+            { "Path": "1_22_1.png" },
+            { "Path": "1_22_2.png" },
+            { "Path": "1_22_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO001",
+        "Name": "Honda ADV 350",
+        "ImportPrice": 160000000,
+        "SalePrice": 168000000,
+        "Stock": 40,
+        "Description": "ADV350 mang thiết kế hiện đại, tinh gọn cùng trang bị cụm đèn trước LED, kết hợp cùng chức năng tự động tắt xi-nhan, mang đến sự tiện lợi tối đa và trải nghiệm lái xe đẳng cấp.",
+        "ProductImages": [
+            { "Path": "2_1_1.png" },
+            { "Path": "2_1_2.png" },
+            { "Path": "2_1_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO002",
+        "Name": "Honda SH 350i",
+        "ImportPrice": 140000000,
+        "SalePrice": 152000000,
+        "Stock": 40,
+        "Description": "Phiên bản thể thao bổ sung thêm sắc xanh thời thượng hoàn toàn mới từ những mẫu xe phân khối lớn của Honda, mang lại hình ảnh nổi bật và đầy lôi cuốn.",
+        "ProductImages": [
+            { "Path": "2_2_1.png" },
+            { "Path": "2_2_2.png" },
+            { "Path": "2_2_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO003",
+        "Name": "Honda SH Mode",
+        "ImportPrice": 58000000,
+        "SalePrice": 63000000,
+        "Stock": 40,
+        "Description": "Cụm đèn trước sở hữu đồng bộ công nghệ LED hiện đại, điểm xuyết lấp lánh như một dải trang sức. Thêm vào đó, việc sử dụng công nghệ xi mạ chrome ở cả phần kết nối giữa đèn trước và phần thân xe giúp tăng tính liên kết, liền mạch.",
+        "ProductImages": [
+            { "Path": "2_3_1.png" },
+            { "Path": "2_3_2.png" },
+            { "Path": "2_3_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO004",
+        "Name": "Honda Vario 160",
+        "ImportPrice": 50000000,
+        "SalePrice": 56000000,
+        "Stock": 40,
+        "Description": "VARIO 160 sở hữu thiết kế thể thao, mới lạ, phù hợp với các khách hàng trẻ tuổi và năng động. Diện mạo xe bề thế mạnh mẽ mang tới hình ảnh trẻ trung độc đáo, nổi bật dưới mọi góc nhìn.",
+        "ProductImages": [
+            { "Path": "2_4_1.png" },
+            { "Path": "2_4_2.png" },
+            { "Path": "2_4_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO005",
+        "Name": "Honda Airblade 160",
+        "ImportPrice": 50000000,
+        "SalePrice": 58000000,
+        "Stock": 40,
+        "Description": "Air Blade 2026 sở hữu thiết kế được làm mới hoàn toàn, hướng đến phong cách hiện đại và tối giản. Kiểu dáng thể thao mạnh mẽ nhưng không kém phần lịch lãm, cùng phối màu mới lạ trên từng phiên bản, tạo nên diện mạo nam tính, cuốn hút và đầy khác biệt.",
+        "ProductImages": [
+            { "Path": "2_5_1.png" },
+            { "Path": "2_5_2.png" },
+            { "Path": "2_5_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO006",
+        "Name": "Honda Vario 125",
+        "ImportPrice": 34000000,
+        "SalePrice": 40000000,
+        "Stock": 40,
+        "Description": "Thiết kế phía trước của Vario 125 gây ấn tượng mạnh với những đường nét góc cạnh, tích hợp hốc gió khí động học. Phần đầu đèn được thiết kế thú vị vuốt nhọn về phía trước, kết hợp cùng hệ thống đèn chiếu sáng phía trước và dãy đèn trang trí LED đẹp mắt, giúp đem lại hình ảnh cá tính và nổi bật cho chủ sở hữu.",
+        "ProductImages": [
+            { "Path": "2_6_1.png" },
+            { "Path": "2_6_2.png" },
+            { "Path": "2_6_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO007",
+        "Name": "Honda Vision",
+        "ImportPrice": 30000000,
+        "SalePrice": 34000000,
+        "Stock": 40,
+        "Description": "Thân xe nhỏ gọn kế thừa thiết kế của dòng xe SH cao cấp, với đường nét liền mạch được chau chuốt, nổi bật với tông màu Bạc Nhám hoàn toàn mới hiện đại, trẻ trung kết hợp cùng phối màu tinh tế trên tay dắt sau và tem xe ở phiên bản Thể thao, tạo nên diện mạo thời trang, đầy cuốn hút.",
+        "ProductImages": [
+            { "Path": "2_7_1.png" },
+            { "Path": "2_7_2.png" },
+            { "Path": "2_7_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO008",
+        "Name": "Honda Lead",
+        "ImportPrice": 40000000,
+        "SalePrice": 44000000,
+        "Stock": 40,
+        "Description": "Phiên bản đặc biệt sở hữu màu sắc hoàn toàn mới Bạc mờ bên cạnh màu Đen mờ bí ẩn, mạnh mẽ và Xanh đen cá tính. Tông màu mới mang sắc thái trẻ trung giúp tôn lên hình ảnh năng động và phong cách sống hiện đại của chủ ở hữu.",
+        "ProductImages": [
+            { "Path": "2_8_1.png" },
+            { "Path": "2_8_2.png" },
+            { "Path": "2_8_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO009",
+        "Name": "Honda Super Cub 125",
+        "ImportPrice": 80000000,
+        "SalePrice": 87000000,
+        "Stock": 40,
+        "Description": "Thiết kế hình chữ S kế thừa kiểu dáng huyền thoại của xe Super Cub thập niên 50, mang đến sự hài hòa và mềm mại. Lớp sơn nhũ ánh kim kết hợp với các chi tiết mạ crôm tinh tế gợi lên nét đẹp cổ điển, pha lẫn sự sang trọng, cao cấp, đặc trưng của dòng xe Super Cub.",
+        "ProductImages": [
+            { "Path": "2_9_1.png" },
+            { "Path": "2_9_2.png" },
+            { "Path": "2_9_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO010",
+        "Name": "Honda CT 125",
+        "ImportPrice": 80000000,
+        "SalePrice": 84000000,
+        "Stock": 40,
+        "Description": "Giữ trọn nét cổ điển đặc trưng nhưng thổi bùng tinh thần khám phá, CT125 được tối ưu cho hành trình địa hình với khung xe chắc chắn, gầm cao, phuộc trước sau êm ái, yên cao và khả năng leo dốc 19° (tải trọng 20 kg).",
+        "ProductImages": [
+            { "Path": "2_10_1.png" },
+            { "Path": "2_10_2.png" },
+            { "Path": "2_10_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO011",
+        "Name": "Honda Future 125 Fi",
+        "ImportPrice": 28000000,
+        "SalePrice": 32000000,
+        "Stock": 40,
+        "Description": "Kiểu dáng tổng thể của xe lịch lãm kết hợp với những chi tiết thiết kế tỉ mỉ và sắc nét, từ logo, mặt đồng hồ, hệ thống đèn, các chi tiết mạ cờ-rôm cao cấp, màu sơn… Tất cả giúp làm tăng thêm vẻ sang trọng và nổi bật cho chủ sở hữu.",
+        "ProductImages": [
+            { "Path": "2_11_1.png" },
+            { "Path": "2_11_2.png" },
+            { "Path": "2_11_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO012",
+        "Name": "Honda Blade",
+        "ImportPrice": 18000000,
+        "SalePrice": 21000000,
+        "Stock": 40,
+        "Description": "Phiên bản Thể thao (vành đúc phanh đĩa) sở hữu tem xe SPORT thiết kế mới với màu sắc trẻ trung, nổi bật, tạo cảm giác hiện đại và năng động cho người lái.",
+        "ProductImages": [
+            { "Path": "2_12_1.png" },
+            { "Path": "2_12_2.png" },
+            { "Path": "2_12_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO013",
+        "Name": "Honda Wave Alpha",
+        "ImportPrice": 17000000,
+        "SalePrice": 19000000,
+        "Stock": 40,
+        "Description": "Ấn tượng với màu đen nhám trẻ trung, độc đáo, mang lại cho bạn hình ảnh năng động.",
+        "ProductImages": [
+            { "Path": "2_13_1.png" },
+            { "Path": "2_13_2.png" },
+            { "Path": "2_13_3.png" }
+        ]
+    },
+
+    {
+        "CategoryId": 2,
+        "Sku": "MTO014",
+        "Name": "Honda Wave RSX",
+        "ImportPrice": 20000000,
+        "SalePrice": 25000000,
+        "Stock": 40,
+        "Description": "Ấn tượng với hai màu xe mới Xám Đen và Đỏ Đen, cùng thiết kế phối màu đậm chất thể thao, tạo nên hình ảnh mạnh mẽ, năng động và khác biệt cho chủ sở hữu.",
+        "ProductImages": [
+            { "Path": "2_14_1.png" },
+            { "Path": "2_14_2.png" },
+            { "Path": "2_14_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO015",
+        "Name": "Honda CBR150R",
+        "ImportPrice": 80000000,
+        "SalePrice": 87000000,
+        "Stock": 30,
+        "Description": "Phiên bản Thể thao mang màu đỏ cùng phần mặt nạ trước màu trắng và vành xe màu vàng mới, tạo hình ảnh năng động, khỏe khoắn.",
+        "ProductImages": [
+            { "Path": "2_15_1.png" },
+            { "Path": "2_15_2.png" },
+            { "Path": "2_15_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO016",
+        "Name": "Honda Winner R",
+        "ImportPrice": 45000000,
+        "SalePrice": 52000000,
+        "Stock": 40,
+        "Description": "Hơn cả một tên gọi mới, WINNER R là tuyên ngôn của những tay lái đam mê tốc độ. Chữ “R” – Racing chính là tinh hoa của tốc độ và bản lĩnh đường đua.",
+        "ProductImages": [
+            { "Path": "2_16_1.png" },
+            { "Path": "2_16_2.png" },
+            { "Path": "2_16_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO017",
+        "Name": "Honda Gold Wing 2025",
+        "ImportPrice": 1150000000,
+        "SalePrice": 1320000000,
+        "Stock": 10,
+        "Description": "Chiếc xe Gold Wing Tour đã tiên phong trong việc trang bị túi khí trên xe mô tô từ hơn 15 năm trước. Túi khí đảm bảo an toàn cho người lái được trang bị độc nhất trên mẫu Gold Wing Tour DCT.",
+        "ProductImages": [
+            { "Path": "2_17_1.png" },
+            { "Path": "2_17_2.png" },
+            { "Path": "2_17_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO018",
+        "Name": "Honda CB1000R 2023",
+        "ImportPrice": 500000000,
+        "SalePrice": 560000000,
+        "Stock": 20,
+        "Description": "Chỉ cần lướt nhìn, bạn cũng có thể bị cuốn hút bởi vẻ ngoài hầm hố và nổi bật, được hoàn thiện bởi những chi tiết kim loại sáng bóng - đặc trưng của dòng Cafe Racer truyền thống.",
+        "ProductImages": [
+            { "Path": "2_18_1.png" },
+            { "Path": "2_18_2.png" },
+            { "Path": "2_18_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO019",
+        "Name": "Honda CB1000 Hornet",
+        "ImportPrice": 350000000,
+        "SalePrice": 370000000,
+        "Stock": 30,
+        "Description": "Không chỉ đẹp mã, đây còn là chiếc mô tô ở hình hài nguyên bản nhất, đạt cảnh giới tối thượng. Lột xác cho hành động, phong cách.",
+        "ProductImages": [
+            { "Path": "2_19_1.png" },
+            { "Path": "2_19_2.png" },
+            { "Path": "2_19_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO020",
+        "Name": "Honda Transalp",
+        "ImportPrice": 250000000,
+        "SalePrice": 300000000,
+        "Stock": 30,
+        "Description": "Transalp được sinh ra để đồng hành cùng bạn trên mọi hành trình. Với thiết kế tối giản, mạnh mẽ, không một chi tiết thừa, Transalp toát lên vẻ ngoài phiêu lưu, thách thức mọi địa hình.",
+        "ProductImages": [
+            { "Path": "2_20_1.png" },
+            { "Path": "2_20_2.png" },
+            { "Path": "2_20_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO021",
+        "Name": "Honda CBR500R 2024",
+        "ImportPrice": 170000000,
+        "SalePrice": 200000000,
+        "Stock": 30,
+        "Description": "Bạn mang niềm yêu thích thiết kế Fireblade của CBR1000RR-R cùng cánh gió khí động học? CBR500R cũng cho trải nghiệm thú vị không kém. Lấy cảm hứng từ người anh lớn, CBR500R mới mang thiết kế cụm đèn pha, ốp thân xe và đèn hậu ấn tượng.",
+        "ProductImages": [
+            { "Path": "2_21_1.png" },
+            { "Path": "2_21_2.png" },
+            { "Path": "2_21_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 2,
+        "Sku": "MTO022",
+        "Name": "Honda Rebel 500 2025",
+        "ImportPrice": 150000000,
+        "SalePrice": 180000000,
+        "Stock": 30,
+        "Description": "Mang dáng vẻ của một chiếc bobber với bánh xe to bản cùng thiết kế bình xăng có độ dốc cao từ cổ xe tới vị trí ngồi, mang lại sự thoải mái cho người cầm lái. Mọi góc cạnh của Rebel đều toát lên cá tính riêng biệt.",
+        "ProductImages": [
+            { "Path": "2_22_1.png" },
+            { "Path": "2_22_2.png" },
+            { "Path": "2_22_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE001",
+        "Name": "Youth RAPTOR Simba 4",
+        "ImportPrice": 1500000,
+        "SalePrice": 1600000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 18 inch.",
+        "ProductImages": [
+            { "Path": "3_1_1.png" },
+            { "Path": "3_1_2.png" },
+            { "Path": "3_1_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE002",
+        "Name": "Youth RAPTOR Bella 3",
+        "ImportPrice": 2000000,
+        "SalePrice": 2200000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 20 inch.",
+        "ProductImages": [
+            { "Path": "3_2_1.png" },
+            { "Path": "3_2_2.png" },
+            { "Path": "3_2_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE003",
+        "Name": "Touring RAPTOR Rally 2B",
+        "ImportPrice": 2500000,
+        "SalePrice": 3000000,
+        "Stock": 50,
+        "Description": "Xe đạp đường phố, bánh 26 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_3_1.png" },
+            { "Path": "3_3_2.png" },
+            { "Path": "3_3_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE004",
+        "Name": "Youth RAPTOR Bella 1",
+        "ImportPrice": 1500000,
+        "SalePrice": 1700000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 16 inch.",
+        "ProductImages": [
+            { "Path": "3_4_1.png" },
+            { "Path": "3_4_2.png" },
+            { "Path": "3_4_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE005",
+        "Name": "Youth RAPTOR Elsa 2",
+        "ImportPrice": 1500000,
+        "SalePrice": 1700000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 14 inch.",
+        "ProductImages": [
+            { "Path": "3_5_1.png" },
+            { "Path": "3_5_2.png" },
+            { "Path": "3_5_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE006",
+        "Name": "Folding JAVA Neo-9S",
+        "ImportPrice": 14000000,
+        "SalePrice": 15000000,
+        "Stock": 50,
+        "Description": "Xe đạp gấp, bánh 16 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_6_1.png" },
+            { "Path": "3_6_2.png" },
+            { "Path": "3_6_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE007",
+        "Name": "Folding JAVA Volta-7S",
+        "ImportPrice": 7000000,
+        "SalePrice": 7500000,
+        "Stock": 50,
+        "Description": "Xe đạp gấp, bánh 16 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_7_1.png" },
+            { "Path": "3_7_2.png" },
+            { "Path": "3_7_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE008",
+        "Name": "Touring RAPTOR Eva 4",
+        "ImportPrice": 2200000,
+        "SalePrice": 2600000,
+        "Stock": 50,
+        "Description": "Xe đạp đường phố, bánh 26 inch.",
+        "ProductImages": [
+            { "Path": "3_8_1.png" },
+            { "Path": "3_8_2.png" },
+            { "Path": "3_8_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE009",
+        "Name": "Touring GIANT Fastroad AR Advanced 1-Asia",
+        "ImportPrice": 42000000,
+        "SalePrice": 48000000,
+        "Stock": 15,
+        "Description": "Xe đạp đường phố, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_9_1.png" },
+            { "Path": "3_9_2.png" },
+            { "Path": "3_9_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE010",
+        "Name": "Youth RAPTOR Mochi 4",
+        "ImportPrice": 1600000,
+        "SalePrice": 1800000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 18 inch.",
+        "ProductImages": [
+            { "Path": "3_10_1.png" },
+            { "Path": "3_10_2.png" },
+            { "Path": "3_10_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE011",
+        "Name": "Youth RAPTOR Rock 2",
+        "ImportPrice": 2600000,
+        "SalePrice": 3000000,
+        "Stock": 50,
+        "Description": "Xe đạp trẻ em, bánh 20 inch.",
+        "ProductImages": [
+            { "Path": "3_11_1.png" },
+            { "Path": "3_11_2.png" },
+            { "Path": "3_11_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE012",
+        "Name": "Road JAVA Veloce-16S",
+        "ImportPrice": 8600000,
+        "SalePrice": 9400000,
+        "Stock": 40,
+        "Description": "Xe đạp đua, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_12_1.png" },
+            { "Path": "3_12_2.png" },
+            { "Path": "3_12_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE013",
+        "Name": "Road JAVA Wahoo-7S",
+        "ImportPrice": 5600000,
+        "SalePrice": 6100000,
+        "Stock": 40,
+        "Description": "Xe đạp đua, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_13_1.png" },
+            { "Path": "3_13_2.png" },
+            { "Path": "3_13_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE014",
+        "Name": "Touring JAVA Sequoia-7S-City",
+        "ImportPrice": 5600000,
+        "SalePrice": 6200000,
+        "Stock": 40,
+        "Description": "Xe đạp đường phố, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_14_1.png" },
+            { "Path": "3_14_2.png" },
+            { "Path": "3_14_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE015",
+        "Name": "MTB MEREC Honour 300",
+        "ImportPrice": 4600000,
+        "SalePrice": 5200000,
+        "Stock": 40,
+        "Description": "Xe đạp địa hình, bánh 26 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_15_1.png" },
+            { "Path": "3_15_2.png" },
+            { "Path": "3_15_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE016",
+        "Name": "Youth RAPTOR Jubby 1",
+        "ImportPrice": 1500000,
+        "SalePrice": 1800000,
+        "Stock": 40,
+        "Description": "Xe đạp trẻ em, bánh 20 inch.",
+        "ProductImages": [
+            { "Path": "3_16_1.png" },
+            { "Path": "3_16_2.png" },
+            { "Path": "3_16_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE017",
+        "Name": "Touring RAPTOR Hunter 2B",
+        "ImportPrice": 2500000,
+        "SalePrice": 3300000,
+        "Stock": 40,
+        "Description": "Xe đạp đường phố, bánh 20 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_17_1.png" },
+            { "Path": "3_17_2.png" },
+            { "Path": "3_17_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE018",
+        "Name": "Touring RAPTOR Lily 4",
+        "ImportPrice": 2000000,
+        "SalePrice": 2200000,
+        "Stock": 40,
+        "Description": "Xe đạp đường phố, bánh 26 inch.",
+        "ProductImages": [
+            { "Path": "3_18_1.png" },
+            { "Path": "3_18_2.png" },
+            { "Path": "3_18_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE019",
+        "Name": "Touring JAVA Wahoo City",
+        "ImportPrice": 6000000,
+        "SalePrice": 6900000,
+        "Stock": 40,
+        "Description": "Xe đạp đường phố, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_19_1.png" },
+            { "Path": "3_19_2.png" },
+            { "Path": "3_19_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE020",
+        "Name": "Youth RAPTOR Helen 1",
+        "ImportPrice": 1500000,
+        "SalePrice": 1800000,
+        "Stock": 40,
+        "Description": "Xe đạp trẻ em, bánh 20 inch.",
+        "ProductImages": [
+            { "Path": "3_20_1.png" },
+            { "Path": "3_20_2.png" },
+            { "Path": "3_20_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE021",
+        "Name": "Road JAVA Siluro6 - Top - 105",
+        "ImportPrice": 15000000,
+        "SalePrice": 18000000,
+        "Stock": 20,
+        "Description": "Xe đạp đua, bánh 700c - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_21_1.png" },
+            { "Path": "3_21_2.png" },
+            { "Path": "3_21_3.png" }
+        ]
+    },
+    {
+        "CategoryId": 3,
+        "Sku": "BKE022",
+        "Name": "Youth RAPTOR Hola 20",
+        "ImportPrice": 1900000,
+        "SalePrice": 2100000,
+        "Stock": 40,
+        "Description": "Xe đạp trẻ em, bánh 20 inch - phanh đĩa.",
+        "ProductImages": [
+            { "Path": "3_22_1.png" },
+            { "Path": "3_22_2.png" },
+            { "Path": "3_22_3.png" }
+        ]
+    }
+]
