@@ -28,7 +28,7 @@ namespace MyShop.Modules.Orders.Views
 
         private async void CreateOrderPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            await ViewModel.SearchCommand.ExecuteAsync(null);
+            await ViewModel.PerformSearchCommand.ExecuteAsync(null);
             ViewModel.InitPaymentMethods();
         }
 
@@ -57,7 +57,7 @@ namespace MyShop.Modules.Orders.Views
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                ViewModel.SearchCommand.Execute(null);
+                ViewModel.PerformSearchCommand.Execute(null);
             }
         }
 

@@ -40,12 +40,18 @@
             </Button>
 
             <NumberBox Header="Giá từ" 
-                       Value="{x:Bind ViewModel.MinPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" 
-                       SpinButtonPlacementMode="Compact" Width="120" VerticalAlignment="Bottom"/>
+           Value="{x:Bind ViewModel.MinPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}" 
+           SpinButtonPlacementMode="Compact" 
+           SmallChange="10000" 
+           LargeChange="100000"
+           Width="120" VerticalAlignment="Bottom"/>
 
             <NumberBox Header="Giá đến" 
-                       Value="{x:Bind ViewModel.MaxPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}"
-                       SpinButtonPlacementMode="Compact" Width="120" VerticalAlignment="Bottom"/>
+           Value="{x:Bind ViewModel.MaxPrice, Mode=TwoWay, Converter={StaticResource DecimalToDoubleConverter}}"
+           SpinButtonPlacementMode="Compact" 
+           SmallChange="10000"
+           LargeChange="100000"
+           Width="120" VerticalAlignment="Bottom"/>
 
             <Button Command="{x:Bind ViewModel.SearchCommand}" 
                     Style="{StaticResource AccentButtonStyle}"
