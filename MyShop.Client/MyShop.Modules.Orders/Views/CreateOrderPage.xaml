@@ -32,6 +32,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" ColumnSpacing="12">
@@ -50,10 +51,10 @@
                           SelectionMode="None" 
                           IsItemClickEnabled="True"
                           ItemClick="OnProductClicked"
-                          Padding="0,16,0,24">
+                          Padding="0,8,0,8">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="graphql:IGetProductForOrder_Products_Items">
-                            <Grid Width="160" Height="240" CornerRadius="8" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                            <Grid Width="155" Height="240" CornerRadius="8" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}" BorderThickness="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="140"/>
                                     <RowDefinition Height="*"/>
@@ -83,6 +84,36 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0,0,0,20">
+
+                    <Button Command="{x:Bind ViewModel.PreviousPageCommand}" 
+                Style="{StaticResource SubtleButtonStyle}" 
+                ToolTipService.ToolTip="Trang trước">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE76B;" FontSize="12"/>
+                            <TextBlock Text="Trước"/>
+                        </StackPanel>
+                    </Button>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
+                        <TextBlock Text="Trang" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}" FontWeight="SemiBold"/>
+                        <TextBlock Text="/" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        <TextBlock Text="{x:Bind ViewModel.TotalPage, Mode=OneWay}" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <Button Command="{x:Bind ViewModel.NextPageCommand}" 
+                Style="{StaticResource SubtleButtonStyle}"
+                ToolTipService.ToolTip="Trang sau">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Sau"/>
+                            <FontIcon Glyph="&#xE76C;" FontSize="12"/>
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+
             </Grid>
 
             <Grid Grid.Column="1" Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}">

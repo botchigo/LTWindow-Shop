@@ -6,21 +6,28 @@ namespace MyShop.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is decimal decimalValue)
+            if (value is decimal d)
             {
-                return System.Convert.ToDouble(decimalValue);
+                return (double)d;
             }
-            return double.NaN;
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is double doubleValue)
+            if (value is double d)
             {
-                if (double.IsNaN(doubleValue)) return null;
-                return System.Convert.ToDecimal(doubleValue);
+                if (double.IsNaN(d)) return 0m;
+                try
+                {
+                    return (decimal)d;
+                }
+                catch
+                {
+                    return 0m;
+                }
             }
-            return null;
+            return 0m;
         }
     }
 }

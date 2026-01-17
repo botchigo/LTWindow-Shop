@@ -8,6 +8,7 @@ using MyShop.Infrastructure;
 using MyShop.Modules.Orders.Models;
 using StrawberryShake;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace MyShop.Modules.Orders.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
         private readonly IUserSessionService _userSessionService;
+        private readonly ISettingsService _settingsService;
 
         //Search
         [ObservableProperty] private string? _searchKeyword;
@@ -35,13 +37,27 @@ namespace MyShop.Modules.Orders.ViewModels
 
         [ObservableProperty] private bool _isLoading;
 
+        //Paging
+        [NotifyCanExecuteChangedFor(nameof(NextPageCommand))]
+        [NotifyCanExecuteChangedFor(nameof(PreviousPageCommand))]
+        [ObservableProperty] private int _currentPage = 1;
+
+        [ObservableProperty] private int _pageSize = 14;
+
+        [NotifyCanExecuteChangedFor(nameof(NextPageCommand))] [ObservableProperty] private int _totalPage = 1;
+
+        [ObservableProperty] private int _totalCount = 0;
+
         public CreateOrderViewModel(IMyShopClient client, INavigationService nav, IDialogService dialog,
-            IUserSessionService userSessionService)
+            IUserSessionService userSessionService, ISettingsService settingsService)
         {
             _client = client;
             _navigationService = nav;
             _dialogService = dialog;
             _userSessionService = userSessionService;
+            _settingsService = settingsService;
+
+            PageSize = _settingsService.GetPageSize();
         }
 
         public void InitPaymentMethods()
@@ -58,13 +74,7 @@ namespace MyShop.Modules.Orders.ViewModels
         [RelayCommand]
         private async Task SearchAsync()
         {
-            string keyword = SearchKeyword ?? string.Empty;
-            var result = await _client.GetProductForOrder.ExecuteAsync(0, 10, keyword);
-            if (!result.IsErrorResult())
-            {
-                SearchResults.Clear();
-                foreach (var p in result.Data.Products.Items) SearchResults.Add(p);
-            }
+            await LoadDataInternalAsync();
         }
 
         [RelayCommand]
@@ -187,6 +197,78 @@ namespace MyShop.Modules.Orders.ViewModels
         private void GoBack()
         {
             WeakReferenceMessenger.Default.Send(new NavigateInnerPageMessage("OrderManagementPage", null));
+        }
+
+        private async Task LoadDataInternalAsync()
+        {
+            if (IsLoading) return;
+            IsLoading = true;
+
+            try
+            {
+                string keyword = SearchKeyword ?? string.Empty;
+                PageSize = _settingsService.GetPageSize();
+
+                var skip = (CurrentPage - 1) * PageSize;
+
+                var result = await _client.GetProductForOrder.ExecuteAsync(skip, PageSize, keyword);
+
+                if (!result.IsErrorResult())
+                {
+                    SearchResults.Clear();
+                    var productData = result.Data.Products;
+
+                    foreach (var p in productData.Items) SearchResults.Add(p);
+
+                    TotalCount = productData.TotalCount;
+
+                    if (TotalCount > 0)
+                    {
+                        TotalPage = (int)Math.Ceiling((double)TotalCount / PageSize);
+                    }
+                    else
+                    {
+                        TotalPage = 1;
+                    }
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+                NextPageCommand.NotifyCanExecuteChanged();
+                PreviousPageCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanGoNext))]
+        private async Task NextPage()
+        {
+            if (CurrentPage < TotalPage)
+            {
+                CurrentPage++;
+                await LoadDataInternalAsync();
+            }
+        }
+
+        private bool CanGoNext() => CurrentPage < TotalPage && !IsLoading;
+
+        [RelayCommand(CanExecute = nameof(CanGoPrevious))]
+        private async Task PreviousPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                await LoadDataInternalAsync();
+            }
+        }
+
+        private bool CanGoPrevious() => CurrentPage > 1 && !IsLoading;
+
+        [RelayCommand]
+        private async Task PerformSearch()
+        {
+            CurrentPage = 1; 
+            await LoadDataInternalAsync();
         }
     }
 }
