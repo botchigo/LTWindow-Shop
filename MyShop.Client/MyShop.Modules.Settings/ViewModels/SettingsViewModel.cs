@@ -15,7 +15,7 @@ namespace MyShop.Modules.Settings.ViewModels
         private readonly ISettingsService _settingsService;
 
         // Danh sách các tùy chọn phân trang
-        public ObservableCollection<int> PageSizeOptions { get; } = new() { 7, 14, 21 };
+        public ObservableCollection<int> PageSizeOptions { get; } = new() { 6, 12, 18 };
 
         [ObservableProperty]
         private int _selectedPageSize;

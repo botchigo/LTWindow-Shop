@@ -185,7 +185,7 @@
 
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="graphql:IGetProductList_Products_Items">
-                        <Grid Width="160" Height="240" 
+                        <Grid Width="170" Height="220" 
                               Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                               CornerRadius="8" BorderThickness="1" 
                               BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"

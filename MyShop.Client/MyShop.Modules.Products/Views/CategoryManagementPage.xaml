@@ -86,11 +86,10 @@
                                 </StackPanel>
 
                                 <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Padding="8"
-                                        Command="{Binding ElementName=PageRoot, Path=ViewModel.DeleteCategoryCommand}"
-                                        CommandParameter="{x:Bind Id}">
+                                        Click="DeleteCategory_Click" 
+                                        ToolTipService.ToolTip="Xóa loại này">
 
                                     <FontIcon Glyph="&#xE74D;" FontSize="16" Foreground="{ThemeResource SystemFillColorCriticalBrush}"/>
-                                    <ToolTipService.ToolTip>Xóa loại này</ToolTipService.ToolTip>
                                 </Button>
                             </Grid>
                         </DataTemplate>

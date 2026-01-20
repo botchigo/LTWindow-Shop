@@ -1,4 +1,4 @@
-﻿query GetProductComparisonReport($input : ReportBaseParamsInput!){
+﻿query GetProductComparisonReport($input : ProductComparisonDTOInput!){
   productComparisonReport(request : $input){
     productName
     points{

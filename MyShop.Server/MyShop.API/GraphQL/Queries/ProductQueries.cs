@@ -2,6 +2,7 @@
 using MyShop.Domain.Entities;
 using MyShop.Domain.Interfaces;
 using MyShop.Shared.DTOs.Dashboards;
+using MyShop.Shared.DTOs.Products;
 using MyShop.Shared.DTOs.Reports;
 
 namespace MyShop.API.GraphQL.Queries
@@ -40,9 +41,9 @@ namespace MyShop.API.GraphQL.Queries
 
         public async Task<List<ProductSeries>> GetProductComparisonReportAsync(
             [Service] IUnitOfWork unitOfWork,
-            ReportBaseParams request)
+            ProductComparisonDTO request)
         {
-            return await unitOfWork.Products.GetProductComparisonReportAsync(request.start, request.end, request.interval);
+            return await unitOfWork.Products.GetProductComparisonReportAsync(request.start, request.end, request.interval, request.ProductNames);
         }
 
         public async Task<List<ReportDataPoint>> GetRevenueProfitReportAsync(

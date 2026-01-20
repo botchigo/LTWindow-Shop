@@ -37,6 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductForOrderQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductListQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductNamesQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductNamesUpdatedQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductSalesReportQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetRevenueProfitReportQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetSingleProductSeriesQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
@@ -61,6 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductForOrderQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductListQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductNamesQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductSalesReportQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetRevenueProfitReportQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetSingleProductSeriesQuery>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<ClientServiceProvider>(sp)));
@@ -112,7 +114,7 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.UpdateProductDTOInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.OrderSortInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.AppUserSortInputInputValueFormatter>(services);
-            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ReportBaseParamsInputInputValueFormatter>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ProductComparisonDTOInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ProductFilterInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.IntOperationFilterInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.StringOperationFilterInputInputValueFormatter>(services);
@@ -124,6 +126,7 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ProductImageFilterInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ProductSortInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.CategorySortInputInputValueFormatter>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.ReportBaseParamsInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializer, global::MyShop.Infrastructure.GetSingleProductSeriesDTOInputInputValueFormatter>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.Serialization.ISerializerResolver>(services, sp => new global::StrawberryShake.Serialization.SerializerResolver(global::System.Linq.Enumerable.Concat(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(parentServices), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::System.Collections.Generic.IEnumerable<global::StrawberryShake.Serialization.ISerializer>>(sp))));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IAddCategoryResult>, global::MyShop.Infrastructure.State.AddCategoryResultFactory>(services);
@@ -294,6 +297,14 @@ namespace Microsoft.Extensions.DependencyInjection
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::MyShop.Infrastructure.GetProductNamesQuery>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::MyShop.Infrastructure.IGetProductNamesQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductNamesQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>, global::MyShop.Infrastructure.State.GetProductNamesUpdatedResultFactory>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery>(sp));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>, global::MyShop.Infrastructure.State.GetProductNamesUpdatedBuilder>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationExecutor<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>>(services, sp => new global::StrawberryShake.OperationExecutor<global::System.Text.Json.JsonDocument, global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>(global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.Transport.Http.IHttpConnection>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultBuilder<global::System.Text.Json.JsonDocument, global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>>(sp), () => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>>(sp), global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationStore>(sp), strategy));
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IResultPatcher<global::System.Text.Json.JsonDocument>, global::StrawberryShake.Json.JsonResultPatcher>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::MyShop.Infrastructure.GetProductNamesUpdatedQuery>(services);
+            global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.GetProductNamesUpdatedQuery>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductSalesReportResult>, global::MyShop.Infrastructure.State.GetProductSalesReportResultFactory>(services);
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationResultDataFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductSalesReportResult>>(sp));
             global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::StrawberryShake.IOperationRequestFactory>(services, sp => global::Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<global::MyShop.Infrastructure.IGetProductSalesReportQuery>(sp));
@@ -5789,12 +5800,12 @@ namespace MyShop.Infrastructure
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
     public partial class GetProductNamesResult : global::System.IEquatable<GetProductNamesResult>, IGetProductNamesResult
     {
-        public GetProductNamesResult(global::MyShop.Infrastructure.IGetProductNames_Products? products)
+        public GetProductNamesResult(global::MyShop.Infrastructure.IGetProductNames_Orders? orders)
         {
-            Products = products;
+            Orders = orders;
         }
 
-        public global::MyShop.Infrastructure.IGetProductNames_Products? Products { get; }
+        public global::MyShop.Infrastructure.IGetProductNames_Orders? Orders { get; }
 
         public virtual global::System.Boolean Equals(GetProductNamesResult? other)
         {
@@ -5813,7 +5824,7 @@ namespace MyShop.Infrastructure
                 return false;
             }
 
-            return (((Products is null && other.Products is null) || Products != null && Products.Equals(other.Products)));
+            return (((Orders is null && other.Orders is null) || Orders != null && Orders.Equals(other.Orders)));
         }
 
         public override global::System.Boolean Equals(global::System.Object? obj)
@@ -5841,9 +5852,9 @@ namespace MyShop.Infrastructure
             unchecked
             {
                 int hash = 5;
-                if (Products != null)
+                if (Orders != null)
                 {
-                    hash ^= 397 * Products.GetHashCode();
+                    hash ^= 397 * Orders.GetHashCode();
                 }
 
                 return hash;
@@ -5855,9 +5866,9 @@ namespace MyShop.Infrastructure
     /// A segment of a collection.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial class GetProductNames_Products_ProductsCollectionSegment : global::System.IEquatable<GetProductNames_Products_ProductsCollectionSegment>, IGetProductNames_Products_ProductsCollectionSegment
+    public partial class GetProductNames_Orders_OrdersCollectionSegment : global::System.IEquatable<GetProductNames_Orders_OrdersCollectionSegment>, IGetProductNames_Orders_OrdersCollectionSegment
     {
-        public GetProductNames_Products_ProductsCollectionSegment(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Products_Items>? items)
+        public GetProductNames_Orders_OrdersCollectionSegment(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items>? items)
         {
             Items = items;
         }
@@ -5865,9 +5876,9 @@ namespace MyShop.Infrastructure
         /// <summary>
         /// A flattened list of the items.
         /// </summary>
-        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Products_Items>? Items { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items>? Items { get; }
 
-        public virtual global::System.Boolean Equals(GetProductNames_Products_ProductsCollectionSegment? other)
+        public virtual global::System.Boolean Equals(GetProductNames_Orders_OrdersCollectionSegment? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -5904,7 +5915,7 @@ namespace MyShop.Infrastructure
                 return false;
             }
 
-            return Equals((GetProductNames_Products_ProductsCollectionSegment)obj);
+            return Equals((GetProductNames_Orders_OrdersCollectionSegment)obj);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -5926,9 +5937,135 @@ namespace MyShop.Infrastructure
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial class GetProductNames_Products_Items_Product : global::System.IEquatable<GetProductNames_Products_Items_Product>, IGetProductNames_Products_Items_Product
+    public partial class GetProductNames_Orders_Items_Order : global::System.IEquatable<GetProductNames_Orders_Items_Order>, IGetProductNames_Orders_Items_Order
     {
-        public GetProductNames_Products_Items_Product(global::System.Int32 id, global::System.String name)
+        public GetProductNames_Orders_Items_Order(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems> orderItems)
+        {
+            OrderItems = orderItems;
+        }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems> OrderItems { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNames_Orders_Items_Order? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(OrderItems, other.OrderItems));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNames_Orders_Items_Order)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                foreach (var OrderItems_elm in OrderItems)
+                {
+                    hash ^= 397 * OrderItems_elm.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNames_Orders_Items_OrderItems_OrderItem : global::System.IEquatable<GetProductNames_Orders_Items_OrderItems_OrderItem>, IGetProductNames_Orders_Items_OrderItems_OrderItem
+    {
+        public GetProductNames_Orders_Items_OrderItems_OrderItem(global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems_Product product)
+        {
+            Product = product;
+        }
+
+        public global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems_Product Product { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNames_Orders_Items_OrderItems_OrderItem? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Product.Equals(other.Product));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNames_Orders_Items_OrderItems_OrderItem)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Product.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNames_Orders_Items_OrderItems_Product_Product : global::System.IEquatable<GetProductNames_Orders_Items_OrderItems_Product_Product>, IGetProductNames_Orders_Items_OrderItems_Product_Product
+    {
+        public GetProductNames_Orders_Items_OrderItems_Product_Product(global::System.Int32 id, global::System.String name)
         {
             Id = id;
             Name = name;
@@ -5937,7 +6074,7 @@ namespace MyShop.Infrastructure
         public global::System.Int32 Id { get; }
         public global::System.String Name { get; }
 
-        public virtual global::System.Boolean Equals(GetProductNames_Products_Items_Product? other)
+        public virtual global::System.Boolean Equals(GetProductNames_Orders_Items_OrderItems_Product_Product? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -5974,7 +6111,7 @@ namespace MyShop.Infrastructure
                 return false;
             }
 
-            return Equals((GetProductNames_Products_Items_Product)obj);
+            return Equals((GetProductNames_Orders_Items_OrderItems_Product_Product)obj);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -5992,38 +6129,449 @@ namespace MyShop.Infrastructure
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
     public partial interface IGetProductNamesResult
     {
-        public global::MyShop.Infrastructure.IGetProductNames_Products? Products { get; }
+        public global::MyShop.Infrastructure.IGetProductNames_Orders? Orders { get; }
     }
 
     /// <summary>
     /// A segment of a collection.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial interface IGetProductNames_Products
+    public partial interface IGetProductNames_Orders
     {
         /// <summary>
         /// A flattened list of the items.
         /// </summary>
-        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Products_Items>? Items { get; }
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items>? Items { get; }
     }
 
     /// <summary>
     /// A segment of a collection.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial interface IGetProductNames_Products_ProductsCollectionSegment : IGetProductNames_Products
+    public partial interface IGetProductNames_Orders_OrdersCollectionSegment : IGetProductNames_Orders
     {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial interface IGetProductNames_Products_Items
+    public partial interface IGetProductNames_Orders_Items
+    {
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems> OrderItems { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNames_Orders_Items_Order : IGetProductNames_Orders_Items
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNames_Orders_Items_OrderItems
+    {
+        public global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems_Product Product { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNames_Orders_Items_OrderItems_OrderItem : IGetProductNames_Orders_Items_OrderItems
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNames_Orders_Items_OrderItems_Product
     {
         public global::System.Int32 Id { get; }
         public global::System.String Name { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial interface IGetProductNames_Products_Items_Product : IGetProductNames_Products_Items
+    public partial interface IGetProductNames_Orders_Items_OrderItems_Product_Product : IGetProductNames_Orders_Items_OrderItems_Product
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedResult : global::System.IEquatable<GetProductNamesUpdatedResult>, IGetProductNamesUpdatedResult
+    {
+        public GetProductNamesUpdatedResult(global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders? orders)
+        {
+            Orders = orders;
+        }
+
+        public global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders? Orders { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNamesUpdatedResult? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (((Orders is null && other.Orders is null) || Orders != null && Orders.Equals(other.Orders)));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNamesUpdatedResult)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Orders != null)
+                {
+                    hash ^= 397 * Orders.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    /// <summary>
+    /// A segment of a collection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdated_Orders_OrdersCollectionSegment : global::System.IEquatable<GetProductNamesUpdated_Orders_OrdersCollectionSegment>, IGetProductNamesUpdated_Orders_OrdersCollectionSegment
+    {
+        public GetProductNamesUpdated_Orders_OrdersCollectionSegment(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items>? items)
+        {
+            Items = items;
+        }
+
+        /// <summary>
+        /// A flattened list of the items.
+        /// </summary>
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items>? Items { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNamesUpdated_Orders_OrdersCollectionSegment? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(Items, other.Items));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNamesUpdated_Orders_OrdersCollectionSegment)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                if (Items != null)
+                {
+                    foreach (var Items_elm in Items)
+                    {
+                        hash ^= 397 * Items_elm.GetHashCode();
+                    }
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdated_Orders_Items_Order : global::System.IEquatable<GetProductNamesUpdated_Orders_Items_Order>, IGetProductNamesUpdated_Orders_Items_Order
+    {
+        public GetProductNamesUpdated_Orders_Items_Order(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems> orderItems)
+        {
+            OrderItems = orderItems;
+        }
+
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems> OrderItems { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNamesUpdated_Orders_Items_Order? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(OrderItems, other.OrderItems));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNamesUpdated_Orders_Items_Order)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                foreach (var OrderItems_elm in OrderItems)
+                {
+                    hash ^= 397 * OrderItems_elm.GetHashCode();
+                }
+
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem : global::System.IEquatable<GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem>, IGetProductNamesUpdated_Orders_Items_OrderItems_OrderItem
+    {
+        public GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem(global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems_Product product)
+        {
+            Product = product;
+        }
+
+        public global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems_Product Product { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Product.Equals(other.Product));
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Product.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product : global::System.IEquatable<GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product>, IGetProductNamesUpdated_Orders_Items_OrderItems_Product_Product
+    {
+        public GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product(global::System.Int32 id, global::System.String name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public global::System.Int32 Id { get; }
+        public global::System.String Name { get; }
+
+        public virtual global::System.Boolean Equals(GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (global::System.Object.Equals(Id, other.Id)) && Name.Equals(other.Name);
+        }
+
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product)obj);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Id.GetHashCode();
+                hash ^= 397 * Name.GetHashCode();
+                return hash;
+            }
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdatedResult
+    {
+        public global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders? Orders { get; }
+    }
+
+    /// <summary>
+    /// A segment of a collection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders
+    {
+        /// <summary>
+        /// A flattened list of the items.
+        /// </summary>
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items>? Items { get; }
+    }
+
+    /// <summary>
+    /// A segment of a collection.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_OrdersCollectionSegment : IGetProductNamesUpdated_Orders
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items
+    {
+        public global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems> OrderItems { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items_Order : IGetProductNamesUpdated_Orders_Items
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items_OrderItems
+    {
+        public global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems_Product Product { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items_OrderItems_OrderItem : IGetProductNamesUpdated_Orders_Items_OrderItems
+    {
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items_OrderItems_Product
+    {
+        public global::System.Int32 Id { get; }
+        public global::System.String Name { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdated_Orders_Items_OrderItems_Product_Product : IGetProductNamesUpdated_Orders_Items_OrderItems_Product
     {
     }
 
@@ -9041,16 +9589,18 @@ namespace MyShop.Infrastructure
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial class ReportBaseParamsInputInputValueFormatter : global::StrawberryShake.Serialization.IInputObjectFormatter
+    public partial class ProductComparisonDTOInputInputValueFormatter : global::StrawberryShake.Serialization.IInputObjectFormatter
     {
         private global::StrawberryShake.Serialization.IInputValueFormatter _dateTimeFormatter = default !;
         private global::StrawberryShake.Serialization.IInputValueFormatter _reportTimeIntervalFormatter = default !;
-        public global::System.String TypeName => "ReportBaseParamsInput";
+        private global::StrawberryShake.Serialization.IInputValueFormatter _stringFormatter = default !;
+        public global::System.String TypeName => "ProductComparisonDTOInput";
 
         public void Initialize(global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
         {
             _dateTimeFormatter = serializerResolver.GetInputValueFormatter("DateTime");
             _reportTimeIntervalFormatter = serializerResolver.GetInputValueFormatter("ReportTimeInterval");
+            _stringFormatter = serializerResolver.GetInputValueFormatter("String");
         }
 
         public global::System.Object? Format(global::System.Object? runtimeValue)
@@ -9060,8 +9610,8 @@ namespace MyShop.Infrastructure
                 return null;
             }
 
-            var input = runtimeValue as global::MyShop.Infrastructure.ReportBaseParamsInput;
-            var inputInfo = runtimeValue as global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo;
+            var input = runtimeValue as global::MyShop.Infrastructure.ProductComparisonDTOInput;
+            var inputInfo = runtimeValue as global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo;
             if (input is null || inputInfo is null)
             {
                 throw new global::System.ArgumentException(nameof(runtimeValue));
@@ -9083,6 +9633,11 @@ namespace MyShop.Infrastructure
                 fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("interval", FormatInterval(input.Interval)));
             }
 
+            if (inputInfo.IsProductNamesSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("productNames", FormatProductNames(input.ProductNames)));
+            }
+
             return fields;
         }
 
@@ -9100,10 +9655,31 @@ namespace MyShop.Infrastructure
         {
             return _reportTimeIntervalFormatter.Format(input);
         }
+
+        private global::System.Object? FormatProductNames(global::System.Collections.Generic.IReadOnlyList<global::System.String> input)
+        {
+            if (input is null)
+            {
+                throw new global::System.ArgumentNullException(nameof(input));
+            }
+
+            var input_list = new global::System.Collections.Generic.List<global::System.Object?>();
+            foreach (var input_elm in input)
+            {
+                if (input_elm is null)
+                {
+                    throw new global::System.ArgumentNullException(nameof(input_elm));
+                }
+
+                input_list.Add(_stringFormatter.Format(input_elm));
+            }
+
+            return input_list;
+        }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    public partial class ReportBaseParamsInput : global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo, global::System.IEquatable<ReportBaseParamsInput>
+    public partial class ProductComparisonDTOInput : global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo, global::System.IEquatable<ProductComparisonDTOInput>
     {
         public override global::System.Boolean Equals(global::System.Object? obj)
         {
@@ -9122,10 +9698,10 @@ namespace MyShop.Infrastructure
                 return false;
             }
 
-            return Equals((ReportBaseParamsInput)obj);
+            return Equals((ProductComparisonDTOInput)obj);
         }
 
-        public virtual global::System.Boolean Equals(ReportBaseParamsInput? other)
+        public virtual global::System.Boolean Equals(ProductComparisonDTOInput? other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -9142,7 +9718,7 @@ namespace MyShop.Infrastructure
                 return false;
             }
 
-            return (Start.Equals(other.Start)) && End.Equals(other.End) && Interval.Equals(other.Interval);
+            return (Start.Equals(other.Start)) && End.Equals(other.End) && Interval.Equals(other.Interval) && global::StrawberryShake.Internal.ComparisonHelper.SequenceEqual(ProductNames, other.ProductNames);
         }
 
         public override global::System.Int32 GetHashCode()
@@ -9153,6 +9729,11 @@ namespace MyShop.Infrastructure
                 hash ^= 397 * Start.GetHashCode();
                 hash ^= 397 * End.GetHashCode();
                 hash ^= 397 * Interval.GetHashCode();
+                foreach (var ProductNames_elm in ProductNames)
+                {
+                    hash ^= 397 * ProductNames_elm.GetHashCode();
+                }
+
                 return hash;
             }
         }
@@ -9163,6 +9744,8 @@ namespace MyShop.Infrastructure
         private global::System.Boolean _set_end;
         private global::MyShop.Infrastructure.ReportTimeInterval _value_interval;
         private global::System.Boolean _set_interval;
+        private global::System.Collections.Generic.IReadOnlyList<global::System.String> _value_productNames = default !;
+        private global::System.Boolean _set_productNames;
         public global::System.DateTimeOffset Start
         {
             get => _value_start;
@@ -9173,7 +9756,7 @@ namespace MyShop.Infrastructure
             }
         }
 
-        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsStartSet => _set_start;
+        global::System.Boolean global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo.IsStartSet => _set_start;
 
         public global::System.DateTimeOffset End
         {
@@ -9185,7 +9768,7 @@ namespace MyShop.Infrastructure
             }
         }
 
-        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsEndSet => _set_end;
+        global::System.Boolean global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo.IsEndSet => _set_end;
 
         public global::MyShop.Infrastructure.ReportTimeInterval Interval
         {
@@ -9197,7 +9780,19 @@ namespace MyShop.Infrastructure
             }
         }
 
-        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsIntervalSet => _set_interval;
+        global::System.Boolean global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo.IsIntervalSet => _set_interval;
+
+        public global::System.Collections.Generic.IReadOnlyList<global::System.String> ProductNames
+        {
+            get => _value_productNames;
+            set
+            {
+                _set_productNames = true;
+                _value_productNames = value;
+            }
+        }
+
+        global::System.Boolean global::MyShop.Infrastructure.State.IProductComparisonDTOInputInfo.IsProductNamesSet => _set_productNames;
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
@@ -14081,6 +14676,166 @@ namespace MyShop.Infrastructure
         }
 
         global::System.Boolean global::MyShop.Infrastructure.State.ICategorySortInputInfo.IsUpdatedAtSet => _set_updatedAt;
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class ReportBaseParamsInputInputValueFormatter : global::StrawberryShake.Serialization.IInputObjectFormatter
+    {
+        private global::StrawberryShake.Serialization.IInputValueFormatter _dateTimeFormatter = default !;
+        private global::StrawberryShake.Serialization.IInputValueFormatter _reportTimeIntervalFormatter = default !;
+        public global::System.String TypeName => "ReportBaseParamsInput";
+
+        public void Initialize(global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _dateTimeFormatter = serializerResolver.GetInputValueFormatter("DateTime");
+            _reportTimeIntervalFormatter = serializerResolver.GetInputValueFormatter("ReportTimeInterval");
+        }
+
+        public global::System.Object? Format(global::System.Object? runtimeValue)
+        {
+            if (runtimeValue is null)
+            {
+                return null;
+            }
+
+            var input = runtimeValue as global::MyShop.Infrastructure.ReportBaseParamsInput;
+            var inputInfo = runtimeValue as global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo;
+            if (input is null || inputInfo is null)
+            {
+                throw new global::System.ArgumentException(nameof(runtimeValue));
+            }
+
+            var fields = new global::System.Collections.Generic.List<global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>>();
+            if (inputInfo.IsStartSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("start", FormatStart(input.Start)));
+            }
+
+            if (inputInfo.IsEndSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("end", FormatEnd(input.End)));
+            }
+
+            if (inputInfo.IsIntervalSet)
+            {
+                fields.Add(new global::System.Collections.Generic.KeyValuePair<global::System.String, global::System.Object?>("interval", FormatInterval(input.Interval)));
+            }
+
+            return fields;
+        }
+
+        private global::System.Object? FormatStart(global::System.DateTimeOffset input)
+        {
+            return _dateTimeFormatter.Format(input);
+        }
+
+        private global::System.Object? FormatEnd(global::System.DateTimeOffset input)
+        {
+            return _dateTimeFormatter.Format(input);
+        }
+
+        private global::System.Object? FormatInterval(global::MyShop.Infrastructure.ReportTimeInterval input)
+        {
+            return _reportTimeIntervalFormatter.Format(input);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class ReportBaseParamsInput : global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo, global::System.IEquatable<ReportBaseParamsInput>
+    {
+        public override global::System.Boolean Equals(global::System.Object? obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((ReportBaseParamsInput)obj);
+        }
+
+        public virtual global::System.Boolean Equals(ReportBaseParamsInput? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (other.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return (Start.Equals(other.Start)) && End.Equals(other.End) && Interval.Equals(other.Interval);
+        }
+
+        public override global::System.Int32 GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 5;
+                hash ^= 397 * Start.GetHashCode();
+                hash ^= 397 * End.GetHashCode();
+                hash ^= 397 * Interval.GetHashCode();
+                return hash;
+            }
+        }
+
+        private global::System.DateTimeOffset _value_start;
+        private global::System.Boolean _set_start;
+        private global::System.DateTimeOffset _value_end;
+        private global::System.Boolean _set_end;
+        private global::MyShop.Infrastructure.ReportTimeInterval _value_interval;
+        private global::System.Boolean _set_interval;
+        public global::System.DateTimeOffset Start
+        {
+            get => _value_start;
+            set
+            {
+                _set_start = true;
+                _value_start = value;
+            }
+        }
+
+        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsStartSet => _set_start;
+
+        public global::System.DateTimeOffset End
+        {
+            get => _value_end;
+            set
+            {
+                _set_end = true;
+                _value_end = value;
+            }
+        }
+
+        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsEndSet => _set_end;
+
+        public global::MyShop.Infrastructure.ReportTimeInterval Interval
+        {
+            get => _value_interval;
+            set
+            {
+                _set_interval = true;
+                _value_interval = value;
+            }
+        }
+
+        global::System.Boolean global::MyShop.Infrastructure.State.IReportBaseParamsInputInfo.IsIntervalSet => _set_interval;
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
@@ -19898,7 +20653,7 @@ namespace MyShop.Infrastructure
     /// <summary>
     /// Represents the operation service of the GetProductComparisonReport GraphQL operation
     /// <code>
-    /// query GetProductComparisonReport($input: ReportBaseParamsInput!) {
+    /// query GetProductComparisonReport($input: ProductComparisonDTOInput!) {
     ///   productComparisonReport(request: $input) {
     ///     __typename
     ///     productName
@@ -19966,22 +20721,26 @@ namespace MyShop.Infrastructure
             0x74,
             0x3a,
             0x20,
-            0x52,
-            0x65,
-            0x70,
-            0x6f,
-            0x72,
-            0x74,
-            0x42,
-            0x61,
-            0x73,
-            0x65,
             0x50,
+            0x72,
+            0x6f,
+            0x64,
+            0x75,
+            0x63,
+            0x74,
+            0x43,
+            0x6f,
+            0x6d,
+            0x70,
             0x61,
             0x72,
-            0x61,
-            0x6d,
+            0x69,
             0x73,
+            0x6f,
+            0x6e,
+            0x44,
+            0x54,
+            0x4f,
             0x49,
             0x6e,
             0x70,
@@ -20117,7 +20876,7 @@ namespace MyShop.Infrastructure
             0x20,
             0x7d
         };
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "91970d18b615007a405c2ca0b1529adb");
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "06a476d1307c227282c0787902d244b9");
 
         public override global::System.String ToString()
         {
@@ -20132,7 +20891,7 @@ namespace MyShop.Infrastructure
     /// <summary>
     /// Represents the operation service of the GetProductComparisonReport GraphQL operation
     /// <code>
-    /// query GetProductComparisonReport($input: ReportBaseParamsInput!) {
+    /// query GetProductComparisonReport($input: ProductComparisonDTOInput!) {
     ///   productComparisonReport(request: $input) {
     ///     __typename
     ///     productName
@@ -20152,26 +20911,26 @@ namespace MyShop.Infrastructure
     public partial class GetProductComparisonReportQuery : global::MyShop.Infrastructure.IGetProductComparisonReportQuery
     {
         private readonly global::StrawberryShake.IOperationExecutor<IGetProductComparisonReportResult> _operationExecutor;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _reportBaseParamsInputFormatter;
+        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _productComparisonDTOInputFormatter;
         private readonly global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> _configure = global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>>.Empty;
         public GetProductComparisonReportQuery(global::StrawberryShake.IOperationExecutor<IGetProductComparisonReportResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
         {
             _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
-            _reportBaseParamsInputFormatter = serializerResolver.GetInputValueFormatter("ReportBaseParamsInput");
+            _productComparisonDTOInputFormatter = serializerResolver.GetInputValueFormatter("ProductComparisonDTOInput");
         }
 
-        private GetProductComparisonReportQuery(global::StrawberryShake.IOperationExecutor<IGetProductComparisonReportResult> operationExecutor, global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> configure, global::StrawberryShake.Serialization.IInputValueFormatter reportBaseParamsInputFormatter)
+        private GetProductComparisonReportQuery(global::StrawberryShake.IOperationExecutor<IGetProductComparisonReportResult> operationExecutor, global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> configure, global::StrawberryShake.Serialization.IInputValueFormatter productComparisonDTOInputFormatter)
         {
             _operationExecutor = operationExecutor;
             _configure = configure;
-            _reportBaseParamsInputFormatter = reportBaseParamsInputFormatter;
+            _productComparisonDTOInputFormatter = productComparisonDTOInputFormatter;
         }
 
         global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetProductComparisonReportResult);
 
         public global::MyShop.Infrastructure.IGetProductComparisonReportQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure)
         {
-            return new global::MyShop.Infrastructure.GetProductComparisonReportQuery(_operationExecutor, _configure.Add(configure), _reportBaseParamsInputFormatter);
+            return new global::MyShop.Infrastructure.GetProductComparisonReportQuery(_operationExecutor, _configure.Add(configure), _productComparisonDTOInputFormatter);
         }
 
         public global::MyShop.Infrastructure.IGetProductComparisonReportQuery WithRequestUri(global::System.Uri requestUri)
@@ -20184,7 +20943,7 @@ namespace MyShop.Infrastructure
             return With(r => r.ContextData["StrawberryShake.Transport.Http.HttpConnection.HttpClient"] = httpClient);
         }
 
-        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> ExecuteAsync(global::MyShop.Infrastructure.ReportBaseParamsInput input, global::System.Threading.CancellationToken cancellationToken = default)
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> ExecuteAsync(global::MyShop.Infrastructure.ProductComparisonDTOInput input, global::System.Threading.CancellationToken cancellationToken = default)
         {
             var request = CreateRequest(input);
             foreach (var configure in _configure)
@@ -20195,13 +20954,13 @@ namespace MyShop.Infrastructure
             return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> Watch(global::MyShop.Infrastructure.ReportBaseParamsInput input, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> Watch(global::MyShop.Infrastructure.ProductComparisonDTOInput input, global::StrawberryShake.ExecutionStrategy? strategy = null)
         {
             var request = CreateRequest(input);
             return _operationExecutor.Watch(request, strategy);
         }
 
-        private global::StrawberryShake.OperationRequest CreateRequest(global::MyShop.Infrastructure.ReportBaseParamsInput input)
+        private global::StrawberryShake.OperationRequest CreateRequest(global::MyShop.Infrastructure.ProductComparisonDTOInput input)
         {
             var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
             variables.Add("input", FormatInput(input));
@@ -20213,14 +20972,14 @@ namespace MyShop.Infrastructure
             return new global::StrawberryShake.OperationRequest(id: GetProductComparisonReportQueryDocument.Instance.Hash.Value, name: "GetProductComparisonReport", document: GetProductComparisonReportQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
         }
 
-        private global::System.Object? FormatInput(global::MyShop.Infrastructure.ReportBaseParamsInput value)
+        private global::System.Object? FormatInput(global::MyShop.Infrastructure.ProductComparisonDTOInput value)
         {
             if (value is null)
             {
                 throw new global::System.ArgumentNullException(nameof(value));
             }
 
-            return _reportBaseParamsInputFormatter.Format(value);
+            return _productComparisonDTOInputFormatter.Format(value);
         }
 
         global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
@@ -20232,7 +20991,7 @@ namespace MyShop.Infrastructure
     /// <summary>
     /// Represents the operation service of the GetProductComparisonReport GraphQL operation
     /// <code>
-    /// query GetProductComparisonReport($input: ReportBaseParamsInput!) {
+    /// query GetProductComparisonReport($input: ProductComparisonDTOInput!) {
     ///   productComparisonReport(request: $input) {
     ///     __typename
     ///     productName
@@ -20254,8 +21013,8 @@ namespace MyShop.Infrastructure
         global::MyShop.Infrastructure.IGetProductComparisonReportQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure);
         global::MyShop.Infrastructure.IGetProductComparisonReportQuery WithRequestUri(global::System.Uri requestUri);
         global::MyShop.Infrastructure.IGetProductComparisonReportQuery WithHttpClient(global::System.Net.Http.HttpClient httpClient);
-        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> ExecuteAsync(global::MyShop.Infrastructure.ReportBaseParamsInput input, global::System.Threading.CancellationToken cancellationToken = default);
-        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> Watch(global::MyShop.Infrastructure.ReportBaseParamsInput input, global::StrawberryShake.ExecutionStrategy? strategy = null);
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> ExecuteAsync(global::MyShop.Infrastructure.ProductComparisonDTOInput input, global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductComparisonReportResult>> Watch(global::MyShop.Infrastructure.ProductComparisonDTOInput input, global::StrawberryShake.ExecutionStrategy? strategy = null);
     }
 
     /// <summary>
@@ -21747,13 +22506,19 @@ namespace MyShop.Infrastructure
     /// <summary>
     /// Represents the operation service of the GetProductNames GraphQL operation
     /// <code>
-    /// query GetProductNames($keyword: String!, $kip: Int!, $take: Int!) {
-    ///   products(keyword: $keyword, skip: $kip, take: $take) {
+    /// query GetProductNames {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
     ///     __typename
     ///     items {
     ///       __typename
-    ///       id
-    ///       name
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
     ///     }
     ///   }
     /// }
@@ -21791,52 +22556,139 @@ namespace MyShop.Infrastructure
             0x6d,
             0x65,
             0x73,
-            0x28,
-            0x24,
-            0x6b,
-            0x65,
-            0x79,
-            0x77,
+            0x20,
+            0x7b,
+            0x20,
             0x6f,
             0x72,
             0x64,
+            0x65,
+            0x72,
+            0x73,
+            0x28,
+            0x77,
+            0x68,
+            0x65,
+            0x72,
+            0x65,
             0x3a,
             0x20,
-            0x53,
+            0x7b,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x49,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x3a,
+            0x20,
+            0x7b,
+            0x20,
+            0x61,
+            0x6e,
+            0x79,
+            0x3a,
+            0x20,
             0x74,
             0x72,
-            0x69,
-            0x6e,
-            0x67,
-            0x21,
+            0x75,
+            0x65,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
             0x2c,
             0x20,
-            0x24,
-            0x6b,
-            0x69,
-            0x70,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
             0x3a,
             0x20,
-            0x49,
-            0x6e,
-            0x74,
-            0x21,
+            0x7b,
+            0x20,
+            0x69,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x53,
+            0x43,
+            0x20,
+            0x7d,
             0x2c,
             0x20,
-            0x24,
             0x74,
             0x61,
             0x6b,
             0x65,
             0x3a,
             0x20,
-            0x49,
-            0x6e,
-            0x74,
-            0x21,
+            0x32,
+            0x30,
             0x29,
             0x20,
             0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x69,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x49,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
             0x20,
             0x70,
             0x72,
@@ -21845,70 +22697,6 @@ namespace MyShop.Infrastructure
             0x75,
             0x63,
             0x74,
-            0x73,
-            0x28,
-            0x6b,
-            0x65,
-            0x79,
-            0x77,
-            0x6f,
-            0x72,
-            0x64,
-            0x3a,
-            0x20,
-            0x24,
-            0x6b,
-            0x65,
-            0x79,
-            0x77,
-            0x6f,
-            0x72,
-            0x64,
-            0x2c,
-            0x20,
-            0x73,
-            0x6b,
-            0x69,
-            0x70,
-            0x3a,
-            0x20,
-            0x24,
-            0x6b,
-            0x69,
-            0x70,
-            0x2c,
-            0x20,
-            0x74,
-            0x61,
-            0x6b,
-            0x65,
-            0x3a,
-            0x20,
-            0x24,
-            0x74,
-            0x61,
-            0x6b,
-            0x65,
-            0x29,
-            0x20,
-            0x7b,
-            0x20,
-            0x5f,
-            0x5f,
-            0x74,
-            0x79,
-            0x70,
-            0x65,
-            0x6e,
-            0x61,
-            0x6d,
-            0x65,
-            0x20,
-            0x69,
-            0x74,
-            0x65,
-            0x6d,
-            0x73,
             0x20,
             0x7b,
             0x20,
@@ -21930,6 +22718,10 @@ namespace MyShop.Infrastructure
             0x61,
             0x6d,
             0x65,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
             0x20,
             0x7d,
             0x20,
@@ -21937,7 +22729,7 @@ namespace MyShop.Infrastructure
             0x20,
             0x7d
         };
-        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "37e353b638b4ea012d1d750b879b904e");
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "29c6486d1076225ce28c2e66a9c97c26");
 
         public override global::System.String ToString()
         {
@@ -21952,13 +22744,19 @@ namespace MyShop.Infrastructure
     /// <summary>
     /// Represents the operation service of the GetProductNames GraphQL operation
     /// <code>
-    /// query GetProductNames($keyword: String!, $kip: Int!, $take: Int!) {
-    ///   products(keyword: $keyword, skip: $kip, take: $take) {
+    /// query GetProductNames {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
     ///     __typename
     ///     items {
     ///       __typename
-    ///       id
-    ///       name
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
     ///     }
     ///   }
     /// }
@@ -21968,29 +22766,23 @@ namespace MyShop.Infrastructure
     public partial class GetProductNamesQuery : global::MyShop.Infrastructure.IGetProductNamesQuery
     {
         private readonly global::StrawberryShake.IOperationExecutor<IGetProductNamesResult> _operationExecutor;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _stringFormatter;
-        private readonly global::StrawberryShake.Serialization.IInputValueFormatter _intFormatter;
         private readonly global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> _configure = global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>>.Empty;
-        public GetProductNamesQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesResult> operationExecutor, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        public GetProductNamesQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesResult> operationExecutor)
         {
             _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
-            _stringFormatter = serializerResolver.GetInputValueFormatter("String");
-            _intFormatter = serializerResolver.GetInputValueFormatter("Int");
         }
 
-        private GetProductNamesQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesResult> operationExecutor, global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> configure, global::StrawberryShake.Serialization.IInputValueFormatter @stringFormatter, global::StrawberryShake.Serialization.IInputValueFormatter @intFormatter)
+        private GetProductNamesQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesResult> operationExecutor, global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> configure)
         {
             _operationExecutor = operationExecutor;
             _configure = configure;
-            _stringFormatter = @stringFormatter;
-            _intFormatter = @intFormatter;
         }
 
         global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetProductNamesResult);
 
         public global::MyShop.Infrastructure.IGetProductNamesQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure)
         {
-            return new global::MyShop.Infrastructure.GetProductNamesQuery(_operationExecutor, _configure.Add(configure), _stringFormatter, _intFormatter);
+            return new global::MyShop.Infrastructure.GetProductNamesQuery(_operationExecutor, _configure.Add(configure));
         }
 
         public global::MyShop.Infrastructure.IGetProductNamesQuery WithRequestUri(global::System.Uri requestUri)
@@ -22003,9 +22795,9 @@ namespace MyShop.Infrastructure
             return With(r => r.ContextData["StrawberryShake.Transport.Http.HttpConnection.HttpClient"] = httpClient);
         }
 
-        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> ExecuteAsync(global::System.String keyword, global::System.Int32 kip, global::System.Int32 take, global::System.Threading.CancellationToken cancellationToken = default)
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> ExecuteAsync(global::System.Threading.CancellationToken cancellationToken = default)
         {
-            var request = CreateRequest(keyword, kip, take);
+            var request = CreateRequest();
             foreach (var configure in _configure)
             {
                 configure(request);
@@ -22014,62 +22806,44 @@ namespace MyShop.Infrastructure
             return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> Watch(global::System.String keyword, global::System.Int32 kip, global::System.Int32 take, global::StrawberryShake.ExecutionStrategy? strategy = null)
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> Watch(global::StrawberryShake.ExecutionStrategy? strategy = null)
         {
-            var request = CreateRequest(keyword, kip, take);
+            var request = CreateRequest();
             return _operationExecutor.Watch(request, strategy);
         }
 
-        private global::StrawberryShake.OperationRequest CreateRequest(global::System.String keyword, global::System.Int32 kip, global::System.Int32 take)
+        private global::StrawberryShake.OperationRequest CreateRequest()
         {
-            var variables = new global::System.Collections.Generic.Dictionary<global::System.String, global::System.Object?>();
-            variables.Add("keyword", FormatKeyword(keyword));
-            variables.Add("kip", FormatKip(kip));
-            variables.Add("take", FormatTake(take));
-            return CreateRequest(variables);
+            return CreateRequest(null);
         }
 
         private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
         {
-            return new global::StrawberryShake.OperationRequest(id: GetProductNamesQueryDocument.Instance.Hash.Value, name: "GetProductNames", document: GetProductNamesQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default, variables: variables);
-        }
-
-        private global::System.Object? FormatKeyword(global::System.String value)
-        {
-            if (value is null)
-            {
-                throw new global::System.ArgumentNullException(nameof(value));
-            }
-
-            return _stringFormatter.Format(value);
-        }
-
-        private global::System.Object? FormatKip(global::System.Int32 value)
-        {
-            return _intFormatter.Format(value);
-        }
-
-        private global::System.Object? FormatTake(global::System.Int32 value)
-        {
-            return _intFormatter.Format(value);
+            return new global::StrawberryShake.OperationRequest(id: GetProductNamesQueryDocument.Instance.Hash.Value, name: "GetProductNames", document: GetProductNamesQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default);
         }
 
         global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
         {
-            return CreateRequest(variables!);
+            return CreateRequest();
         }
     }
 
     /// <summary>
     /// Represents the operation service of the GetProductNames GraphQL operation
     /// <code>
-    /// query GetProductNames($keyword: String!, $kip: Int!, $take: Int!) {
-    ///   products(keyword: $keyword, skip: $kip, take: $take) {
+    /// query GetProductNames {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
     ///     __typename
     ///     items {
     ///       __typename
-    ///       id
-    ///       name
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
     ///     }
     ///   }
     /// }
@@ -22081,8 +22855,371 @@ namespace MyShop.Infrastructure
         global::MyShop.Infrastructure.IGetProductNamesQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure);
         global::MyShop.Infrastructure.IGetProductNamesQuery WithRequestUri(global::System.Uri requestUri);
         global::MyShop.Infrastructure.IGetProductNamesQuery WithHttpClient(global::System.Net.Http.HttpClient httpClient);
-        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> ExecuteAsync(global::System.String keyword, global::System.Int32 kip, global::System.Int32 take, global::System.Threading.CancellationToken cancellationToken = default);
-        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> Watch(global::System.String keyword, global::System.Int32 kip, global::System.Int32 take, global::StrawberryShake.ExecutionStrategy? strategy = null);
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> ExecuteAsync(global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesResult>> Watch(global::StrawberryShake.ExecutionStrategy? strategy = null);
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetProductNamesUpdated GraphQL operation
+    /// <code>
+    /// query GetProductNamesUpdated {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
+    ///     __typename
+    ///     items {
+    ///       __typename
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedQueryDocument : global::StrawberryShake.IDocument
+    {
+        private GetProductNamesUpdatedQueryDocument()
+        {
+        }
+
+        public static GetProductNamesUpdatedQueryDocument Instance { get; } = new GetProductNamesUpdatedQueryDocument();
+        public global::StrawberryShake.OperationKind Kind => global::StrawberryShake.OperationKind.Query;
+        public global::System.ReadOnlySpan<global::System.Byte> Body => new global::System.Byte[]
+        {
+            0x71,
+            0x75,
+            0x65,
+            0x72,
+            0x79,
+            0x20,
+            0x47,
+            0x65,
+            0x74,
+            0x50,
+            0x72,
+            0x6f,
+            0x64,
+            0x75,
+            0x63,
+            0x74,
+            0x4e,
+            0x61,
+            0x6d,
+            0x65,
+            0x73,
+            0x55,
+            0x70,
+            0x64,
+            0x61,
+            0x74,
+            0x65,
+            0x64,
+            0x20,
+            0x7b,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x73,
+            0x28,
+            0x77,
+            0x68,
+            0x65,
+            0x72,
+            0x65,
+            0x3a,
+            0x20,
+            0x7b,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x49,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x3a,
+            0x20,
+            0x7b,
+            0x20,
+            0x61,
+            0x6e,
+            0x79,
+            0x3a,
+            0x20,
+            0x74,
+            0x72,
+            0x75,
+            0x65,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x2c,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x3a,
+            0x20,
+            0x7b,
+            0x20,
+            0x69,
+            0x64,
+            0x3a,
+            0x20,
+            0x41,
+            0x53,
+            0x43,
+            0x20,
+            0x7d,
+            0x2c,
+            0x20,
+            0x74,
+            0x61,
+            0x6b,
+            0x65,
+            0x3a,
+            0x20,
+            0x32,
+            0x30,
+            0x29,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x69,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x6f,
+            0x72,
+            0x64,
+            0x65,
+            0x72,
+            0x49,
+            0x74,
+            0x65,
+            0x6d,
+            0x73,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x70,
+            0x72,
+            0x6f,
+            0x64,
+            0x75,
+            0x63,
+            0x74,
+            0x20,
+            0x7b,
+            0x20,
+            0x5f,
+            0x5f,
+            0x74,
+            0x79,
+            0x70,
+            0x65,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x69,
+            0x64,
+            0x20,
+            0x6e,
+            0x61,
+            0x6d,
+            0x65,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d,
+            0x20,
+            0x7d
+        };
+        public global::StrawberryShake.DocumentHash Hash { get; } = new global::StrawberryShake.DocumentHash("md5Hash", "78f565a8555ca3ae7ca893b63a8b5690");
+
+        public override global::System.String ToString()
+        {
+#if NETCOREAPP3_1_OR_GREATER
+        return global::System.Text.Encoding.UTF8.GetString(Body);
+#else
+            return global::System.Text.Encoding.UTF8.GetString(Body.ToArray());
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetProductNamesUpdated GraphQL operation
+    /// <code>
+    /// query GetProductNamesUpdated {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
+    ///     __typename
+    ///     items {
+    ///       __typename
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedQuery : global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery
+    {
+        private readonly global::StrawberryShake.IOperationExecutor<IGetProductNamesUpdatedResult> _operationExecutor;
+        private readonly global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> _configure = global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>>.Empty;
+        public GetProductNamesUpdatedQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesUpdatedResult> operationExecutor)
+        {
+            _operationExecutor = operationExecutor ?? throw new global::System.ArgumentNullException(nameof(operationExecutor));
+        }
+
+        private GetProductNamesUpdatedQuery(global::StrawberryShake.IOperationExecutor<IGetProductNamesUpdatedResult> operationExecutor, global::System.Collections.Immutable.ImmutableArray<global::System.Action<global::StrawberryShake.OperationRequest>> configure)
+        {
+            _operationExecutor = operationExecutor;
+            _configure = configure;
+        }
+
+        global::System.Type global::StrawberryShake.IOperationRequestFactory.ResultType => typeof(IGetProductNamesUpdatedResult);
+
+        public global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure)
+        {
+            return new global::MyShop.Infrastructure.GetProductNamesUpdatedQuery(_operationExecutor, _configure.Add(configure));
+        }
+
+        public global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery WithRequestUri(global::System.Uri requestUri)
+        {
+            return With(r => r.ContextData["StrawberryShake.Transport.Http.HttpConnection.RequestUri"] = requestUri);
+        }
+
+        public global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery WithHttpClient(global::System.Net.Http.HttpClient httpClient)
+        {
+            return With(r => r.ContextData["StrawberryShake.Transport.Http.HttpConnection.HttpClient"] = httpClient);
+        }
+
+        public async global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesUpdatedResult>> ExecuteAsync(global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var request = CreateRequest();
+            foreach (var configure in _configure)
+            {
+                configure(request);
+            }
+
+            return await _operationExecutor.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        public global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesUpdatedResult>> Watch(global::StrawberryShake.ExecutionStrategy? strategy = null)
+        {
+            var request = CreateRequest();
+            return _operationExecutor.Watch(request, strategy);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest()
+        {
+            return CreateRequest(null);
+        }
+
+        private global::StrawberryShake.OperationRequest CreateRequest(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return new global::StrawberryShake.OperationRequest(id: GetProductNamesUpdatedQueryDocument.Instance.Hash.Value, name: "GetProductNamesUpdated", document: GetProductNamesUpdatedQueryDocument.Instance, strategy: global::StrawberryShake.RequestStrategy.Default);
+        }
+
+        global::StrawberryShake.OperationRequest global::StrawberryShake.IOperationRequestFactory.Create(global::System.Collections.Generic.IReadOnlyDictionary<global::System.String, global::System.Object?>? variables)
+        {
+            return CreateRequest();
+        }
+    }
+
+    /// <summary>
+    /// Represents the operation service of the GetProductNamesUpdated GraphQL operation
+    /// <code>
+    /// query GetProductNamesUpdated {
+    ///   orders(where: { orderItems: { any: true } }, order: { id: ASC }, take: 20) {
+    ///     __typename
+    ///     items {
+    ///       __typename
+    ///       orderItems {
+    ///         __typename
+    ///         product {
+    ///           __typename
+    ///           id
+    ///           name
+    ///         }
+    ///       }
+    ///     }
+    ///   }
+    /// }
+    /// </code>
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial interface IGetProductNamesUpdatedQuery : global::StrawberryShake.IOperationRequestFactory
+    {
+        global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery With(global::System.Action<global::StrawberryShake.OperationRequest> configure);
+        global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery WithRequestUri(global::System.Uri requestUri);
+        global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery WithHttpClient(global::System.Net.Http.HttpClient httpClient);
+        global::System.Threading.Tasks.Task<global::StrawberryShake.IOperationResult<IGetProductNamesUpdatedResult>> ExecuteAsync(global::System.Threading.CancellationToken cancellationToken = default);
+        global::System.IObservable<global::StrawberryShake.IOperationResult<IGetProductNamesUpdatedResult>> Watch(global::StrawberryShake.ExecutionStrategy? strategy = null);
     }
 
     /// <summary>
@@ -23068,10 +24205,11 @@ namespace MyShop.Infrastructure
         private readonly global::MyShop.Infrastructure.IGetProductForOrderQuery _getProductForOrder;
         private readonly global::MyShop.Infrastructure.IGetProductListQuery _getProductList;
         private readonly global::MyShop.Infrastructure.IGetProductNamesQuery _getProductNames;
+        private readonly global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery _getProductNamesUpdated;
         private readonly global::MyShop.Infrastructure.IGetProductSalesReportQuery _getProductSalesReport;
         private readonly global::MyShop.Infrastructure.IGetRevenueProfitReportQuery _getRevenueProfitReport;
         private readonly global::MyShop.Infrastructure.IGetSingleProductSeriesQuery _getSingleProductSeries;
-        public MyShopClient(global::MyShop.Infrastructure.IAddCategoryMutation addCategory, global::MyShop.Infrastructure.IAddProductMutation addProduct, global::MyShop.Infrastructure.ICreateOrderMutation createOrder, global::MyShop.Infrastructure.IDeleteCategoryMutation deleteCategory, global::MyShop.Infrastructure.IDeleteOrderMutation deleteOrder, global::MyShop.Infrastructure.IDeleteProductMutation deleteProduct, global::MyShop.Infrastructure.IImportProductsMutation importProducts, global::MyShop.Infrastructure.ILoginMutation login, global::MyShop.Infrastructure.IRegisterMutation register, global::MyShop.Infrastructure.IUpdateOrderStatusMutation updateOrderStatus, global::MyShop.Infrastructure.IUpdateProductMutation updateProduct, global::MyShop.Infrastructure.IGetCategoriesQuery getCategories, global::MyShop.Infrastructure.IGetCategoryLookupQuery getCategoryLookup, global::MyShop.Infrastructure.IGetDashboardDataQuery getDashboardData, global::MyShop.Infrastructure.IGetOrderByIdQuery getOrderById, global::MyShop.Infrastructure.IGetOrdersQuery getOrders, global::MyShop.Infrastructure.IGetProductComparisonReportQuery getProductComparisonReport, global::MyShop.Infrastructure.IGetProductDetailsQuery getProductDetails, global::MyShop.Infrastructure.IGetProductForOrderQuery getProductForOrder, global::MyShop.Infrastructure.IGetProductListQuery getProductList, global::MyShop.Infrastructure.IGetProductNamesQuery getProductNames, global::MyShop.Infrastructure.IGetProductSalesReportQuery getProductSalesReport, global::MyShop.Infrastructure.IGetRevenueProfitReportQuery getRevenueProfitReport, global::MyShop.Infrastructure.IGetSingleProductSeriesQuery getSingleProductSeries)
+        public MyShopClient(global::MyShop.Infrastructure.IAddCategoryMutation addCategory, global::MyShop.Infrastructure.IAddProductMutation addProduct, global::MyShop.Infrastructure.ICreateOrderMutation createOrder, global::MyShop.Infrastructure.IDeleteCategoryMutation deleteCategory, global::MyShop.Infrastructure.IDeleteOrderMutation deleteOrder, global::MyShop.Infrastructure.IDeleteProductMutation deleteProduct, global::MyShop.Infrastructure.IImportProductsMutation importProducts, global::MyShop.Infrastructure.ILoginMutation login, global::MyShop.Infrastructure.IRegisterMutation register, global::MyShop.Infrastructure.IUpdateOrderStatusMutation updateOrderStatus, global::MyShop.Infrastructure.IUpdateProductMutation updateProduct, global::MyShop.Infrastructure.IGetCategoriesQuery getCategories, global::MyShop.Infrastructure.IGetCategoryLookupQuery getCategoryLookup, global::MyShop.Infrastructure.IGetDashboardDataQuery getDashboardData, global::MyShop.Infrastructure.IGetOrderByIdQuery getOrderById, global::MyShop.Infrastructure.IGetOrdersQuery getOrders, global::MyShop.Infrastructure.IGetProductComparisonReportQuery getProductComparisonReport, global::MyShop.Infrastructure.IGetProductDetailsQuery getProductDetails, global::MyShop.Infrastructure.IGetProductForOrderQuery getProductForOrder, global::MyShop.Infrastructure.IGetProductListQuery getProductList, global::MyShop.Infrastructure.IGetProductNamesQuery getProductNames, global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery getProductNamesUpdated, global::MyShop.Infrastructure.IGetProductSalesReportQuery getProductSalesReport, global::MyShop.Infrastructure.IGetRevenueProfitReportQuery getRevenueProfitReport, global::MyShop.Infrastructure.IGetSingleProductSeriesQuery getSingleProductSeries)
         {
             _addCategory = addCategory ?? throw new global::System.ArgumentNullException(nameof(addCategory));
             _addProduct = addProduct ?? throw new global::System.ArgumentNullException(nameof(addProduct));
@@ -23094,6 +24232,7 @@ namespace MyShop.Infrastructure
             _getProductForOrder = getProductForOrder ?? throw new global::System.ArgumentNullException(nameof(getProductForOrder));
             _getProductList = getProductList ?? throw new global::System.ArgumentNullException(nameof(getProductList));
             _getProductNames = getProductNames ?? throw new global::System.ArgumentNullException(nameof(getProductNames));
+            _getProductNamesUpdated = getProductNamesUpdated ?? throw new global::System.ArgumentNullException(nameof(getProductNamesUpdated));
             _getProductSalesReport = getProductSalesReport ?? throw new global::System.ArgumentNullException(nameof(getProductSalesReport));
             _getRevenueProfitReport = getRevenueProfitReport ?? throw new global::System.ArgumentNullException(nameof(getRevenueProfitReport));
             _getSingleProductSeries = getSingleProductSeries ?? throw new global::System.ArgumentNullException(nameof(getSingleProductSeries));
@@ -23121,6 +24260,7 @@ namespace MyShop.Infrastructure
         public global::MyShop.Infrastructure.IGetProductForOrderQuery GetProductForOrder => _getProductForOrder;
         public global::MyShop.Infrastructure.IGetProductListQuery GetProductList => _getProductList;
         public global::MyShop.Infrastructure.IGetProductNamesQuery GetProductNames => _getProductNames;
+        public global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery GetProductNamesUpdated => _getProductNamesUpdated;
         public global::MyShop.Infrastructure.IGetProductSalesReportQuery GetProductSalesReport => _getProductSalesReport;
         public global::MyShop.Infrastructure.IGetRevenueProfitReportQuery GetRevenueProfitReport => _getRevenueProfitReport;
         public global::MyShop.Infrastructure.IGetSingleProductSeriesQuery GetSingleProductSeries => _getSingleProductSeries;
@@ -23173,6 +24313,8 @@ namespace MyShop.Infrastructure
         global::MyShop.Infrastructure.IGetProductListQuery GetProductList { get; }
 
         global::MyShop.Infrastructure.IGetProductNamesQuery GetProductNames { get; }
+
+        global::MyShop.Infrastructure.IGetProductNamesUpdatedQuery GetProductNamesUpdated { get; }
 
         global::MyShop.Infrastructure.IGetProductSalesReportQuery GetProductSalesReport { get; }
 
@@ -25492,23 +26634,23 @@ namespace MyShop.Infrastructure.State
 
             if (dataInfo is GetProductNamesResultInfo info)
             {
-                return new GetProductNamesResult(MapIGetProductNames_Products(info.Products, snapshot));
+                return new GetProductNamesResult(MapIGetProductNames_Orders(info.Orders, snapshot));
             }
 
             throw new global::System.ArgumentException("GetProductNamesResultInfo expected.");
         }
 
-        private global::MyShop.Infrastructure.IGetProductNames_Products? MapIGetProductNames_Products(global::MyShop.Infrastructure.State.ProductsCollectionSegmentData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        private global::MyShop.Infrastructure.IGetProductNames_Orders? MapIGetProductNames_Orders(global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
         {
             if (data is null)
             {
                 return null;
             }
 
-            IGetProductNames_Products returnValue = default !;
-            if (data?.__typename.Equals("ProductsCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
+            IGetProductNames_Orders returnValue = default !;
+            if (data?.__typename.Equals("OrdersCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
             {
-                returnValue = new GetProductNames_Products_ProductsCollectionSegment(MapIGetProductNames_Products_ItemsNonNullableArray(data.Items, snapshot));
+                returnValue = new GetProductNames_Orders_OrdersCollectionSegment(MapIGetProductNames_Orders_ItemsNonNullableArray(data.Items, snapshot));
             }
             else
             {
@@ -25518,28 +26660,74 @@ namespace MyShop.Infrastructure.State
             return returnValue;
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Products_Items>? MapIGetProductNames_Products_ItemsNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.ProductData>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items>? MapIGetProductNames_Orders_ItemsNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderData>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
         {
             if (list is null)
             {
                 return null;
             }
 
-            var products = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.IGetProductNames_Products_Items>();
-            foreach (global::MyShop.Infrastructure.State.ProductData child in list)
+            var orders = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.IGetProductNames_Orders_Items>();
+            foreach (global::MyShop.Infrastructure.State.OrderData child in list)
             {
-                products.Add(MapNonNullableIGetProductNames_Products_Items(child, snapshot));
+                orders.Add(MapNonNullableIGetProductNames_Orders_Items(child, snapshot));
             }
 
-            return products;
+            return orders;
         }
 
-        private global::MyShop.Infrastructure.IGetProductNames_Products_Items MapNonNullableIGetProductNames_Products_Items(global::MyShop.Infrastructure.State.ProductData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        private global::MyShop.Infrastructure.IGetProductNames_Orders_Items MapNonNullableIGetProductNames_Orders_Items(global::MyShop.Infrastructure.State.OrderData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
         {
-            IGetProductNames_Products_Items returnValue = default !;
+            IGetProductNames_Orders_Items returnValue = default !;
+            if (data.__typename.Equals("Order", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new GetProductNames_Orders_Items_Order(MapNonNullableIGetProductNames_Orders_Items_OrderItemsNonNullableArray(data.OrderItems ?? throw new global::System.ArgumentNullException(), snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems> MapNonNullableIGetProductNames_Orders_Items_OrderItemsNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderItemData>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var orderItems = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems>();
+            foreach (global::MyShop.Infrastructure.State.OrderItemData child in list)
+            {
+                orderItems.Add(MapNonNullableIGetProductNames_Orders_Items_OrderItems(child, snapshot));
+            }
+
+            return orderItems;
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems MapNonNullableIGetProductNames_Orders_Items_OrderItems(global::MyShop.Infrastructure.State.OrderItemData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            IGetProductNames_Orders_Items_OrderItems returnValue = default !;
+            if (data.__typename.Equals("OrderItem", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new GetProductNames_Orders_Items_OrderItems_OrderItem(MapNonNullableIGetProductNames_Orders_Items_OrderItems_Product(data.Product ?? throw new global::System.ArgumentNullException(), snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNames_Orders_Items_OrderItems_Product MapNonNullableIGetProductNames_Orders_Items_OrderItems_Product(global::MyShop.Infrastructure.State.ProductData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            IGetProductNames_Orders_Items_OrderItems_Product returnValue = default !;
             if (data.__typename.Equals("Product", global::System.StringComparison.Ordinal))
             {
-                returnValue = new GetProductNames_Products_Items_Product(data.Id ?? throw new global::System.ArgumentNullException(), data.Name ?? throw new global::System.ArgumentNullException());
+                returnValue = new GetProductNames_Orders_Items_OrderItems_Product_Product(data.Id ?? throw new global::System.ArgumentNullException(), data.Name ?? throw new global::System.ArgumentNullException());
             }
             else
             {
@@ -25560,20 +26748,171 @@ namespace MyShop.Infrastructure.State
     {
         private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
         private readonly global::System.UInt64 _version;
-        public GetProductNamesResultInfo(global::MyShop.Infrastructure.State.ProductsCollectionSegmentData? products, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        public GetProductNamesResultInfo(global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? orders, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
         {
-            Products = products;
+            Orders = orders;
             _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
             _version = version;
         }
 
-        public global::MyShop.Infrastructure.State.ProductsCollectionSegmentData? Products { get; }
+        public global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? Orders { get; }
         public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
         public global::System.UInt64 Version => _version;
 
         public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
         {
-            return new GetProductNamesResultInfo(Products, _entityIds, version);
+            return new GetProductNamesResultInfo(Orders, _entityIds, version);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedResultFactory : global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.GetProductNamesUpdatedResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        public GetProductNamesUpdatedResultFactory(global::StrawberryShake.IEntityStore entityStore)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+        }
+
+        global::System.Type global::StrawberryShake.IOperationResultDataFactory.ResultType => typeof(global::MyShop.Infrastructure.IGetProductNamesUpdatedResult);
+
+        public GetProductNamesUpdatedResult Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot = null)
+        {
+            if (snapshot is null)
+            {
+                snapshot = _entityStore.CurrentSnapshot;
+            }
+
+            if (dataInfo is GetProductNamesUpdatedResultInfo info)
+            {
+                return new GetProductNamesUpdatedResult(MapIGetProductNamesUpdated_Orders(info.Orders, snapshot));
+            }
+
+            throw new global::System.ArgumentException("GetProductNamesUpdatedResultInfo expected.");
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders? MapIGetProductNamesUpdated_Orders(global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (data is null)
+            {
+                return null;
+            }
+
+            IGetProductNamesUpdated_Orders returnValue = default !;
+            if (data?.__typename.Equals("OrdersCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
+            {
+                returnValue = new GetProductNamesUpdated_Orders_OrdersCollectionSegment(MapIGetProductNamesUpdated_Orders_ItemsNonNullableArray(data.Items, snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items>? MapIGetProductNamesUpdated_Orders_ItemsNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderData>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                return null;
+            }
+
+            var orders = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items>();
+            foreach (global::MyShop.Infrastructure.State.OrderData child in list)
+            {
+                orders.Add(MapNonNullableIGetProductNamesUpdated_Orders_Items(child, snapshot));
+            }
+
+            return orders;
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items MapNonNullableIGetProductNamesUpdated_Orders_Items(global::MyShop.Infrastructure.State.OrderData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            IGetProductNamesUpdated_Orders_Items returnValue = default !;
+            if (data.__typename.Equals("Order", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new GetProductNamesUpdated_Orders_Items_Order(MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItemsNonNullableArray(data.OrderItems ?? throw new global::System.ArgumentNullException(), snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems> MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItemsNonNullableArray(global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderItemData>? list, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            if (list is null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var orderItems = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems>();
+            foreach (global::MyShop.Infrastructure.State.OrderItemData child in list)
+            {
+                orderItems.Add(MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItems(child, snapshot));
+            }
+
+            return orderItems;
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItems(global::MyShop.Infrastructure.State.OrderItemData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            IGetProductNamesUpdated_Orders_Items_OrderItems returnValue = default !;
+            if (data.__typename.Equals("OrderItem", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new GetProductNamesUpdated_Orders_Items_OrderItems_OrderItem(MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItems_Product(data.Product ?? throw new global::System.ArgumentNullException(), snapshot));
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        private global::MyShop.Infrastructure.IGetProductNamesUpdated_Orders_Items_OrderItems_Product MapNonNullableIGetProductNamesUpdated_Orders_Items_OrderItems_Product(global::MyShop.Infrastructure.State.ProductData data, global::StrawberryShake.IEntityStoreSnapshot snapshot)
+        {
+            IGetProductNamesUpdated_Orders_Items_OrderItems_Product returnValue = default !;
+            if (data.__typename.Equals("Product", global::System.StringComparison.Ordinal))
+            {
+                returnValue = new GetProductNamesUpdated_Orders_Items_OrderItems_Product_Product(data.Id ?? throw new global::System.ArgumentNullException(), data.Name ?? throw new global::System.ArgumentNullException());
+            }
+            else
+            {
+                throw new global::System.NotSupportedException();
+            }
+
+            return returnValue;
+        }
+
+        global::System.Object global::StrawberryShake.IOperationResultDataFactory.Create(global::StrawberryShake.IOperationResultDataInfo dataInfo, global::StrawberryShake.IEntityStoreSnapshot? snapshot)
+        {
+            return Create(dataInfo, snapshot);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedResultInfo : global::StrawberryShake.IOperationResultDataInfo
+    {
+        private readonly global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> _entityIds;
+        private readonly global::System.UInt64 _version;
+        public GetProductNamesUpdatedResultInfo(global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? orders, global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> entityIds, global::System.UInt64 version)
+        {
+            Orders = orders;
+            _entityIds = entityIds ?? throw new global::System.ArgumentNullException(nameof(entityIds));
+            _version = version;
+        }
+
+        public global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? Orders { get; }
+        public global::System.Collections.Generic.IReadOnlyCollection<global::StrawberryShake.EntityId> EntityIds => _entityIds;
+        public global::System.UInt64 Version => _version;
+
+        public global::StrawberryShake.IOperationResultDataInfo WithVersion(global::System.UInt64 version)
+        {
+            return new GetProductNamesUpdatedResultInfo(Orders, _entityIds, version);
         }
     }
 
@@ -25992,13 +27331,15 @@ namespace MyShop.Infrastructure.State
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
-    internal interface IReportBaseParamsInputInfo
+    internal interface IProductComparisonDTOInputInfo
     {
         global::System.Boolean IsStartSet { get; }
 
         global::System.Boolean IsEndSet { get; }
 
         global::System.Boolean IsIntervalSet { get; }
+
+        global::System.Boolean IsProductNamesSet { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
@@ -26247,6 +27588,16 @@ namespace MyShop.Infrastructure.State
         global::System.Boolean IsCreatedAtSet { get; }
 
         global::System.Boolean IsUpdatedAtSet { get; }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    internal interface IReportBaseParamsInputInfo
+    {
+        global::System.Boolean IsStartSet { get; }
+
+        global::System.Boolean IsEndSet { get; }
+
+        global::System.Boolean IsIntervalSet { get; }
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
@@ -29249,15 +30600,15 @@ namespace MyShop.Infrastructure.State
     {
         private readonly global::StrawberryShake.IEntityStore _entityStore;
         private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
-        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
         private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
         public GetProductNamesBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
         {
             _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
             _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
             ResultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
-            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
             _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
         }
 
         protected override global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesResult> ResultDataFactory { get; }
@@ -29270,10 +30621,10 @@ namespace MyShop.Infrastructure.State
             {
                 snapshot = session.CurrentSnapshot;
             });
-            return new GetProductNamesResultInfo(Deserialize_IGetProductNames_Products(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "products")), entityIds, snapshot.Version);
+            return new GetProductNamesResultInfo(Deserialize_IGetProductNames_Orders(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "orders")), entityIds, snapshot.Version);
         }
 
-        private global::MyShop.Infrastructure.State.ProductsCollectionSegmentData? Deserialize_IGetProductNames_Products(global::System.Text.Json.JsonElement? obj)
+        private global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? Deserialize_IGetProductNames_Orders(global::System.Text.Json.JsonElement? obj)
         {
             if (!obj.HasValue)
             {
@@ -29286,15 +30637,15 @@ namespace MyShop.Infrastructure.State
             }
 
             var typename = obj.Value.GetProperty("__typename").GetString();
-            if (typename?.Equals("ProductsCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
+            if (typename?.Equals("OrdersCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
             {
-                return new global::MyShop.Infrastructure.State.ProductsCollectionSegmentData(typename, items: Deserialize_IGetProductNames_Products_ItemsNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "items")));
+                return new global::MyShop.Infrastructure.State.OrdersCollectionSegmentData(typename, items: Deserialize_IGetProductNames_Orders_ItemsNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "items")));
             }
 
             throw new global::System.NotSupportedException();
         }
 
-        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.ProductData>? Deserialize_IGetProductNames_Products_ItemsNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderData>? Deserialize_IGetProductNames_Orders_ItemsNonNullableArray(global::System.Text.Json.JsonElement? obj)
         {
             if (!obj.HasValue)
             {
@@ -29306,16 +30657,265 @@ namespace MyShop.Infrastructure.State
                 return null;
             }
 
-            var products = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.State.ProductData>();
+            var orders = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.State.OrderData>();
             foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
             {
-                products.Add(Deserialize_NonNullableIGetProductNames_Products_Items(child));
+                orders.Add(Deserialize_NonNullableIGetProductNames_Orders_Items(child));
             }
 
-            return products;
+            return orders;
         }
 
-        private global::MyShop.Infrastructure.State.ProductData Deserialize_NonNullableIGetProductNames_Products_Items(global::System.Text.Json.JsonElement? obj)
+        private global::MyShop.Infrastructure.State.OrderData Deserialize_NonNullableIGetProductNames_Orders_Items(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Order", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.OrderData(typename, orderItems: Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItemsNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "orderItems")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderItemData> Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItemsNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var orderItems = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.State.OrderItemData>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                orderItems.Add(Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItems(child));
+            }
+
+            return orderItems;
+        }
+
+        private global::MyShop.Infrastructure.State.OrderItemData Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItems(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("OrderItem", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.OrderItemData(typename, product: Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItems_Product(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "product")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::MyShop.Infrastructure.State.ProductData Deserialize_NonNullableIGetProductNames_Orders_Items_OrderItems_Product(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Product", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.ProductData(typename, id: Deserialize_NonNullableInt32(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "id")), name: Deserialize_NonNullableString(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "name")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Int32 Deserialize_NonNullableInt32(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _intParser.Parse(obj.Value.GetInt32()!);
+        }
+
+        private global::System.String Deserialize_NonNullableString(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            return _stringParser.Parse(obj.Value.GetString()!);
+        }
+    }
+
+    [global::System.CodeDom.Compiler.GeneratedCode("StrawberryShake", "15.1.11.0")]
+    public partial class GetProductNamesUpdatedBuilder : global::StrawberryShake.OperationResultBuilder<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult>
+    {
+        private readonly global::StrawberryShake.IEntityStore _entityStore;
+        private readonly global::StrawberryShake.IEntityIdSerializer _idSerializer;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.Int32, global::System.Int32> _intParser;
+        private readonly global::StrawberryShake.Serialization.ILeafValueParser<global::System.String, global::System.String> _stringParser;
+        public GetProductNamesUpdatedBuilder(global::StrawberryShake.IEntityStore entityStore, global::StrawberryShake.IEntityIdSerializer idSerializer, global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult> resultDataFactory, global::StrawberryShake.Serialization.ISerializerResolver serializerResolver)
+        {
+            _entityStore = entityStore ?? throw new global::System.ArgumentNullException(nameof(entityStore));
+            _idSerializer = idSerializer ?? throw new global::System.ArgumentNullException(nameof(idSerializer));
+            ResultDataFactory = resultDataFactory ?? throw new global::System.ArgumentNullException(nameof(resultDataFactory));
+            _intParser = serializerResolver.GetLeafValueParser<global::System.Int32, global::System.Int32>("Int") ?? throw new global::System.ArgumentException("No serializer for type `Int` found.");
+            _stringParser = serializerResolver.GetLeafValueParser<global::System.String, global::System.String>("String") ?? throw new global::System.ArgumentException("No serializer for type `String` found.");
+        }
+
+        protected override global::StrawberryShake.IOperationResultDataFactory<global::MyShop.Infrastructure.IGetProductNamesUpdatedResult> ResultDataFactory { get; }
+
+        protected override global::StrawberryShake.IOperationResultDataInfo BuildData(global::System.Text.Json.JsonElement obj)
+        {
+            var entityIds = new global::System.Collections.Generic.HashSet<global::StrawberryShake.EntityId>();
+            global::StrawberryShake.IEntityStoreSnapshot snapshot = default !;
+            _entityStore.Update(session =>
+            {
+                snapshot = session.CurrentSnapshot;
+            });
+            return new GetProductNamesUpdatedResultInfo(Deserialize_IGetProductNamesUpdated_Orders(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "orders")), entityIds, snapshot.Version);
+        }
+
+        private global::MyShop.Infrastructure.State.OrdersCollectionSegmentData? Deserialize_IGetProductNamesUpdated_Orders(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("OrdersCollectionSegment", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.OrdersCollectionSegmentData(typename, items: Deserialize_IGetProductNamesUpdated_Orders_ItemsNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "items")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderData>? Deserialize_IGetProductNamesUpdated_Orders_ItemsNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                return null;
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                return null;
+            }
+
+            var orders = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.State.OrderData>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                orders.Add(Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items(child));
+            }
+
+            return orders;
+        }
+
+        private global::MyShop.Infrastructure.State.OrderData Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("Order", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.OrderData(typename, orderItems: Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItemsNonNullableArray(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "orderItems")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::System.Collections.Generic.IReadOnlyList<global::MyShop.Infrastructure.State.OrderItemData> Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItemsNonNullableArray(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var orderItems = new global::System.Collections.Generic.List<global::MyShop.Infrastructure.State.OrderItemData>();
+            foreach (global::System.Text.Json.JsonElement child in obj.Value.EnumerateArray())
+            {
+                orderItems.Add(Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItems(child));
+            }
+
+            return orderItems;
+        }
+
+        private global::MyShop.Infrastructure.State.OrderItemData Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItems(global::System.Text.Json.JsonElement? obj)
+        {
+            if (!obj.HasValue)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            if (obj.Value.ValueKind == global::System.Text.Json.JsonValueKind.Null)
+            {
+                throw new global::System.ArgumentNullException();
+            }
+
+            var typename = obj.Value.GetProperty("__typename").GetString();
+            if (typename?.Equals("OrderItem", global::System.StringComparison.Ordinal) ?? false)
+            {
+                return new global::MyShop.Infrastructure.State.OrderItemData(typename, product: Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItems_Product(global::StrawberryShake.Json.JsonElementExtensions.GetPropertyOrNull(obj, "product")));
+            }
+
+            throw new global::System.NotSupportedException();
+        }
+
+        private global::MyShop.Infrastructure.State.ProductData Deserialize_NonNullableIGetProductNamesUpdated_Orders_Items_OrderItems_Product(global::System.Text.Json.JsonElement? obj)
         {
             if (!obj.HasValue)
             {

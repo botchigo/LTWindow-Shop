@@ -175,8 +175,13 @@ namespace MyShop.Infrastructure.Data.Repositories
             return result;
         }
 
-        public async Task<List<ProductSeries>> GetProductComparisonReportAsync(DateTime start, DateTime end, ReportTimeInterval interval)
+        public async Task<List<ProductSeries>> GetProductComparisonReportAsync(DateTime start, DateTime end, ReportTimeInterval interval, List<string> productNames)
         {
+            if (productNames == null || !productNames.Any())
+            {
+                return new List<ProductSeries>();
+            }
+
             var seriesList = new Dictionary<string, ProductSeries>();
             var colors = new[] { "#6495ED", "#FFA500", "#008000", "#FF0000", "#800080", "#FF1493" }; // Thêm vài màu cho phong phú
             int colorIndex = 0;
@@ -204,10 +209,25 @@ namespace MyShop.Infrastructure.Data.Repositories
             // 3. Format nhãn cho SQL
             string dateFormat = "DD/MM";
             if (interval == ReportTimeInterval.Year) dateFormat = "YYYY";
-            if (interval == ReportTimeInterval.Month) dateFormat = "MM/YYYY";
+            if (interval == ReportTimeInterval.Month) dateFormat = "MM/YYYY";           
 
             var connection = _context.Database.GetDbConnection();
             using var command = connection.CreateCommand();
+
+            var paramNames = new List<string>();
+            for (int i = 0; i < productNames.Count; i++)
+            {
+                string paramName = $"@pn{i}";
+                paramNames.Add(paramName);
+
+                // Tạo tham số và add vào Command luôn
+                var p = command.CreateParameter();
+                p.ParameterName = paramName;
+                p.Value = productNames[i];
+                command.Parameters.Add(p);
+            }
+
+            string inClause = string.Join(",", paramNames);
 
             // 4. SQL Query: Ép kiểu ::timestamp và dùng chuỗi
             command.CommandText = $@"
@@ -222,6 +242,7 @@ namespace MyShop.Infrastructure.Data.Repositories
         
         WHERE o.created_at::timestamp >= '{startStr}'::timestamp 
           AND o.created_at::timestamp <= '{endStr}'::timestamp
+            AND p.name IN ({inClause})
           
         GROUP BY p.name, 2, 3
         ORDER BY p.name, 2";
@@ -482,6 +503,7 @@ namespace MyShop.Infrastructure.Data.Repositories
         {
             return await _dbSet
                 .AsNoTracking()
+                .Where(p => p.Stock < 5)
                 .OrderBy(p => p.Stock)
                     .ThenBy(p => p.Name)
                 .Take(5)

@@ -66,11 +66,18 @@ namespace MyShop.Modules.Orders.ViewModels
                     }
                 };
 
+                DateTime? toDateUtc = null;
+                if (ToDate.HasValue)
+                {
+                    var endOfDay = ToDate.Value.Date.AddDays(1).AddTicks(-1);
+                    toDateUtc = endOfDay.ToUniversalTime();
+                }
+
                 var result = await _client.GetOrders.ExecuteAsync(
                     skip: skip,
                     take: PageSize,
                     fromDate: FromDate?.UtcDateTime,
-                    toDate: ToDate?.UtcDateTime,
+                    toDate: toDateUtc,
                     order: order);
 
                 if (result.IsErrorResult())

@@ -34,7 +34,7 @@ namespace MyShop.Modules.Report.ViewModels
 
         public ObservableCollection<string> AvailableProductNames { get; } = new();
         public IEnumerable<string> FilteredProductNames =>
-            AvailableProductNames.Where(n => !ProductSeriesList.Any(s => s.ProductName == n));
+            AvailableProductNames;
 
         public ReportViewModel(IMyShopClient client, IDialogService dialogService)
         {
@@ -63,7 +63,7 @@ namespace MyShop.Modules.Report.ViewModels
             await _semaphore.WaitAsync();
             try
             {
-                var result = await _client.GetProductNames.ExecuteAsync("", 0, 20);
+                var result = await _client.GetProductNamesUpdated.ExecuteAsync();
                 if (result.IsErrorResult())
                 {
                     await _dialogService.ShowErrorDialogAsync("Lỗi", result.Errors[0].Message);
@@ -71,8 +71,16 @@ namespace MyShop.Modules.Report.ViewModels
                 else
                 {
                     AvailableProductNames.Clear();
-                    foreach (var product in result.Data.Products.Items)
-                        AvailableProductNames.Add(product.Name);
+                    foreach (var order in result.Data.Orders.Items)
+                    {
+                        foreach(var orderItem in order.OrderItems)
+                        {
+                            if (!AvailableProductNames.Contains(orderItem.Product.Name))
+                            {
+                                AvailableProductNames.Add(orderItem.Product.Name);
+                            }
+                        }
+                    }
 
                     OnPropertyChanged(nameof(FilteredProductNames));
                 }
@@ -139,6 +147,14 @@ namespace MyShop.Modules.Report.ViewModels
                     Interval = SelectedInterval
                 };
 
+                var compar = new ProductComparisonDTOInput
+                {
+                    Start = startInput,
+                    End = finalEnd,
+                    Interval = SelectedInterval,
+                    ProductNames = AvailableProductNames.ToList()
+                };
+
                 // --- 2. GỌI API THEO LOẠI BÁO CÁO ---
 
                 if (SelectedReportType == ReportType.RevenueProfit)
@@ -169,7 +185,7 @@ namespace MyShop.Modules.Report.ViewModels
                 {
                     ProductSeriesList.Clear(); // Clear trước khi add
 
-                    var result = await _client.GetProductComparisonReport.ExecuteAsync(input);
+                    var result = await _client.GetProductComparisonReport.ExecuteAsync(compar);
 
                     if (result.IsErrorResult())
                     {
@@ -216,6 +232,34 @@ namespace MyShop.Modules.Report.ViewModels
             {
                 IsLoading = true;
 
+                DateTime startInput = StartDate.Date;
+                DateTime endInput = EndDate.Date;
+                DateTime finalEnd;
+
+                // Tự động mở rộng thời gian kết thúc dựa trên chế độ xem
+                if (SelectedInterval == ReportTimeInterval.Year)
+                {
+                    // Nếu xem Năm: Lấy đến hết ngày 31/12 23:59:59
+                    finalEnd = new DateTime(endInput.Year, 12, 31, 23, 59, 59);
+
+                    // (Tùy chọn) Nếu muốn start luôn là đầu năm:
+                    // startInput = new DateTime(startInput.Year, 1, 1);
+                }
+                else if (SelectedInterval == ReportTimeInterval.Month)
+                {
+                    // Nếu xem Tháng: Lấy đến ngày cuối cùng của tháng 23:59:59
+                    var daysInMonth = DateTime.DaysInMonth(endInput.Year, endInput.Month);
+                    finalEnd = new DateTime(endInput.Year, endInput.Month, daysInMonth, 23, 59, 59);
+
+                    // (Tùy chọn) Nếu muốn start luôn là đầu tháng:
+                    // startInput = new DateTime(startInput.Year, startInput.Month, 1);
+                }
+                else
+                {
+                    // Nếu xem Ngày/Tuần: Lấy đến hết ngày hiện tại (23:59:59)
+                    finalEnd = new DateTime(endInput.Year, endInput.Month, endInput.Day, 23, 59, 59);
+                }
+
                 var input = new GetSingleProductSeriesDTOInput
                 {
                     ProductName = productName,
@@ -225,29 +269,67 @@ namespace MyShop.Modules.Report.ViewModels
                     ColorIndex = ProductSeriesList.Count(),
                 };
 
-                var result = await _client.GetSingleProductSeries.ExecuteAsync(input);
+                var productNames = new List<string>();
+                productNames.AddRange(ProductSeriesList.Select(p => p.ProductName));
+                ProductSeriesList.Clear(); 
+                if(!productNames.Any(p => p == productName)) productNames.Add(productName);
+
+
+                var compar = new ProductComparisonDTOInput
+                {
+                    Start = startInput,
+                    End = finalEnd,
+                    Interval = SelectedInterval,
+                    ProductNames = productNames,
+                };
+
+                var result = await _client.GetProductComparisonReport.ExecuteAsync(compar);
+
+                //if (result.IsErrorResult())
+                //{
+                //    await _dialogService.ShowErrorDialogAsync("Lỗi", result.Errors[0].Message);
+                //}
+                //else if (result.Data.ProductComparisonReport != null)
+                //{
+                //    var report = result.Data.SingleProductSeries;
+                //    var series = new ProductSeriesDto
+                //    {
+                //        ProductName = report.ProductName,
+                //        ColorHex = report.ColorHex,
+                //        Points = report.Points.Select(p => new ReportDataPointDto
+                //        {
+                //            Date = p.Date,
+                //            Value = p.Value,
+                //            Profit = p.Profit,
+                //            Label = p.Label,
+                //        }).ToList()
+                //    };
+
+                //    ProductSeriesList.Add(series);
+                //    OnPropertyChanged(nameof(FilteredProductNames));
+                //}
 
                 if (result.IsErrorResult())
                 {
                     await _dialogService.ShowErrorDialogAsync("Lỗi", result.Errors[0].Message);
                 }
-                else if (result.Data.SingleProductSeries != null)
+                else
                 {
-                    var report = result.Data.SingleProductSeries;
-                    var series = new ProductSeriesDto
+                    foreach (var item in result.Data.ProductComparisonReport)
                     {
-                        ProductName = report.ProductName,
-                        ColorHex = report.ColorHex,
-                        Points = report.Points.Select(p => new ReportDataPointDto
+                        ProductSeriesList.Add(new ProductSeriesDto
                         {
-                            Date = p.Date,
-                            Value = p.Value,
-                            Label = p.Label,
-                        }).ToList()
-                    };
-
-                    ProductSeriesList.Add(series);
-                    OnPropertyChanged(nameof(FilteredProductNames));
+                            ProductName = item.ProductName,
+                            ColorHex = item.ColorHex,
+                            Points = item.Points.Select(p => new ReportDataPointDto
+                            {
+                                Date = p.Date,
+                                Value = p.Value,
+                                Profit = p.Profit,
+                                Label = p.Label,
+                            }).ToList()
+                        });
+                    }
                 }
             }
             catch (Exception ex)

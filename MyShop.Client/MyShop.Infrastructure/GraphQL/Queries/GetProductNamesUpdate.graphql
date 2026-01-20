@@ -1,4 +1,4 @@
-﻿query GetProductNames {
+﻿query GetProductNamesUpdated {
   orders(
     where: { orderItems: { any: true } }
     order: { id: ASC }

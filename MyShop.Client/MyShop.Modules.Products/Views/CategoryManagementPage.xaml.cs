@@ -1,5 +1,7 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MyShop.Core.Helpers;
+using MyShop.Infrastructure;
 using MyShop.Modules.Products.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -18,6 +20,15 @@ namespace MyShop.Modules.Products.Views
             InitializeComponent();
             ViewModel = ServiceHelper.GetService<CategoryManagementViewModel>();
             DataContext = ViewModel;
+        }
+
+        private void DeleteCategory_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button &&
+                button.DataContext is IGetCategories_Categories_Items item)
+            {
+                ViewModel.DeleteCategoryCommand.Execute(item.Id);
+            }
         }
     }
 }
