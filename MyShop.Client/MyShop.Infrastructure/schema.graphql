@@ -7,7 +7,7 @@ type Query {
   products(skip: Int take: Int keyword: String categoryId: Int where: ProductFilterInput order: [ProductSortInput!]): ProductsCollectionSegment
   productById(id: Int!): Product
   productSalesReport(request: ReportBaseParamsInput!): [ReportDataPoint!]!
-  productComparisonReport(request: ReportBaseParamsInput!): [ProductSeries!]!
+  productComparisonReport(request: ProductComparisonDTOInput!): [ProductSeries!]!
   revenueProfitReport(request: ReportBaseParamsInput!): [ReportDataPoint!]!
   singleProductSeries(request: GetSingleProductSeriesDTOInput!): ProductSeries!
   totalProducts: Int!
@@ -313,6 +313,13 @@ input GetSingleProductSeriesDTOInput {
   end: DateTime!
   interval: ReportTimeInterval!
   colorIndex: Int!
+}
+
+input ProductComparisonDTOInput {
+  start: DateTime!
+  end: DateTime!
+  interval: ReportTimeInterval!
+  productNames: [String!]!
 }
 
 type ProductSeries {

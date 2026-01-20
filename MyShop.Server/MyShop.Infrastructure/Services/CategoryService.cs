@@ -32,7 +32,7 @@ namespace MyShop.Infrastructure.Services
                 await _unitOfWork.CompleteAsync();
                 return category;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 throw;
@@ -42,8 +42,12 @@ namespace MyShop.Infrastructure.Services
         public async Task<Category> DeleteCategoryAsync(int categoryId)
         {
             var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
-            if(category is null)
+            if (category is null)
                 throw new Exception($"Loại không tồn tại");
+
+            var isUsed = await _unitOfWork.Products.IsCategoryUsedAsync(categoryId);
+            if (isUsed)
+                throw new Exception($"Loại đang được sử dụng, không thể xóa.");
 
             try
             {
@@ -51,7 +55,7 @@ namespace MyShop.Infrastructure.Services
                 await _unitOfWork.CompleteAsync();
                 return category;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 throw;

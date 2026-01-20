@@ -79,7 +79,7 @@ namespace MyShop.Modules.Products.ViewModels
             else
             {
                 await _dialogService.ShowMessageAsync("Thành công", "Đã xóa sản phẩm.");
-                _navigationService.GoBack();
+                WeakReferenceMessenger.Default.Send(new NavigateInnerPageMessage("ProductListPage", null));
             }
         }
 
